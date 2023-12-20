@@ -22,7 +22,7 @@ export function Mobile(){
                 />
             ))}
             
-            <CheckoutDrawer />
+            {/* <CheckoutDrawer /> */}
             
            
         </>
