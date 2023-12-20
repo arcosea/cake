@@ -4,6 +4,7 @@ import { useState } from "react";
 import { MdExpandMore } from "react-icons/md";
 import { FaCartPlus } from "react-icons/fa";
 import AddToCart from "./AddToCart";
+import ItemCounter from "./ItemCounter";
 
 
 interface ExpandMoreProps extends IconButtonProps {
@@ -55,7 +56,7 @@ export function ListItem({name, cost, url, description}: Item){
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>
-                <Box sx={{ display: 'flex', alignItems: 'center'}}>
+                {/* <Box sx={{ display: 'flex', alignItems: 'center'}}>
                     <Button 
                         fullWidth={true}
                         variant="contained" 
@@ -67,7 +68,8 @@ export function ListItem({name, cost, url, description}: Item){
                     >
                         <FaCartPlus />
                     </Button>
-                </Box>
+                </Box> */}
+                <ItemCounter />
                 <ExpandMore
                     expand={expanded}
                     onClick={handleExpandClick}

@@ -4,13 +4,14 @@ import { Cakes } from "../../utils/data"
 import { ListItem } from "../components/ListItem"
 import { useState } from "react";
 import CheckoutDrawer from "../components/CheckoutDrawer";
+import OrderForm from "../components/OrderForm";
 
 export function Mobile(){
     
     return (
         <>
             <h1> Mobile</h1>
-            
+            <OrderForm />
             {Cakes.map((param: Item) => (
                 <ListItem
                     key={param.name}
