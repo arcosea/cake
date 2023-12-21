@@ -24,3 +24,14 @@ export const Cakes: Item[] = [{
         + "flour and sugar and often shortening, eggs, and a raising agent (such as baking powder) : a flattened usually round mass of food that is baked or fried"
 },
 ]
+
+export const CakePeopleSize: string[] = ["0-10 people", "10-20 people", "20-40 people", "40-60 people", "60-100 people", "100+ people"];
+
+export const CakeBaseStyles: string[] = ["Tres (3) Leches", "Layers"];
+
+export const CakeBaseFlavors: string[] = ["Vanilla", "Chocolate"];
+
+export const CakeFruit: string[] = ["Banana", "Peach", "Kiwi", "Strawberry", "Pineapple"];
+
+export const Gender: string[] = ["Male", "Female"];
+

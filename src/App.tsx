@@ -9,6 +9,8 @@ import { Sprints } from './pages/Sprints';
 import { Desktop } from './ui/device/Desktop';
 import { OrderManager } from './utils/OrderManager';
 import Mobile from './ui/device/Mobile';
+import Responsive from './ui/device/Responsive';
+import DrawerAppBar from './ui/device/Mob';
 
 const WindowBreakpoint: number = 960;
 
@@ -53,11 +55,12 @@ function App() {
 
   function renderContent(){
     // if (onMobile && width < WindowBreakpoint) {
-    //   return Mobile();
+    //   return <Mob/>
     // } else{
-    //   return Desktop();
+    //   return <Responsive/>
     // }
-    return <Mobile />
+    return <Responsive />
+    // return <DrawerAppBar/>
   }
 
   return (  
