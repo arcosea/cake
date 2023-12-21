@@ -42,7 +42,12 @@ export class OrderManager {
     }
 
     public updateOrder(itemName: string, quantity: number) {
-        this._orders.set(itemName, quantity);
+        if (quantity === 0) {
+            this._orders.delete(itemName)
+        } else {
+            this._orders.set(itemName, quantity);
+        }
+
     }
 
 
