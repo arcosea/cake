@@ -11,7 +11,7 @@ import { OrderManager } from './utils/OrderManager';
 import Mobile from './ui/device/Mobile';
 
 const WindowBreakpoint: number = 960;
-let orderManager: OrderManager| null = null;
+
 
 function App() {
 
@@ -20,15 +20,7 @@ function App() {
     window.innerWidth
   );
 
-  /*
-   * Use state to assign manager when page initially loads
-   */
-  const [load, setLoad] = useState(false);
-  useEffect( () => {
-    orderManager = new OrderManager();
-    setLoad(true)
-  }, [])
-
+ 
    /**
    * Listen to the window width as it resizes
    */
@@ -58,18 +50,6 @@ function App() {
   }, []);
 
   
-  const handleItemQuantity = (itemName: string, quantity: number) => {
-    if(orderManager == null){
-      return
-    }
-
-    orderManager.updateOrder(itemName, quantity);
-  }
-
-  useEffect( () => {
-    
-  }, [orderManager])
-
 
   function renderContent(){
     // if (onMobile && width < WindowBreakpoint) {
@@ -77,16 +57,12 @@ function App() {
     // } else{
     //   return Desktop();
     // }
-    return <Mobile 
-              onChange={handleItemQuantity}
-              orders={orderManager!.orders}
-              prices={orderManager!.prices}
-            />
+    return <Mobile />
   }
 
   return (  
   <>
-    {load && renderContent()}
+    {renderContent()}
   </>
   );
 

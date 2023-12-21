@@ -8,17 +8,17 @@ import OrderConfirmationStepper from '../components/OrderConfirmationStepper';
 interface IPricingCheckoutProp{
     orders: Map<string, number>
     prices: Map<string, number>
+    open: boolean
+
 }
 
-export default function PricingCheckout({orders, prices}: IPricingCheckoutProp){
+export default function PricingCheckout({orders, prices, open}: IPricingCheckoutProp){
     const [expandAccordion, setExpandAccordion] = useState(false); 
     const toggleAccordion = (isExpanded: boolean) => {
         setExpandAccordion(isExpanded);
     }
     return (
         <>
-          
-
             <Box sx={{ display:"block", margin:"auto", position:"absolute", left:0, right:0}}>
                 <Accordion  expanded={expandAccordion} onChange={(event, isExpanded) => toggleAccordion(isExpanded)}>
                 {/* sx={{backgroundColor: "#ffffff00"}} */}

@@ -6,16 +6,21 @@ interface IOrderListProp{
     prices: Map<string, number>
 }
 export default function OrderList({orders, prices}: IOrderListProp){
+    
     function displayNames(){
-        const itemNames = orders.keys();
+        let orderNames = Array.from(orders.keys());
+        return (
+            <>
+                {orderNames.map( (name) => {
+                    return (
+                        <Typography key={name}>{name} {orders.get(name)+"x"} {"$" + prices.get(name)} </Typography>
+                    )
 
-        for(let name in itemNames){
-            return (
-                <Typography>
-                    {name } + {orders.get(name)} + {"x"} + { prices.get(name)}
-                </Typography>
-            )
-        }
+                })}
+            
+            </>
+        )
+       
     }
 
     return (
