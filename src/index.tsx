@@ -5,10 +5,21 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import "./App.css"
+import { OrderManager } from './utils/OrderManager';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
+// declare global {
+//   interface Window {
+//       onOrderManager: (arg0: OrderManager) => void
+//   }
+// }
+
+// const orderManager = new OrderManager();
+// window.onOrderManager(orderManager);
+
 root.render(
   <React.StrictMode>
     <BrowserRouter>

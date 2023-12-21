@@ -31,7 +31,7 @@ export default function OrderConfirmationStepper(){
                     Back
                     </Button>
                 <Button onClick={handleNext}>
-                        {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                        {activeStep === steps.length - 1 ? 'Submit' : 'Next'}
                 </Button>
             </>
         )
@@ -80,7 +80,7 @@ export default function OrderConfirmationStepper(){
     return (
         <>
             <Box sx={{ width: '100%',  height: "100%"}}>
-                <Stepper activeStep={activeStep}>
+                <Stepper activeStep={activeStep} orientation="vertical">
                     {steps.map((label, index) => {
                     const stepProps: { completed?: boolean } = {};
                     const labelProps: {

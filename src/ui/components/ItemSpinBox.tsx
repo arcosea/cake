@@ -3,26 +3,30 @@ import { useState } from "react";
 import { GrSubtractCircle } from "react-icons/gr";
 import { IoIosAddCircleOutline } from "react-icons/io"
 
-export default function ItemCounter(){
-    const minCount: number = 0;
-    const maxCount: number = 100;
 
-    const [count, setCount] = useState(0);
+interface IItemSpinBoxProp{
+    itemName: string,
+    minValue: number, 
+    maxValue: number,
+    defaultValue: number,
+    onChange: Function,
+}
+export default function ItemSpinBox({itemName, minValue, maxValue, defaultValue, onChange}: IItemSpinBoxProp){
+
+    const [count, setCount] = useState(defaultValue);
     const handleButtonCountChange = (value: number) => {
-        if(value <= 0){
-            setCount(0)
+        if(value <= minValue || value > maxValue){
+            setCount(minValue)
+            onChange(itemName, minValue);
         } else {
             setCount(value)
+            onChange(itemName, value);
         }
     }
 
     const handleInputCountChange = (event: any) => {
         let value = Number(event.target.value);
-        if(!value || value <= minCount || value > maxCount){
-            setCount(0)
-        } else {
-            setCount(value)
-        }
+        handleButtonCountChange(value)
     }
 
     return (

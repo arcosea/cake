@@ -22,9 +22,19 @@ export class OrderManager {
     }
 
 
+    public resetData() {
+        this._orders = new Map();
+        this._dateOrder = dayjs();
+        this._firstName = ""
+        this._lastName = ""
+        this._email = ""
+        this._phoneNumber = ""
+    }
 
 
-    
+
+
+
 
 
 

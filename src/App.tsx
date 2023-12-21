@@ -8,14 +8,26 @@ import { About } from './pages/About';
 import { Sprints } from './pages/Sprints';
 import { Desktop } from './ui/device/Desktop';
 import { Mobile } from './ui/device/Mobile';
+import { OrderManager } from './utils/OrderManager';
 
 const WindowBreakpoint: number = 960;
+let orderManager: OrderManager| null = null;
 
 function App() {
+
   const [onMobile, setOnMobile] = useState<boolean>(false);
   const [width, setWidth] = useState(
     window.innerWidth
   );
+
+  /*
+   * Use state to assign manager when page initially loads
+   */
+  const [load, setLoad] = useState(false);
+  useEffect( () => {
+    orderManager = new OrderManager();
+    setLoad(true)
+  }, [])
 
    /**
    * Listen to the window width as it resizes
@@ -57,7 +69,7 @@ function App() {
 
   return (  
   <>
-    {renderContent()}
+    {load && renderContent()}
   </>
   );
 
