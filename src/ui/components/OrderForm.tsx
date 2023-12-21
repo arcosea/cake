@@ -1,4 +1,4 @@
-import { Box, TextField, Stack, Button } from "@mui/material"
+import { Box, TextField, Stack, Button, Typography } from "@mui/material"
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -46,49 +46,38 @@ export default function OrderForm(){
                 }}
                 noValidate={true}
                 autoComplete="off"
-                // onSubmit={handleSubmit}
-            >
+            >       
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DemoContainer components={['DatePicker']}>
-                        <DatePicker value={date} defaultValue={dayjs() }onChange={(newValue) => handleDateChange(newValue)} />
+                        <DatePicker value={date} defaultValue={dayjs()} onChange={(newValue) => handleDateChange(newValue)} />
                     </DemoContainer>
                 </LocalizationProvider>
-                
-                <Stack direction="row" spacing={2}>
-                    <TextField
+            
+                <TextField
                         required
                         label="First Name"
                         value={firstName}
                         onChange={handleFirstNameChange}
                     />
 
-                    <TextField
-                        required
-                        label="Last Name"
-                        value={lastName}
-                        onChange={handleLastNameChange}
-                    />
-                </Stack>
+                <TextField
+                    required
+                    label="Last Name"
+                    value={lastName}
+                    onChange={handleLastNameChange}
+                />
+                <TextField
+                    required
+                    label="Email"
+                    value={email}
+                    onChange={handleEmailChange}
+                />
                 
-                <Stack direction="row" spacing={2}>
-                    <TextField
-                        required
-                        label="Email"
-                        value={email}
-                        onChange={handleEmailChange}
-                    />
-                    
-                    <TextField
-                        label="Phone Number"
-                        value={phoneNumber}
-                        onChange={handlePhoneNumberChange}
-                    />
-                </Stack>
-                
-                <Button  variant="contained" sx={{backgroundColor:"green"}} onClick={handleSubmit}>
-                    Submit
-                </Button>
-
+                <TextField
+                    label="Phone Number"
+                    value={phoneNumber}
+                    onChange={handlePhoneNumberChange}
+                />
             </Box>
 
             
