@@ -1,5 +1,6 @@
 import { useState } from "react"
-import {Stack, Typography, TextField} from "@mui/material"
+import {Stack, Typography, TextField, Box} from "@mui/material"
+import InputFileUpload from "./InputFileUpload"
 
 export default function OrderSpecialNotes(){
     const [specialNotes, setSpecialNotes] = useState("")
@@ -10,7 +11,7 @@ export default function OrderSpecialNotes(){
 
     return (
         <>
-            <Stack> 
+            <Stack spacing={2}> 
                 <Typography >
                     Enter any special requests (e.g. Name of Birthday)
                 </Typography>
@@ -23,6 +24,10 @@ export default function OrderSpecialNotes(){
                     value={specialNotes}
                     onChange={handleSpecialNotesChange}
                 />
+                <Box sx={{width: "40%"}}>
+                    <InputFileUpload />
+                </Box>
+                
             </Stack>
         </>
     )

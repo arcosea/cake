@@ -40,6 +40,7 @@ export default function CheckboxGroup({label, options, defaultValue, onChange}: 
                 </FormGroup>
             </FormControl> */}
             <FormGroup>
+                <FormLabel id="demo-radio-buttons-group-label" >{label}</FormLabel>
                 {options.map((option) => (
                 <FormControlLabel
                     key={option}
