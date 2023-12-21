@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { Box, Stepper, Step, StepLabel, Typography, Button} from "@mui/material"
 import OrderForm from "./OrderForm";
+import OrderSpecialNotes from "./OrderSpecialNotes";
 
 
 const steps: string[] = ["Verify Items", "Special Requests", "Contact Information", "Order Summary"]
@@ -50,6 +51,13 @@ export default function OrderConfirmationStepper(){
                 </>
             )
             
+        } else if (activeStep === 1){
+            return (
+                <>
+                    <OrderSpecialNotes />
+                    {addNextBackButtons()}
+                </>
+            )
         } else if (activeStep === 2){
             return (
                 <>
@@ -67,10 +75,12 @@ export default function OrderConfirmationStepper(){
             )
         }
     }
+
+
     return (
         <>
             <Box sx={{ width: '100%',  height: "100%"}}>
-                <Stepper activeStep={activeStep} orientation="vertical">
+                <Stepper activeStep={activeStep}>
                     {steps.map((label, index) => {
                     const stepProps: { completed?: boolean } = {};
                     const labelProps: {

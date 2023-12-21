@@ -13,7 +13,7 @@ export default function PricingCheckout(){
         <>
           
 
-            <Box sx={{ display:"block", margin:"auto", width:"fit-content", position:"absolute", left:0, right:0}}>
+            <Box sx={{ display:"block", margin:"auto", position:"absolute", left:0, right:0}}>
                 <Accordion  expanded={expandAccordion} onChange={(event, isExpanded) => toggleAccordion(isExpanded)}>
                 {/* sx={{backgroundColor: "#ffffff00"}} */}
 

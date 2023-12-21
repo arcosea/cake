@@ -49,7 +49,7 @@ export default function OrderForm(){
             >       
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DemoContainer components={['DatePicker']}>
-                        <DatePicker value={date} defaultValue={dayjs()} onChange={(newValue) => handleDateChange(newValue)} />
+                        <DatePicker value={date} label="Pickup Date" defaultValue={dayjs()} onChange={(newValue) => handleDateChange(newValue)} />
                     </DemoContainer>
                 </LocalizationProvider>
             
@@ -77,6 +77,7 @@ export default function OrderForm(){
                     label="Phone Number"
                     value={phoneNumber}
                     onChange={handlePhoneNumberChange}
+                    placeholder="(253) 474-5110"
                 />
             </Box>
 

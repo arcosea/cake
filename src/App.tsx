@@ -47,11 +47,12 @@ function App() {
 
 
   function renderContent(){
-    if (onMobile && width < WindowBreakpoint) {
-      return Mobile();
-    } else{
-      return Desktop();
-    }
+    // if (onMobile && width < WindowBreakpoint) {
+    //   return Mobile();
+    // } else{
+    //   return Desktop();
+    // }
+    return Mobile()
   }
 
   return (  
