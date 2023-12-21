@@ -6,14 +6,28 @@ import { useState } from "react";
 import CheckoutDrawer from "../components/CheckoutDrawer";
 import OrderForm from "../components/OrderForm";
 import PricingCheckout from "../categories/PricingCheckout";
+import { OrderManager } from "../../utils/OrderManager";
 
-export function Mobile(){
+
+interface IMobileProp{
+    orders: Map<string, number>
+    prices: Map<string, number>
+    onChange: Function
+}
+
+export default function Mobile ({orders, prices, onChange} : IMobileProp){
+
+    const handleItemCardChange = (itemName: string, quantity: number) => {
+        onChange(itemName, quantity)
+    }
     
     return (
         <>
-
             <Box sx={{marginTop: 0, padding: 0, marginBottom: 0, textAlign: "center", display: "flex", justifyContent: "center", position: "sticky", top: 0, zIndex: 10}}>
-                <PricingCheckout />
+                <PricingCheckout 
+                    orders={orders}
+                    prices={prices}
+                />
             </Box>
             
             {/** Content */}
@@ -25,6 +39,7 @@ export function Mobile(){
                         description={param.description}
                         url={param.url}
                         cost={param.cost}
+                        onChange={handleItemCardChange}
                     />
                 ))}
             </Box>

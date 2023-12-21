@@ -21,7 +21,14 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
     }),
 }));
 
-export function ItemCard({name, cost, url, description}: Item){
+interface IItemCardProp {
+    name: string,
+    cost: number,
+    url: string,
+    description: string,
+    onChange: Function
+}
+export function ItemCard({name, cost, url, description, onChange}: IItemCardProp){
 
     const [expanded, setExpanded] = useState(false);
     const handleExpandClick = () => {
@@ -33,7 +40,7 @@ export function ItemCard({name, cost, url, description}: Item){
     }
 
     const handleItemQuantityChange = (item: string, quantity: number) =>{
-        console.log(item, quantity)
+        onChange(item, quantity);
     }
    
 

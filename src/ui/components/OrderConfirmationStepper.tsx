@@ -2,10 +2,16 @@ import { useState } from "react"
 import { Box, Stepper, Step, StepLabel, Typography, Button} from "@mui/material"
 import OrderForm from "./OrderForm";
 import OrderSpecialNotes from "./OrderSpecialNotes";
+import OrderList from "./OrderList";
 
 
 const steps: string[] = ["Verify Items", "Special Requests", "Contact Information", "Order Summary"]
-export default function OrderConfirmationStepper(){
+
+interface IOrderConfirmationStepper{
+    orders: Map<string, number>
+    prices: Map<string, number>
+}
+export default function OrderConfirmationStepper({orders, prices}: IOrderConfirmationStepper){
     const [activeStep, setActiveStep] = useState(0)
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -51,6 +57,16 @@ export default function OrderConfirmationStepper(){
                 </>
             )
             
+        } else if (activeStep === 0){
+            return (
+                <>
+                    <OrderList 
+                        orders={orders}
+                        prices={prices}
+                    />
+                    {addNextBackButtons()}
+                </>
+            )
         } else if (activeStep === 1){
             return (
                 <>

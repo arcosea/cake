@@ -4,7 +4,13 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import OrderForm from '../components/OrderForm';
 import OrderConfirmationStepper from '../components/OrderConfirmationStepper';
 
-export default function PricingCheckout(){
+
+interface IPricingCheckoutProp{
+    orders: Map<string, number>
+    prices: Map<string, number>
+}
+
+export default function PricingCheckout({orders, prices}: IPricingCheckoutProp){
     const [expandAccordion, setExpandAccordion] = useState(false); 
     const toggleAccordion = (isExpanded: boolean) => {
         setExpandAccordion(isExpanded);
@@ -33,7 +39,10 @@ export default function PricingCheckout(){
                     >
                         <Box sx={{ margin: '0 auto' }}>
                         <CardContent sx={{ flex: '1 0 auto' }}>
-                            <OrderConfirmationStepper />
+                            <OrderConfirmationStepper 
+                                orders={orders}
+                                prices={prices}
+                            />
                             {/* <OrderForm /> */}
                         </CardContent>
                         </Box>

@@ -7,8 +7,8 @@ import { Home } from './pages/Home';
 import { About } from './pages/About';
 import { Sprints } from './pages/Sprints';
 import { Desktop } from './ui/device/Desktop';
-import { Mobile } from './ui/device/Mobile';
 import { OrderManager } from './utils/OrderManager';
+import Mobile from './ui/device/Mobile';
 
 const WindowBreakpoint: number = 960;
 let orderManager: OrderManager| null = null;
@@ -57,6 +57,19 @@ function App() {
     };
   }, []);
 
+  
+  const handleItemQuantity = (itemName: string, quantity: number) => {
+    if(orderManager == null){
+      return
+    }
+
+    orderManager.updateOrder(itemName, quantity);
+  }
+
+  useEffect( () => {
+    
+  }, [orderManager])
+
 
   function renderContent(){
     // if (onMobile && width < WindowBreakpoint) {
@@ -64,7 +77,11 @@ function App() {
     // } else{
     //   return Desktop();
     // }
-    return Mobile()
+    return <Mobile 
+              onChange={handleItemQuantity}
+              orders={orderManager!.orders}
+              prices={orderManager!.prices}
+            />
   }
 
   return (  
