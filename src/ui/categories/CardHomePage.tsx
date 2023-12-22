@@ -35,6 +35,7 @@ export function CardHomePage(){
             <CardHeader   
                 title={Bakery.NAME}
                 subheader={Bakery.SERVICES}
+                sx={{backgroundColor: "#F5EDE673"}}
             />
             <CardMedia
                 component="img"
@@ -56,7 +57,7 @@ export function CardHomePage(){
                 </Stack>
                 
             </CardContent>
-            <CardActions disableSpacing>
+            <CardActions disableSpacing sx={{backgroundColor: "#F5EDE673"}}>
                 <ExpandMore
                     expand={expanded}
                     onClick={handleExpandClick}

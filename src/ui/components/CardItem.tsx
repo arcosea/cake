@@ -34,42 +34,48 @@ export function CardItem({name, cost, url, description}: ICardItemProp){
     };   
 
     return (
-        <Box sx={{flexGrow: 1, display: "flex", justifyContent: "center", textAlign: "center", marginBottom: 5}}>
+        <Box sx={{flexGrow: 1, 
+            display: "flex", 
+            justifyContent: "center", 
+            textAlign: "center", 
+            marginBottom: 5,        
+            }}>
             <Card sx={{ maxWidth: "80%"}}>
-            <CardHeader   
-                title={name}
-                subheader={cost}
-            />
-            <CardMedia
-                component="img"
-                height="194"
-                image={url}
-                alt={description}
-            />
-            <CardContent>
-                <Typography variant="body2" color="text.secondary">
-                {description}
-                </Typography>
-            </CardContent>
-            <CardActions disableSpacing>
-                <ExpandMore
-                    expand={expanded}
-                    onClick={handleExpandClick}
-                    aria-expanded={expanded}
-                    aria-label="show more"
-                >
-                    <MdExpandMore />
-                </ExpandMore>
-            </CardActions>
-            <Collapse in={expanded} timeout="auto" unmountOnExit>
+                <CardHeader   
+                    title={name}
+                    subheader={cost}
+                    sx={{backgroundColor: "#F5EDE673"}}
+                />
+                <CardMedia
+                    component="img"
+                    height="194"
+                    image={url}
+                    alt={description}
+                />
                 <CardContent>
-                    <Typography paragraph>Description:</Typography>
-                    <Typography paragraph>
-                        {description}
+                    <Typography variant="body2" color="text.secondary">
+                    {description}
                     </Typography>
                 </CardContent>
-            </Collapse>
-        </Card>
+                <CardActions disableSpacing sx={{backgroundColor: "#F5EDE673"}}>
+                    <ExpandMore
+                        expand={expanded}
+                        onClick={handleExpandClick}
+                        aria-expanded={expanded}
+                        aria-label="show more"
+                    >
+                        <MdExpandMore />
+                    </ExpandMore>
+                </CardActions>
+                <Collapse in={expanded} timeout="auto" unmountOnExit>
+                    <CardContent >
+                        <Typography paragraph>Description:</Typography>
+                        <Typography paragraph>
+                            {description}
+                        </Typography>
+                    </CardContent>
+                </Collapse>
+            </Card>
         </Box>    
     )
 }

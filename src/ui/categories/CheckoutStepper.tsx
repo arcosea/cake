@@ -18,13 +18,13 @@ export default function CheckoutStepper(){
     const [activeStep, setActiveStep] = useState(0)
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
-        console.log(manager.additionalRequests)
     };
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     }
     const handleReset = () => {
         setActiveStep(0);
+        manager.resetData();
     };
 
     /**
@@ -39,24 +39,21 @@ export default function CheckoutStepper(){
             manager.updateSpecialNotes(value);
         } else if(criteriaType === Headers.FILE_UPLOAD){
             manager.updateFileUpload(value[0], value[1]);
-        }
-        console.log(manager.additionalRequests)
-        
+        }        
     }
 
     const handleContactOrderFormChanges = (criteriaType: string, value: any) => {
         manager.updateContactInfo(criteriaType, value);
     }
 
-
-
-
+    
     /** 
      * Next and Previous buttons
      */
     function addNextBackButtons(){
         return (
-            <>        
+            <Box sx={{marginTop: 5, marginBottom: 5, justifyContent: "center", position: "flex", textAlign: "center", height: "4rem"}}>  
+                
                 <Button
                     color="inherit"
                     disabled={activeStep === 0}
@@ -68,7 +65,7 @@ export default function CheckoutStepper(){
                 <Button onClick={handleNext}>
                         {activeStep === steps.length - 1 ? 'Submit' : 'Next'}
                 </Button>
-            </>
+            </Box>
         )
     }
 
@@ -122,7 +119,7 @@ export default function CheckoutStepper(){
     return (
         <>
             <Box sx={{ width: '100%',  height: "100%"}}>
-                <Stepper activeStep={activeStep} orientation="vertical">
+                <Stepper activeStep={activeStep} orientation="vertical" sx={{backgroundColor: "#F5EDE673"}}>
                     {steps.map((label, index) => {
                     const stepProps: { completed?: boolean } = {};
                     const labelProps: {

@@ -17,7 +17,8 @@ function a11yProps(index: number) {
         'aria-controls': `simple-tabpanel-${index}`,
     };
 }
-
+// #e1b7ed
+// "#fff0db"
 interface IResponsiveProp{
   onMobile: boolean
 }
@@ -37,8 +38,8 @@ export default function Responsive({onMobile}: IResponsiveProp) {
             alignItems: "center", 
             position: "sticky", 
             top: 0,
-            backgroundColor: "#fff0db",
-            minHeight: '64px'
+            backgroundColor: "#f5e1e8",
+            minHeight: '4rem'
             
             }}>
           <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">

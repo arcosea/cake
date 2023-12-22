@@ -70,6 +70,12 @@ export class DataManager {
         this._contactInfo.set(criteriaType, value);
     }
 
+    public resetData() {
+        this.initOrderCriteria();
+        this.initAdditionalRequest();
+        this.initContactInfo();
+    }
+
     public get orderCriteria() {
         return this._orderCriteria;
     }
