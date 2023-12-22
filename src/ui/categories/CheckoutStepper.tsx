@@ -103,7 +103,7 @@ export default function CheckoutStepper(){
         } else if (activeStep === 2){
             return (
                 <>
-                    <OrderForm onChange={handleContactOrderFormChanges} defaultValues={manager.contactInfo}/>
+                    <OrderForm onChange={handleContactOrderFormChanges} defaultValues={manager.contactInfo} disableDatesBefore={manager.earliestPickupDate}/>
                     {addNextBackButtons()}
                 </>
             )

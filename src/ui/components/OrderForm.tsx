@@ -7,17 +7,31 @@ import { useState } from "react"
 import dayjs from 'dayjs';
 import { Headers } from "../../utils/data";
 
+
+
 interface IOrderFormProp{
     defaultValues: Map<string, any>,
+    disableDatesBefore: Date,
     onChange: Function
 }
-export default function OrderForm({defaultValues, onChange}: IOrderFormProp){
+export default function OrderForm({defaultValues, disableDatesBefore, onChange}: IOrderFormProp){
     const [date, setDate] = useState(defaultValues.get(Headers.PICKUP_DATE));
     const handleDateChange = (newDate: any) => {
         setDate(newDate);
         onChange(Headers.PICKUP_DATE, newDate);
 
     }
+
+    console.log(disableDatesBefore)
+
+    const isDateDisabled = (date: Date) => {
+        // Define your logic to disable specific days here
+        const dayOfWeek = dayjs(date).isBefore(disableDatesBefore); // Get the day of the week (0 = Sunday, 1 = Monday, ...)
+        // Disable Saturdays (dayOfWeek === 6) and Sundays (dayOfWeek === 0)
+        return dayOfWeek; 
+      };
+
+  
 
     const [firstName, setFirstName] = useState(defaultValues.get(Headers.FIRST_NAME));
     const handleFirstNameChange = (event: any) => {
@@ -60,9 +74,14 @@ export default function OrderForm({defaultValues, onChange}: IOrderFormProp){
                 <Stack spacing={2}>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DemoContainer components={['DatePicker']}>
-                            <DatePicker value={date} label="Pickup Date" defaultValue={dayjs()} onChange={(newValue) => handleDateChange(newValue)} />
+                            <DatePicker value={date} label="Pickup Date" defaultValue={dayjs()} onChange={(newValue: any) => handleDateChange(newValue)}
+                               shouldDisableDate={(date: Date) => isDateDisabled(date as Date)}
+                            
+                            />
                         </DemoContainer>
                     </LocalizationProvider>
+
+      
                 
                     <TextField
                             required

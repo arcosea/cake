@@ -5,15 +5,19 @@ export class DataManager {
     private _orderCriteria: Map<string, any>;
     private _additionalRequests: Map<string, any>;
     private _contactInfo: Map<string, any>;
+    private _earliestPickupDate: any;
 
 
 
 
 
     constructor() {
+        let currentDate = dayjs();
+        this._earliestPickupDate = currentDate.add(7, 'day');
         this._orderCriteria = new Map();
         this._additionalRequests = new Map();
         this._contactInfo = new Map();
+
         this.initOrderCriteria();
         this.initAdditionalRequest();
         this.initContactInfo();
@@ -39,12 +43,13 @@ export class DataManager {
     }
 
     private initContactInfo() {
-        this._contactInfo.set(Headers.PICKUP_DATE, dayjs());
+        this._contactInfo.set(Headers.PICKUP_DATE, "");
         this._contactInfo.set(Headers.FIRST_NAME, "");
         this._contactInfo.set(Headers.LAST_NAME, "");
         this._contactInfo.set(Headers.EMAIL, "");
         this._contactInfo.set(Headers.PHONE_NUMBER, "");
     }
+
 
 
 
@@ -75,6 +80,10 @@ export class DataManager {
 
     public get contactInfo() {
         return this._contactInfo;
+    }
+
+    public get earliestPickupDate() {
+        return this._earliestPickupDate;
     }
 
 
