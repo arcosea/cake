@@ -2,12 +2,16 @@ import { Box } from "@mui/material";
 import { Item } from "../../utils/Item";
 import { Cakes } from "../../utils/data";
 import { CardItem } from "../components/CardItem";
+import { useEffect } from "react";
 
 
 
 export default function ProductsPage(){
 
-
+    // Auto scrolls to the top after rendering
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, []);
 
     return (
         <>

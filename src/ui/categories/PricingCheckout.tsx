@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Accordion, Box, Typography, AccordionSummary, AccordionDetails, Card, CardContent} from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import OrderForm from '../components/OrderForm';
@@ -17,6 +17,12 @@ export default function PricingCheckout({orders, prices, open}: IPricingCheckout
     const toggleAccordion = (isExpanded: boolean) => {
         setExpandAccordion(isExpanded);
     }
+
+    // Auto scrolls to the top after rendering
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, []);
+    
     return (
         <>
             <Box sx={{ display:"block", margin:"auto", position:"absolute", left:0, right:0}}>

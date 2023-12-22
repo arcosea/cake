@@ -54,8 +54,9 @@ export enum Bakery {
     LOCATION = "3731 McKinley Ave, Tacoma, WA, United States, Washington",
     PHONE_NUMBER = "(253) 474-5110",
     SERVICES = "In-Store Pickup",
-    PRODUCTS = "Bakery, 3 leches, cupcakes with fillings, mini pies, cheesecake, chocoflan",
-    EMAIL = "teresitasbakery@gmail.com"
+    PRODUCTS = "Bakery, 3 Leches, Cupcakes with Fillings, Mini Pies, Cheesecake, Chocoflan",
+    EMAIL = "teresitasbakery@gmail.com",
+    HOURS = "M (10am - 6pm) | T (closed) | W - S (10am - 6pm) | S (10am - 1pm)"
 }
 
 

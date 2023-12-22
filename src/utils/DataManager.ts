@@ -1,19 +1,27 @@
 import dayjs from "dayjs";
 import { CakePeopleSize, CakeBaseStyles, CakeBaseFlavors, CakeFruit, Headers } from "./data";
+import { Helper } from "./Helper";
 
 export class DataManager {
     private _orderCriteria: Map<string, any>;
     private _additionalRequests: Map<string, any>;
     private _contactInfo: Map<string, any>;
     private _earliestPickupDate: any;
+    private readonly _minDaysBeforePickup: number = 7;
+    private _currentDate: any;
+    private _helper: Helper;
+    private _confirmationNumber: string = "";
+
 
 
 
 
 
     constructor() {
-        let currentDate = dayjs();
-        this._earliestPickupDate = currentDate.add(7, 'day');
+        this._helper = new Helper();
+
+        this._currentDate = dayjs();
+        this._earliestPickupDate = this._currentDate.add(this._minDaysBeforePickup, 'day');
         this._orderCriteria = new Map();
         this._additionalRequests = new Map();
         this._contactInfo = new Map();
@@ -21,6 +29,7 @@ export class DataManager {
         this.initOrderCriteria();
         this.initAdditionalRequest();
         this.initContactInfo();
+        this.initConfirmationNumber();
     }
 
 
@@ -90,6 +99,18 @@ export class DataManager {
 
     public get earliestPickupDate() {
         return this._earliestPickupDate;
+    }
+
+    private initConfirmationNumber() {
+        let indexDiff: number = 1
+        let codeLength: number = 5;
+        let randomCode: string = this._helper.makeRandomID(codeLength);
+
+        this._confirmationNumber = String(this._currentDate.$M + indexDiff) + String(this._currentDate.$D) + randomCode;
+    }
+
+    public get confirmationNumber() {
+        return this._confirmationNumber;
     }
 
 

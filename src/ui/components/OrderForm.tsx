@@ -3,7 +3,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import dayjs from 'dayjs';
 import { Headers } from "../../utils/data";
 
@@ -22,7 +22,10 @@ export default function OrderForm({defaultValues, disableDatesBefore, onChange}:
 
     }
 
-    console.log(disableDatesBefore)
+    // Auto scrolls to the top after rendering
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, []);
 
     const isDateDisabled = (date: Date) => {
         // Define your logic to disable specific days here

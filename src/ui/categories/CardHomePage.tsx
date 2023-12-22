@@ -1,12 +1,12 @@
 import { Avatar, Box, Button, Card, CardActions, CardContent, CardHeader, CardMedia, Collapse, Grid, IconButton, IconButtonProps, ImageListItem, Stack, Typography, styled } from "@mui/material";
-import { Item } from "../../utils/Item";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MdExpandMore } from "react-icons/md";
 import { Bakery } from "../../utils/data";
 import teresitas from "../../assets/teresitas.jpg";
 import { FaPhoneAlt } from "react-icons/fa";
 import { MdOutlineMail } from "react-icons/md";
 import { FaMapLocationDot } from "react-icons/fa6";
+import { TbClockHour4 } from "react-icons/tb";
 
 interface ExpandMoreProps extends IconButtonProps {
     expand: boolean;
@@ -28,6 +28,11 @@ export function CardHomePage(){
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
+
+    // Auto scrolls to the top after rendering
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, []);
 
     return (
         <Box sx={{flexGrow: 1, display: "flex", justifyContent: "center", textAlign: "center", marginBottom: 5}}>
@@ -53,6 +58,9 @@ export function CardHomePage(){
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
                         <FaMapLocationDot/> {Bakery.LOCATION}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                        <TbClockHour4/> {Bakery.HOURS}
                     </Typography>
                 </Stack>
                 

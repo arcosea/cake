@@ -36,6 +36,11 @@ export default function OrderCategories({defaultValues, onChange}: IOrderCategor
         onChange(Headers.ADD_FRUIT, value);
     }
 
+    // Auto scrolls to the top after rendering
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, []);
+
     return (
         <>
             <Box

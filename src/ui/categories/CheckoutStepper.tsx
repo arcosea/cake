@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Box, Stepper, Step, StepLabel, Typography, Button} from "@mui/material"
 import OrderForm from "../components/OrderForm";
 import OrderSpecialNotes from "../components/OrderSpecialNotes";
@@ -26,6 +26,12 @@ export default function CheckoutStepper(){
         setActiveStep(0);
         manager.resetData();
     };
+
+    console.log(manager.confirmationNumber)
+    // Auto scrolls to the top after rendering
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, []);
 
     /**
      * Updates to data manager

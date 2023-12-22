@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import {Stack, Typography, TextField, Box} from "@mui/material"
 import InputFileUpload from "./InputFileUpload"
 import { Headers } from "../../utils/data"
@@ -22,6 +22,11 @@ export default function OrderSpecialNotes({defaultValue, onChange}: IOrderSpecia
         onChange(Headers.FILE_UPLOAD, fileUpload);
 
     }
+
+    // Auto scrolls to the top after rendering
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, []);
 
     return (
         <>
