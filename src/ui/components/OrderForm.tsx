@@ -5,32 +5,42 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useState } from "react"
 import dayjs from 'dayjs';
+import { Headers } from "../../utils/data";
 
-
-export default function OrderForm(){
-    const [date, setDate] = useState(dayjs());
+interface IOrderFormProp{
+    defaultValues: Map<string, any>,
+    onChange: Function
+}
+export default function OrderForm({defaultValues, onChange}: IOrderFormProp){
+    const [date, setDate] = useState(defaultValues.get(Headers.PICKUP_DATE));
     const handleDateChange = (newDate: any) => {
-        setDate(newDate)
+        setDate(newDate);
+        onChange(Headers.PICKUP_DATE, newDate);
+
     }
 
-    const [firstName, setFirstName] = useState("");
+    const [firstName, setFirstName] = useState(defaultValues.get(Headers.FIRST_NAME));
     const handleFirstNameChange = (event: any) => {
-        setFirstName(event.target.value)
+        setFirstName(event.target.value);
+        onChange(Headers.FIRST_NAME, event.target.value);
     }
 
-    const [lastName, setLastName] = useState("");
+    const [lastName, setLastName] = useState(defaultValues.get(Headers.LAST_NAME));
     const handleLastNameChange = (event: any) => {
-        setLastName(event.target.value)
+        setLastName(event.target.value);
+        onChange(Headers.LAST_NAME, event.target.value);
     }
 
-    const [email, setEmail] = useState("");
+    const [email, setEmail] = useState(defaultValues.get(Headers.EMAIL));
     const handleEmailChange = (event: any) => {
-        setEmail(event.target.value)
+        setEmail(event.target.value);
+        onChange(Headers.EMAIL, event.target.value);
     }
 
-    const [phoneNumber, setPhoneNumber] = useState("");
+    const [phoneNumber, setPhoneNumber] = useState(defaultValues.get(Headers.PHONE_NUMBER));
     const handlePhoneNumberChange = (event: any) => {
-        setPhoneNumber(event.target.value)
+        setPhoneNumber(event?.target.value);
+        onChange(Headers.PHONE_NUMBER, event.target.value);
     }
 
     const handleSubmit = () => {

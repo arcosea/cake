@@ -1,9 +1,10 @@
+import dayjs from "dayjs";
 import { CakePeopleSize, CakeBaseStyles, CakeBaseFlavors, CakeFruit, Headers } from "./data";
 
 export class DataManager {
     private _orderCriteria: Map<string, any>;
     private _additionalRequests: Map<string, any>;
-    private _contactInfo: Map<string, string>;
+    private _contactInfo: Map<string, any>;
 
 
 
@@ -12,11 +13,10 @@ export class DataManager {
     constructor() {
         this._orderCriteria = new Map();
         this._additionalRequests = new Map();
-        // this._fileUpload = new Map();
         this._contactInfo = new Map();
-        // this._specialNotes = ""
         this.initOrderCriteria();
         this.initAdditionalRequest();
+        this.initContactInfo();
     }
 
 
@@ -38,13 +38,22 @@ export class DataManager {
         this._additionalRequests.set(Headers.FILE_UPLOAD, [null, ""])
     }
 
+    private initContactInfo() {
+        this._contactInfo.set(Headers.PICKUP_DATE, dayjs());
+        this._contactInfo.set(Headers.FIRST_NAME, "");
+        this._contactInfo.set(Headers.LAST_NAME, "");
+        this._contactInfo.set(Headers.EMAIL, "");
+        this._contactInfo.set(Headers.PHONE_NUMBER, "");
+    }
+
+
+
 
     public updateOrderCriteria(criteriaType: string, value: string | any) {
         this._orderCriteria.set(criteriaType, value);
     }
 
     public updateSpecialNotes(value: string) {
-        // this._specialNotes = value;
         this._additionalRequests.set(Headers.SPECIAL_REQUEST, value);
     }
 
@@ -52,16 +61,20 @@ export class DataManager {
         this.additionalRequests.set(Headers.FILE_UPLOAD, [file, dataURL]);
     }
 
+    public updateContactInfo(criteriaType: string, value: string | any) {
+        this._contactInfo.set(criteriaType, value);
+    }
+
     public get orderCriteria() {
         return this._orderCriteria;
     }
 
-    public get specialNotes() {
-        return this._additionalRequests.get(Headers.SPECIAL_REQUEST);
-    }
-
     public get additionalRequests() {
         return this._additionalRequests;
+    }
+
+    public get contactInfo() {
+        return this._contactInfo;
     }
 
 

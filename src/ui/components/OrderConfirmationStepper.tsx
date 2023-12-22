@@ -79,7 +79,7 @@ export default function OrderConfirmationStepper({orders, prices}: IOrderConfirm
         } else if (activeStep === 2){
             return (
                 <>
-                    <OrderForm />
+                    {/* <OrderForm /> */}
                     {addNextBackButtons()}
                 </>
             )

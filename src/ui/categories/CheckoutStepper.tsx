@@ -44,6 +44,10 @@ export default function CheckoutStepper(){
         
     }
 
+    const handleContactOrderFormChanges = (criteriaType: string, value: any) => {
+        manager.updateContactInfo(criteriaType, value);
+    }
+
 
 
 
@@ -99,7 +103,7 @@ export default function CheckoutStepper(){
         } else if (activeStep === 2){
             return (
                 <>
-                    <OrderForm />
+                    <OrderForm onChange={handleContactOrderFormChanges} defaultValues={manager.contactInfo}/>
                     {addNextBackButtons()}
                 </>
             )
