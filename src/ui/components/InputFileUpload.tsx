@@ -15,13 +15,30 @@ const VisuallyHiddenInput = styled('input')({
   width: 1,
 });
 
-
-export default function InputFileUpload() {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+interface IInputFileUploadProp{
+    defaultValue: any,
+    onChange: Function
+}
+export default function InputFileUpload({defaultValue, onChange}: IInputFileUploadProp) {
+  const [selectedFile, setSelectedFile] = useState<File | null>(defaultValue[0]);
+  const [dataURL, setDataURL] = useState<string>();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files[0]) {
-      setSelectedFile(event.target.files[0]);
+    const file = event.target.files?.[0];
+    if (file) {
+      setSelectedFile(file);
+      const reader = new FileReader();
+
+        reader.onload = (e) => {
+          // 'result' contains the Data URL
+          const dataURL = e.target?.result as string;
+          console.log('Data URL:', dataURL);
+          setDataURL(dataURL);
+          onChange(file, dataURL)
+          // You can use the Data URL as needed, for instance, setting it to state or using it directly.
+        };
+
+        reader.readAsDataURL(file);
     }
   };
 

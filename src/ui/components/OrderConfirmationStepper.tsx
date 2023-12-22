@@ -43,6 +43,8 @@ export default function OrderConfirmationStepper({orders, prices}: IOrderConfirm
         )
     }
 
+    
+
     function addContent(step: any ){
         if(activeStep === steps.length){
             return (
@@ -70,7 +72,7 @@ export default function OrderConfirmationStepper({orders, prices}: IOrderConfirm
         } else if (activeStep === 1){
             return (
                 <>
-                    <OrderSpecialNotes />
+                    {/* <OrderSpecialNotes onChange={handleOrderSpecialNotesChanges}/> */}
                     {addNextBackButtons()}
                 </>
             )

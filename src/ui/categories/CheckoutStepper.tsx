@@ -5,6 +5,7 @@ import OrderSpecialNotes from "../components/OrderSpecialNotes";
 import OrderList from "../components/OrderList";
 import OrderCategories from "../components/OrderCategories";
 import { DataManager } from "../../utils/DataManager";
+import { Headers } from "../../utils/data";
 
 
 const steps: string[] = ["Customize Order", "Special Requests", "Contact Information", "Order Summary"];
@@ -17,7 +18,7 @@ export default function CheckoutStepper(){
     const [activeStep, setActiveStep] = useState(0)
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
-        console.log(manager.orderCriteria)
+        console.log(manager.additionalRequests)
     };
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
@@ -31,11 +32,24 @@ export default function CheckoutStepper(){
      */
     const handleOrderCriteriaChanges = (criteriaType: string, value: any) => {
         manager.updateOrderCriteria(criteriaType, value);
-        console.log(manager.orderCriteria)
+    }
+
+    const handleOrderSpecialNotesChanges = (criteriaType: string, value: any) => {
+        if(criteriaType ===  Headers.SPECIAL_REQUEST){
+            manager.updateSpecialNotes(value);
+        } else if(criteriaType === Headers.FILE_UPLOAD){
+            manager.updateFileUpload(value[0], value[1]);
+        }
+        console.log(manager.additionalRequests)
+        
     }
 
 
 
+
+    /** 
+     * Next and Previous buttons
+     */
     function addNextBackButtons(){
         return (
             <>        
@@ -78,7 +92,7 @@ export default function CheckoutStepper(){
         } else if (activeStep === 1){
             return (
                 <>
-                    <OrderSpecialNotes />
+                    <OrderSpecialNotes onChange={handleOrderSpecialNotesChanges} defaultValue={manager.additionalRequests}/>
                     {addNextBackButtons()}
                 </>
             )

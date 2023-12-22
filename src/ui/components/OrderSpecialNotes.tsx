@@ -1,12 +1,26 @@
 import { useState } from "react"
 import {Stack, Typography, TextField, Box} from "@mui/material"
 import InputFileUpload from "./InputFileUpload"
+import { Headers } from "../../utils/data"
 
-export default function OrderSpecialNotes(){
-    const [specialNotes, setSpecialNotes] = useState("")
+
+interface IOrderSpecialNotesProp{
+    defaultValue: Map<string, any>,
+    onChange: Function
+
+}
+export default function OrderSpecialNotes({defaultValue, onChange}: IOrderSpecialNotesProp){
+    const [specialNotes, setSpecialNotes] = useState(defaultValue.get(Headers.SPECIAL_REQUEST))
 
     const handleSpecialNotesChange = (event : any) => {
         setSpecialNotes(event.target.value)
+        onChange(Headers.SPECIAL_REQUEST, event.target.value);
+    }
+
+    const handleInputFileUpload = (file: any, dataURL: string) => {
+        const fileUpload = [file, dataURL];
+        onChange(Headers.FILE_UPLOAD, fileUpload);
+
     }
 
     return (
@@ -25,7 +39,7 @@ export default function OrderSpecialNotes(){
                     onChange={handleSpecialNotesChange}
                 />
                 <Box sx={{width: "20%"}}>
-                    <InputFileUpload />
+                    <InputFileUpload onChange={(file: any, dataURL: string) => handleInputFileUpload(file, dataURL)} defaultValue={defaultValue.get(Headers.FILE_UPLOAD)}/>
                 </Box>
                 
             </Stack>

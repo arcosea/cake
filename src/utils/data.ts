@@ -40,5 +40,12 @@ export enum Headers {
     CAKE_BASE_STYLE = "Cake Base Style",
     CAKE_BASE_FLAVOR = "Cake Base Flavor",
     ADD_FRUIT = "Add Fruit",
+    SPECIAL_REQUEST = "Special Request",
+    FILE_UPLOAD = "File Upload",
+    PICKUP_DATE = "Pickup Date",
+    FIRST_NAME = "First Name",
+    LAST_NAME = "Last Name",
+    EMAIL = "Email",
+    PHONE_NUMBER = "Phone Number"
 }
 
