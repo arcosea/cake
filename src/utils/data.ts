@@ -35,3 +35,10 @@ export const CakeFruit: string[] = ["Banana", "Peach", "Kiwi", "Strawberry", "Pi
 
 export const Gender: string[] = ["Male", "Female"];
 
+export enum Headers {
+    CAKE_SIZE = "Cake Size",
+    CAKE_BASE_STYLE = "Cake Base Style",
+    CAKE_BASE_FLAVOR = "Cake Base Flavor",
+    ADD_FRUIT = "Add Fruit",
+}
+

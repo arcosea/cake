@@ -4,9 +4,12 @@ import OrderForm from "../components/OrderForm";
 import OrderSpecialNotes from "../components/OrderSpecialNotes";
 import OrderList from "../components/OrderList";
 import OrderCategories from "../components/OrderCategories";
+import { DataManager } from "../../utils/DataManager";
 
 
-const steps: string[] = ["Customize Order", "Special Requests", "Contact Information", "Order Summary"]
+const steps: string[] = ["Customize Order", "Special Requests", "Contact Information", "Order Summary"];
+let manager: DataManager = new DataManager();
+
 export default function CheckoutStepper(){
     /**
      * Handle movements between different steps
@@ -14,6 +17,7 @@ export default function CheckoutStepper(){
     const [activeStep, setActiveStep] = useState(0)
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        console.log(manager.orderCriteria)
     };
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
@@ -21,6 +25,16 @@ export default function CheckoutStepper(){
     const handleReset = () => {
         setActiveStep(0);
     };
+
+    /**
+     * Updates to data manager
+     */
+    const handleOrderCriteriaChanges = (criteriaType: string, value: any) => {
+        manager.updateOrderCriteria(criteriaType, value);
+        console.log(manager.orderCriteria)
+    }
+
+
 
     function addNextBackButtons(){
         return (
@@ -57,7 +71,7 @@ export default function CheckoutStepper(){
         } else if (activeStep === 0){
             return (
                 <>
-                    <OrderCategories />
+                    <OrderCategories onChange={handleOrderCriteriaChanges} defaultValues={manager.orderCriteria}/>
                     {addNextBackButtons()}
                 </>
             )

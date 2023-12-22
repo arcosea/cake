@@ -24,7 +24,7 @@ export default function OrderSpecialNotes(){
                     value={specialNotes}
                     onChange={handleSpecialNotesChange}
                 />
-                <Box sx={{width: "40%"}}>
+                <Box sx={{width: "20%"}}>
                     <InputFileUpload />
                 </Box>
                 

@@ -25,18 +25,18 @@ export default function RadioButtonsGroup({label, options, defaultValue, onChang
 
     return (
         <>
-            <FormControl>
+            
                 <FormLabel id="demo-radio-buttons-group-label" >{label}</FormLabel>
                 <RadioGroup
                     row
                     aria-labelledby="demo-radio-buttons-group-label"
-                    defaultValue={defaultValue}
+                    value={value}
                     name="radio-buttons-group"
                     onChange={handleRadioButtonChange}
                 >
                     {displayOptions()}
                 </RadioGroup>
-            </FormControl>
+            
         </>
     )
 }

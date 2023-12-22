@@ -1,31 +1,41 @@
 import { useState, useEffect} from "react";
 import { Box, TextField, Stack, Stepper, Step, StepLabel, Typography, Button} from "@mui/material"
 import Selector from "./Selector";
-import { CakeBaseFlavors, CakeBaseStyles, CakeFruit, CakePeopleSize } from "../../utils/data";
+import { CakeBaseFlavors, CakeBaseStyles, CakeFruit, CakePeopleSize, Headers} from "../../utils/data";
 import RadioButtonsGroup from "./RadioButtonsGroup";
 import CheckboxGroup from "./CheckboxGroup";
 
-export default function OrderCategories(){
-    const [cakeSize, setCakeSize] = useState(CakePeopleSize[0])
+
+
+interface IOrderCategoriesProp{
+    defaultValues: Map<string, any>
+    onChange: Function
+}
+export default function OrderCategories({defaultValues, onChange}: IOrderCategoriesProp){
+    const [cakeSize, setCakeSize] = useState(defaultValues.get(Headers.CAKE_SIZE))
     const handleCakePeopleSizeChange = (value: string) =>{
         setCakeSize(value);
+        onChange(Headers.CAKE_SIZE, value);
     }
 
-    const [cakeBaseStyle, setCakeBaseStyle] = useState(CakeBaseStyles[0])
+    const [cakeBaseStyle, setCakeBaseStyle] = useState(defaultValues.get(Headers.CAKE_BASE_STYLE))
     const handleCakeBaseStyleChange = (value: string) => {
         setCakeBaseStyle(value);
+        onChange(Headers.CAKE_BASE_STYLE, value);
     }
 
-    const [cakeBaseFlavor, setCakeBaseFlavor] = useState(CakeBaseFlavors[0])
+    const [cakeBaseFlavor, setCakeBaseFlavor] = useState(defaultValues.get(Headers.CAKE_BASE_FLAVOR))
     const handleCakeBaseFlavorChange = (value: string) => {
-        setCakeBaseStyle(value);
+        setCakeBaseFlavor(value);
+        onChange(Headers.CAKE_BASE_FLAVOR, value);
     }
 
     const [cakeFruit, setCakeFruit] = useState()
     const handleCakeFruitChange = (value: any) => {
         setCakeFruit(value);
+        onChange(Headers.ADD_FRUIT, value);
     }
-    
+
     return (
         <>
             <Box
@@ -37,13 +47,13 @@ export default function OrderCategories(){
                 autoComplete="off"
             >       
                 <Stack spacing={2}>
-                    <Selector label={"Cake Size"} options={CakePeopleSize} defaultValue={CakePeopleSize[0]} onChange={handleCakePeopleSizeChange} />
+                    <Selector label={Headers.CAKE_SIZE} options={CakePeopleSize} defaultValue={defaultValues.get(Headers.CAKE_SIZE)} onChange={handleCakePeopleSizeChange} />
                     
-                    <RadioButtonsGroup label={"Cake Base Style"} options={CakeBaseStyles} defaultValue={CakeBaseStyles[0]} onChange={handleCakeBaseStyleChange} />
+                    <RadioButtonsGroup label={Headers.CAKE_BASE_STYLE} options={CakeBaseStyles} defaultValue={defaultValues.get(Headers.CAKE_BASE_STYLE)} onChange={handleCakeBaseStyleChange} />
 
-                    <RadioButtonsGroup label={"Cake Base Flavor"} options={CakeBaseFlavors} defaultValue={CakeBaseFlavors[0]} onChange={handleCakeBaseFlavorChange} />
+                    <RadioButtonsGroup label={Headers.CAKE_BASE_FLAVOR} options={CakeBaseFlavors} defaultValue={defaultValues.get(Headers.CAKE_BASE_FLAVOR)} onChange={handleCakeBaseFlavorChange} />
 
-                    <CheckboxGroup label={"Add Fruit in Cake"} options={CakeFruit} defaultValue={""} onChange={handleCakeFruitChange} />
+                    <CheckboxGroup label={Headers.ADD_FRUIT} options={CakeFruit} defaultValue={""} onChange={handleCakeFruitChange} />
                 </Stack>
                 
             </Box>
