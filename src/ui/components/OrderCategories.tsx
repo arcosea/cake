@@ -53,7 +53,7 @@ export default function OrderCategories({defaultValues, onChange}: IOrderCategor
 
                     <RadioButtonsGroup label={Headers.CAKE_BASE_FLAVOR} options={CakeBaseFlavors} defaultValue={defaultValues.get(Headers.CAKE_BASE_FLAVOR)} onChange={handleCakeBaseFlavorChange} />
 
-                    <CheckboxGroup label={Headers.ADD_FRUIT} options={CakeFruit} defaultValue={""} onChange={handleCakeFruitChange} />
+                    <CheckboxGroup label={Headers.ADD_FRUIT} options={CakeFruit} defaultValue={defaultValues.get(Headers.ADD_FRUIT)} onChange={handleCakeFruitChange} />
                 </Stack>
                 
             </Box>

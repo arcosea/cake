@@ -20,6 +20,13 @@ export class DataManager {
         this._orderCriteria.set(Headers.CAKE_SIZE, CakePeopleSize[0]);
         this._orderCriteria.set(Headers.CAKE_BASE_STYLE, CakeBaseStyles[0]);
         this._orderCriteria.set(Headers.CAKE_BASE_FLAVOR, CakeBaseFlavors[0]);
+
+        const initialFruitChecked: { [key: string]: boolean } = {};
+        CakeFruit.forEach((option) => {
+            initialFruitChecked[option] = false;
+        });
+
+        this.orderCriteria.set(Headers.ADD_FRUIT, initialFruitChecked);
     }
 
 

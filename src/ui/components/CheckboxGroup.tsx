@@ -5,17 +5,11 @@ import { useState } from "react";
 interface ICheckboxGroupProp{
     label: string,
     options: string[],
-    defaultValue: string,
+    defaultValue: any,
     onChange: Function
 }
 export default function CheckboxGroup({label, options, defaultValue, onChange}: ICheckboxGroupProp){
-    const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>(() => {
-        const initialCheckedState: { [key: string]: boolean } = {};
-        options.forEach((option) => {
-          initialCheckedState[option] = false;
-        });
-        return initialCheckedState;
-    });
+    const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>(defaultValue);
 
     const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setCheckedItems({
