@@ -5,6 +5,10 @@ import OrderForm from "../components/OrderForm";
 import CheckoutStepper from "../categories/CheckoutStepper";
 import { CardHomePage } from "../categories/CardHomePage";
 import ProductsPage from "../categories/ProductsPage";
+import { TabLabels } from "../../utils/data"; 
+import { FaHouse } from "react-icons/fa6";
+import { BsCake2Fill } from "react-icons/bs";
+import { MdShoppingCart } from "react-icons/md";
 
 
 function a11yProps(index: number) {
@@ -14,7 +18,10 @@ function a11yProps(index: number) {
     };
 }
 
-export default function Responsive() {
+interface IResponsiveProp{
+  onMobile: boolean
+}
+export default function Responsive({onMobile}: IResponsiveProp) {
     const [value, setValue] = useState(0);
   
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -22,23 +29,36 @@ export default function Responsive() {
     };
   
     return (
-      <Box sx={{ width: '100%' }}>
-        <Box sx={{ borderBottom: 1, borderColor: 'divider', justifyContent: "center", display: "flex", alignItems: "center"}}>
+      <Box sx={{ width: '100%'}}>
+        <Box sx={{ borderBottom: 1,  
+            borderColor: 'divider', 
+            justifyContent: "center", 
+            display: "flex", 
+            alignItems: "center", 
+            position: "sticky", 
+            top: 0,
+            backgroundColor: "#fff0db",
+            minHeight: '64px'
+            
+            }}>
           <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-            <Tab label="Home" {...a11yProps(0)} />
-            <Tab label="Cakes" {...a11yProps(1)} />
-            <Tab label="Place Order" {...a11yProps(2)} />
+            <Tab label= {onMobile ? <FaHouse/> : TabLabels.HOME} {...a11yProps(0)} sx={{color: "black"}}/>
+            <Tab label= {onMobile ? <BsCake2Fill/> : TabLabels.PRODUCTS} {...a11yProps(1)} sx={{color: "black"}}/>
+            <Tab label= {onMobile ? <MdShoppingCart/> : TabLabels.ORDER} {...a11yProps(2)} sx={{color: "black"}}/>
           </Tabs>
         </Box>
-        <CustomTabPage value={value} index={0}>
-          <CardHomePage/>
-        </CustomTabPage>
-        <CustomTabPage value={value} index={1}>
-          <ProductsPage/>
-        </CustomTabPage>
-        <CustomTabPage value={value} index={2}>
-          <CheckoutStepper/>
-        </CustomTabPage>
+        <Box>
+          <CustomTabPage value={value} index={0}>
+            <CardHomePage/>
+          </CustomTabPage>
+          <CustomTabPage value={value} index={1}>
+            <ProductsPage/>
+          </CustomTabPage>
+          <CustomTabPage value={value} index={2}>
+            <CheckoutStepper/>
+          </CustomTabPage>
+        </Box>
+        
       </Box>
     );
   }

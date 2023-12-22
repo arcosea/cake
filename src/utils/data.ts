@@ -58,3 +58,9 @@ export enum Bakery {
     EMAIL = "teresitasbakery@gmail.com"
 }
 
+
+export enum TabLabels {
+    HOME = "Home",
+    PRODUCTS = "Products",
+    ORDER = "Order"
+}

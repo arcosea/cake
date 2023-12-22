@@ -59,8 +59,8 @@ function App() {
     // } else{
     //   return <Responsive/>
     // }
-    return <Responsive />
-    // return <DrawerAppBar/>
+    return <Responsive onMobile={onMobile}/>
+    // return <Mobile/>
   }
 
   return (  
