@@ -3,6 +3,8 @@ import { Box, Tabs, Tab} from "@mui/material";
 import CustomTabPage from "../components/CustomTabPage";
 import OrderForm from "../components/OrderForm";
 import CheckoutStepper from "../categories/CheckoutStepper";
+import { CardHomePage } from "../categories/CardHomePage";
+import ProductsPage from "../categories/ProductsPage";
 
 
 function a11yProps(index: number) {
@@ -29,10 +31,10 @@ export default function Responsive() {
           </Tabs>
         </Box>
         <CustomTabPage value={value} index={0}>
-          Item One
+          <CardHomePage/>
         </CustomTabPage>
         <CustomTabPage value={value} index={1}>
-          
+          <ProductsPage/>
         </CustomTabPage>
         <CustomTabPage value={value} index={2}>
           <CheckoutStepper/>

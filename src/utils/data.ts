@@ -49,3 +49,12 @@ export enum Headers {
     PHONE_NUMBER = "Phone Number"
 }
 
+export enum Bakery {
+    NAME = "Teresita's Mexican Bakery",
+    LOCATION = "3731 McKinley Ave, Tacoma, WA, United States, Washington",
+    PHONE_NUMBER = "(253) 474-5110",
+    SERVICES = "In-Store Pickup",
+    PRODUCTS = "Bakery, 3 leches, cupcakes with fillings, mini pies, cheesecake, chocoflan",
+    EMAIL = "teresitasbakery@gmail.com"
+}
+

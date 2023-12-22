@@ -26,9 +26,10 @@ export default function OrderForm({defaultValues, disableDatesBefore, onChange}:
 
     const isDateDisabled = (date: Date) => {
         // Define your logic to disable specific days here
-        const dayOfWeek = dayjs(date).isBefore(disableDatesBefore); // Get the day of the week (0 = Sunday, 1 = Monday, ...)
+        const dayOfWeek = dayjs(date).day();
+        const daysBefore = dayjs(date).isBefore(disableDatesBefore); // Get the day of the week (0 = Sunday, 1 = Monday, ...)
         // Disable Saturdays (dayOfWeek === 6) and Sundays (dayOfWeek === 0)
-        return dayOfWeek; 
+        return daysBefore || dayOfWeek === 2; 
       };
 
   
