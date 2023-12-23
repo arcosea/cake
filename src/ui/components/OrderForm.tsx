@@ -13,8 +13,9 @@ interface IOrderFormProp{
     defaultValues: Map<string, any>,
     disableDatesBefore: Date,
     onChange: Function
+    onFormFilledChange: Function
 }
-export default function OrderForm({defaultValues, disableDatesBefore, onChange}: IOrderFormProp){
+export default function OrderForm({defaultValues, disableDatesBefore, onChange, onFormFilledChange}: IOrderFormProp){
     const [date, setDate] = useState(defaultValues.get(Headers.PICKUP_DATE));
     const handleDateChange = (newDate: any) => {
         setDate(newDate);
@@ -33,9 +34,7 @@ export default function OrderForm({defaultValues, disableDatesBefore, onChange}:
         const daysBefore = dayjs(date).isBefore(disableDatesBefore); // Get the day of the week (0 = Sunday, 1 = Monday, ...)
         // Disable Saturdays (dayOfWeek === 6) and Sundays (dayOfWeek === 0)
         return daysBefore || dayOfWeek === 2; 
-      };
-
-  
+    };
 
     const [firstName, setFirstName] = useState(defaultValues.get(Headers.FIRST_NAME));
     const handleFirstNameChange = (event: any) => {
@@ -61,6 +60,12 @@ export default function OrderForm({defaultValues, disableDatesBefore, onChange}:
         onChange(Headers.PHONE_NUMBER, event.target.value);
     }
 
+    useEffect(() => {
+        // Check if all fields are filled and notify the parent
+        const formFilled = !!(date && firstName && lastName && email.includes('@') && phoneNumber);
+        onFormFilledChange(formFilled);
+      }, [date, firstName, lastName, email, phoneNumber, onFormFilledChange]);
+
     const handleSubmit = () => {
         console.log(date, firstName, lastName, email, phoneNumber)
     }
@@ -85,8 +90,6 @@ export default function OrderForm({defaultValues, disableDatesBefore, onChange}:
                         </DemoContainer>
                     </LocalizationProvider>
 
-      
-                
                     <TextField
                             required
                             label="First Name"
@@ -108,6 +111,7 @@ export default function OrderForm({defaultValues, disableDatesBefore, onChange}:
                     />
                     
                     <TextField
+                        required
                         label="Phone Number"
                         value={phoneNumber}
                         onChange={handlePhoneNumberChange}

@@ -14,9 +14,6 @@ export class DataManager {
 
 
 
-
-
-
     constructor() {
         this._helper = new Helper();
 

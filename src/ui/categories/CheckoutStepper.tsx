@@ -27,11 +27,16 @@ export default function CheckoutStepper(){
         manager.resetData();
     };
 
-    console.log(manager.confirmationNumber)
     // Auto scrolls to the top after rendering
     useEffect(() => {
         window.scrollTo(0, 0)
     }, []);
+
+    // Determine if form is filled properly
+    const [isFormFilled, setIsFormFilled] = useState(false);
+    const handleFormFilledChange = (isFilled: boolean) => {
+        setIsFormFilled(isFilled);
+    };
 
     /**
      * Updates to data manager
@@ -68,7 +73,7 @@ export default function CheckoutStepper(){
                 > 
                     Back
                     </Button>
-                <Button onClick={handleNext}>
+                <Button onClick={handleNext} disabled={activeStep === 2? !isFormFilled : false}>
                         {activeStep === steps.length - 1 ? 'Submit' : 'Next'}
                 </Button>
             </Box>
@@ -106,7 +111,7 @@ export default function CheckoutStepper(){
         } else if (activeStep === 2){
             return (
                 <>
-                    <OrderForm onChange={handleContactOrderFormChanges} defaultValues={manager.contactInfo} disableDatesBefore={manager.earliestPickupDate}/>
+                    <OrderForm onChange={handleContactOrderFormChanges} defaultValues={manager.contactInfo} disableDatesBefore={manager.earliestPickupDate} onFormFilledChange={handleFormFilledChange}/>
                     {addNextBackButtons()}
                 </>
             )
