@@ -59,9 +59,13 @@ export class DataManager {
         this._contactInfo.set(Headers.PHONE_NUMBER, "");
     }
 
+    private initConfirmationNumber() {
+        let indexDiff: number = 1
+        let codeLength: number = 5;
+        let randomCode: string = this._helper.makeRandomID(codeLength);
 
-
-
+        this._confirmationNumber = String(this._currentDate.$M + indexDiff) + String(this._currentDate.$D) + randomCode;
+    }
 
     public updateOrderCriteria(criteriaType: string, value: string | any) {
         this._orderCriteria.set(criteriaType, value);
@@ -99,14 +103,6 @@ export class DataManager {
 
     public get earliestPickupDate() {
         return this._earliestPickupDate;
-    }
-
-    private initConfirmationNumber() {
-        let indexDiff: number = 1
-        let codeLength: number = 5;
-        let randomCode: string = this._helper.makeRandomID(codeLength);
-
-        this._confirmationNumber = String(this._currentDate.$M + indexDiff) + String(this._currentDate.$D) + randomCode;
     }
 
     public get confirmationNumber() {
