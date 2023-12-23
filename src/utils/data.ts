@@ -33,13 +33,14 @@ export const CakeBaseFlavors: string[] = ["Vanilla", "Chocolate"];
 
 export const CakeFruit: string[] = ["Banana", "Peach", "Kiwi", "Strawberry", "Pineapple"];
 
-export const Gender: string[] = ["Male", "Female"];
+export const Genders: string[] = ["Male", "Female"];
 
 export enum Headers {
     CAKE_SIZE = "Cake Size",
     CAKE_BASE_STYLE = "Cake Base Style",
     CAKE_BASE_FLAVOR = "Cake Base Flavor",
     ADD_FRUIT = "Add Fruit",
+    GENDER = "Cake Intended For",
     SPECIAL_REQUEST = "Special Request",
     FILE_UPLOAD = "File Upload",
     PICKUP_DATE = "Pickup Date",

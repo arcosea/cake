@@ -1,7 +1,7 @@
 import { useState, useEffect} from "react";
 import { Box, TextField, Stack, Stepper, Step, StepLabel, Typography, Button} from "@mui/material"
 import Selector from "./Selector";
-import { CakeBaseFlavors, CakeBaseStyles, CakeFruit, CakePeopleSize, Headers} from "../../utils/data";
+import { CakeBaseFlavors, CakeBaseStyles, CakeFruit, CakePeopleSize, Genders, Headers} from "../../utils/data";
 import RadioButtonsGroup from "./RadioButtonsGroup";
 import CheckboxGroup from "./CheckboxGroup";
 
@@ -36,6 +36,12 @@ export default function OrderCategories({defaultValues, onChange}: IOrderCategor
         onChange(Headers.ADD_FRUIT, value);
     }
 
+    const [gender, setGender] = useState()
+    const handleGenderChange = (value: any) => {
+        setGender(value);
+        onChange(Headers.GENDER, value);
+    }
+
     // Auto scrolls to the top after rendering
     useEffect(() => {
         window.scrollTo(0, 0)
@@ -59,6 +65,8 @@ export default function OrderCategories({defaultValues, onChange}: IOrderCategor
                     <RadioButtonsGroup label={Headers.CAKE_BASE_FLAVOR} options={CakeBaseFlavors} defaultValue={defaultValues.get(Headers.CAKE_BASE_FLAVOR)} onChange={handleCakeBaseFlavorChange} />
 
                     <CheckboxGroup label={Headers.ADD_FRUIT} options={CakeFruit} defaultValue={defaultValues.get(Headers.ADD_FRUIT)} onChange={handleCakeFruitChange} />
+
+                    <RadioButtonsGroup label={Headers.GENDER} options={Genders} defaultValue={defaultValues.get(Headers.GENDER)} onChange={handleGenderChange} />
                 </Stack>
                 
             </Box>

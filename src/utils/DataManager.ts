@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { CakePeopleSize, CakeBaseStyles, CakeBaseFlavors, CakeFruit, Headers } from "./data";
+import { CakePeopleSize, CakeBaseStyles, CakeBaseFlavors, CakeFruit, Headers, Genders } from "./data";
 import { Helper } from "./Helper";
 
 export class DataManager {
@@ -41,6 +41,7 @@ export class DataManager {
         });
 
         this.orderCriteria.set(Headers.ADD_FRUIT, initialFruitChecked);
+        this.orderCriteria.set(Headers.GENDER, Genders[0]);
     }
 
     private initAdditionalRequest() {
