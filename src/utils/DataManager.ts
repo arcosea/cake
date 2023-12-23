@@ -39,8 +39,8 @@ export class DataManager {
         CakeFruit.forEach((option) => {
             initialFruitChecked[option] = false;
         });
-
         this.orderCriteria.set(Headers.ADD_FRUIT, initialFruitChecked);
+
         this.orderCriteria.set(Headers.GENDER, Genders[0]);
     }
 
@@ -85,6 +85,27 @@ export class DataManager {
         this.initOrderCriteria();
         this.initAdditionalRequest();
         this.initContactInfo();
+    }
+
+    public orderDetails() {
+        let details: Map<string, any> = new Map();
+        details.set(Headers.CAKE_SIZE, this._orderCriteria.get(Headers.CAKE_SIZE));
+        details.set(Headers.CAKE_BASE_STYLE, this._orderCriteria.get(Headers.CAKE_BASE_STYLE));
+        details.set(Headers.CAKE_BASE_FLAVOR, this._orderCriteria.get(Headers.CAKE_BASE_FLAVOR));
+
+        let fruit: string[] = [];
+        let selectedFruit = this._orderCriteria.get(Headers.ADD_FRUIT);
+        for (const option in selectedFruit) {
+            if (selectedFruit[option]) {
+                fruit.push(option)
+            }
+        };
+        details.set(Headers.ADD_FRUIT, fruit.toString());
+
+        details.set(Headers.GENDER, this._orderCriteria.get(Headers.GENDER));
+        details.set(Headers.SPECIAL_REQUEST, this._additionalRequests.get(Headers.SPECIAL_REQUEST));
+
+        return details;
     }
 
     public get orderCriteria() {

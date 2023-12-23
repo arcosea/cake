@@ -6,6 +6,7 @@ import OrderList from "../components/OrderList";
 import OrderCategories from "../components/OrderCategories";
 import { DataManager } from "../../utils/DataManager";
 import { Headers } from "../../utils/data";
+import DisplayDetails from "../components/DisplayDetails";
 
 
 const steps: string[] = ["Customize Order", "Special Requests", "Contact Information", "Order Summary"];
@@ -37,6 +38,8 @@ export default function CheckoutStepper(){
     const handleFormFilledChange = (isFilled: boolean) => {
         setIsFormFilled(isFilled);
     };
+
+   
 
     /**
      * Updates to data manager
@@ -116,7 +119,15 @@ export default function CheckoutStepper(){
                 </>
             )
             
-        } else{
+        } else if (activeStep === 3){
+            return (
+                <>
+                    <DisplayDetails details={manager.orderDetails()} />
+                    {addNextBackButtons()}
+                </>
+            )
+            
+        } else {
             return (
                 <>
                     <Typography> Step {activeStep} </Typography>
