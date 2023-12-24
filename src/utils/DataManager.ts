@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { CakePeopleSize, CakeBaseStyles, CakeBaseFlavors, CakeFruit, Headers, Genders } from "./data";
+import { CakePeopleSize, CakeBaseStyles, CakeBaseFlavors, CakeFruit, Headers, Genders, NoYesOptions, CakeOccasions } from "./data";
 import { Helper } from "./Helper";
 
 export class DataManager {
@@ -11,7 +11,7 @@ export class DataManager {
     private _currentDate: any;
     private _helper: Helper;
     private _confirmationNumber: string = "";
-    private _orderingCake: boolean;
+    private _isOrderingCake: boolean;
 
 
 
@@ -22,7 +22,7 @@ export class DataManager {
         this._orderCriteria = new Map();
         this._additionalRequests = new Map();
         this._contactInfo = new Map();
-        this._orderingCake = false;
+        this._isOrderingCake = false;
 
         this.initOrderCriteria();
         this.initAdditionalRequest();
@@ -33,6 +33,7 @@ export class DataManager {
 
     private initOrderCriteria() {
         this._orderCriteria.set(Headers.CAKE_SIZE, CakePeopleSize[0]);
+        this._orderCriteria.set(Headers.CAKE_OCCASION, CakeOccasions[0]);
         this._orderCriteria.set(Headers.CAKE_BASE_STYLE, CakeBaseStyles[0]);
         this._orderCriteria.set(Headers.CAKE_BASE_FLAVOR, CakeBaseFlavors[0]);
 
@@ -42,7 +43,7 @@ export class DataManager {
         });
         this.orderCriteria.set(Headers.ADD_FRUIT, initialFruitChecked);
 
-        this.orderCriteria.set(Headers.GENDER, Genders[0]);
+        // this.orderCriteria.set(Headers.GENDER, Genders[0]);
     }
 
     private initAdditionalRequest() {
@@ -83,7 +84,7 @@ export class DataManager {
     }
 
     public updateOrderingCake(isOrdering: boolean) {
-        this._orderingCake = isOrdering;
+        this._isOrderingCake = isOrdering;
     }
 
     public resetData() {
@@ -94,21 +95,28 @@ export class DataManager {
 
     public orderDetails() {
         let details: Map<string, any> = new Map();
-        details.set(Headers.CAKE_SIZE, this._orderCriteria.get(Headers.CAKE_SIZE));
-        details.set(Headers.CAKE_BASE_STYLE, this._orderCriteria.get(Headers.CAKE_BASE_STYLE));
-        details.set(Headers.CAKE_BASE_FLAVOR, this._orderCriteria.get(Headers.CAKE_BASE_FLAVOR));
+        if (this._isOrderingCake) {
+            details.set(Headers.ORDERING_A_CAKE, NoYesOptions[1]);
+            details.set(Headers.CAKE_SIZE, this._orderCriteria.get(Headers.CAKE_SIZE));
+            details.set(Headers.CAKE_OCCASION, this._orderCriteria.get(Headers.CAKE_OCCASION))
+            details.set(Headers.CAKE_BASE_STYLE, this._orderCriteria.get(Headers.CAKE_BASE_STYLE));
+            details.set(Headers.CAKE_BASE_FLAVOR, this._orderCriteria.get(Headers.CAKE_BASE_FLAVOR));
 
-        let fruit: string[] = [];
-        let selectedFruit = this._orderCriteria.get(Headers.ADD_FRUIT);
-        for (const option in selectedFruit) {
-            if (selectedFruit[option]) {
-                fruit.push(option)
-            }
-        };
-        details.set(Headers.ADD_FRUIT, fruit.toString());
+            let fruit: string[] = [];
+            let selectedFruit = this._orderCriteria.get(Headers.ADD_FRUIT);
+            for (const option in selectedFruit) {
+                if (selectedFruit[option]) {
+                    fruit.push(option)
+                }
+            };
+            details.set(Headers.ADD_FRUIT, fruit.toString());
 
-        details.set(Headers.GENDER, this._orderCriteria.get(Headers.GENDER));
-        details.set(Headers.SPECIAL_REQUEST, this._additionalRequests.get(Headers.SPECIAL_REQUEST));
+            // details.set(Headers.GENDER, this._orderCriteria.get(Headers.GENDER));
+            details.set(Headers.SPECIAL_REQUEST, this._additionalRequests.get(Headers.SPECIAL_REQUEST));
+        } else {
+            details.set(Headers.ORDERING_A_CAKE, NoYesOptions[0]);
+        }
+
 
         return details;
     }
@@ -134,7 +142,7 @@ export class DataManager {
     }
 
     public get isOrderingCake() {
-        return this._orderingCake;
+        return this._isOrderingCake;
     }
 
 

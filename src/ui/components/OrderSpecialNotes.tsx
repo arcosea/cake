@@ -32,11 +32,11 @@ export default function OrderSpecialNotes({defaultValue, onChange}: IOrderSpecia
         <>
             <Stack spacing={2}> 
                 <Typography >
-                    Enter any special requests (e.g. Name of Birthday)
+                    Enter any special requests (e.g. Name of Birthday, Age, specific figurines)
                 </Typography>
                 <TextField
                     id="outlined-textarea"
-                    label="Special Request"
+                    label="Additional Notes"
                     placeholder="'Happy Birthday Juan' on Spiderman themed cake with figurines "
                     multiline
                     rows={5}

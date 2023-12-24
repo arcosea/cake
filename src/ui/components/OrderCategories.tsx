@@ -1,7 +1,7 @@
 import { useState, useEffect} from "react";
 import { Box, TextField, Stack, Stepper, Step, StepLabel, Typography, Button} from "@mui/material"
 import Selector from "./Selector";
-import { CakeBaseFlavors, CakeBaseStyles, CakeFruit, CakePeopleSize, Genders, Headers} from "../../utils/data";
+import { CakeBaseFlavors, CakeBaseStyles, CakeFruit, CakeOccasions, CakePeopleSize, Genders, Headers} from "../../utils/data";
 import RadioButtonsGroup from "./RadioButtonsGroup";
 import CheckboxGroup from "./CheckboxGroup";
 
@@ -13,9 +13,15 @@ interface IOrderCategoriesProp{
 }
 export default function OrderCategories({defaultValues, onChange}: IOrderCategoriesProp){
     const [cakeSize, setCakeSize] = useState(defaultValues.get(Headers.CAKE_SIZE))
-    const handleCakePeopleSizeChange = (value: string) =>{
+    const handleCakePeopleSizeChange = (value: string) => {
         setCakeSize(value);
         onChange(Headers.CAKE_SIZE, value);
+    }
+
+    const [CakeOccasion, setCakeOccasion] = useState(defaultValues.get(Headers.CAKE_OCCASION));
+    const handleCakeOccasionChange = (value: string) => {
+        setCakeOccasion(value);
+        onChange(Headers.CAKE_OCCASION, value);
     }
 
     const [cakeBaseStyle, setCakeBaseStyle] = useState(defaultValues.get(Headers.CAKE_BASE_STYLE))
@@ -60,13 +66,15 @@ export default function OrderCategories({defaultValues, onChange}: IOrderCategor
                 <Stack spacing={2}>
                     <Selector label={Headers.CAKE_SIZE} options={CakePeopleSize} defaultValue={defaultValues.get(Headers.CAKE_SIZE)} onChange={handleCakePeopleSizeChange} />
                     
+                    <Selector label={Headers.CAKE_OCCASION} options={CakeOccasions} defaultValue={defaultValues.get(Headers.CAKE_OCCASION)} onChange={handleCakeOccasionChange} />
+
                     <RadioButtonsGroup label={Headers.CAKE_BASE_STYLE} options={CakeBaseStyles} defaultValue={defaultValues.get(Headers.CAKE_BASE_STYLE)} onChange={handleCakeBaseStyleChange} />
 
                     <RadioButtonsGroup label={Headers.CAKE_BASE_FLAVOR} options={CakeBaseFlavors} defaultValue={defaultValues.get(Headers.CAKE_BASE_FLAVOR)} onChange={handleCakeBaseFlavorChange} />
 
                     <CheckboxGroup label={Headers.ADD_FRUIT} options={CakeFruit} defaultValue={defaultValues.get(Headers.ADD_FRUIT)} onChange={handleCakeFruitChange} />
 
-                    <RadioButtonsGroup label={Headers.GENDER} options={Genders} defaultValue={defaultValues.get(Headers.GENDER)} onChange={handleGenderChange} />
+                    {/* <RadioButtonsGroup label={Headers.GENDER} options={Genders} defaultValue={defaultValues.get(Headers.GENDER)} onChange={handleGenderChange} /> */}
                 </Stack>
                 
             </Box>

@@ -5,7 +5,7 @@ import OrderSpecialNotes from "../components/OrderSpecialNotes";
 import OrderList from "../components/OrderList";
 import OrderCategories from "../components/OrderCategories";
 import { DataManager } from "../../utils/DataManager";
-import { Headers, YesNoOptions } from "../../utils/data";
+import { Headers, NoYesOptions } from "../../utils/data";
 import DisplayDetails from "../components/DisplayDetails";
 import SwitchController from "../components/SwitchController";
 
@@ -121,7 +121,7 @@ export default function CheckoutStepper(){
         } else if (activeStep === 0){
             return (
                 <>
-                    <SwitchController label={Headers.ORDERING_A_CAKE} options={YesNoOptions} defaultValue={manager.isOrderingCake} onChange={handleOrderingCakeChanges} />                 
+                    <SwitchController label={Headers.ORDERING_A_CAKE} options={NoYesOptions} defaultValue={manager.isOrderingCake} onChange={handleOrderingCakeChanges} />                 
                     {displayCakeOrderingForm()}
                     {addNextBackButtons()}
                 </>
