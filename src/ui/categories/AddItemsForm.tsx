@@ -1,14 +1,14 @@
 import { Box, Paper, Typography } from "@mui/material"
 import { ProductAddOns } from "../../utils/data"
 import { IProductAddOn } from "../../utils/IProductAddOn"
-import ItemCounter from "./ItemCounter"
+import ItemCounter from "../components/ItemCounter"
 
 
-interface IAddOnsProp{
+interface IAddItemsFormProp{
     values: Map<string, number>
     onChange: Function
 }
-export default function AddOns({values, onChange}: IAddOnsProp){
+export default function AddItemsForm({values, onChange}: IAddItemsFormProp){
 
     const handleItemCounterChange = (itemName: string, quantity: number) => {
         onChange(itemName, quantity);

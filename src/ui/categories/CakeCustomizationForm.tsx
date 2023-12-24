@@ -1,9 +1,9 @@
 import { useState, useEffect} from "react";
 import { Box, TextField, Stack, Stepper, Step, StepLabel, Typography, Button} from "@mui/material"
-import Selector from "./Selector";
+import Selector from "../components/Selector";
 import { CakeBaseFlavors, CakeBaseStyles, CakeFruit, CakeOccasions, CakePeopleSize, Genders, Headers} from "../../utils/data";
-import RadioButtonsGroup from "./RadioButtonsGroup";
-import CheckboxGroup from "./CheckboxGroup";
+import RadioButtonsGroup from "../components/RadioButtonsGroup";
+import CheckboxGroup from "../components/CheckboxGroup";
 
 
 interface ICakeCustomizationFormProp{

@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react"
 import {Stack, Typography, TextField, Box} from "@mui/material"
-import InputFileUpload from "./InputFileUpload"
+import InputFileUpload from "../components/InputFileUpload"
 import { Headers } from "../../utils/data"
 
 
-interface ISpecialNotesFormProp{
+interface ICakeSpecialNotesFormProp{
     defaultValue: Map<string, any>,
     onChange: Function
 
 }
-export default function SpecialNotesForm({defaultValue, onChange}: ISpecialNotesFormProp){
+export default function CakeSpecialNotesForm({defaultValue, onChange}: ICakeSpecialNotesFormProp){
     const [specialNotes, setSpecialNotes] = useState(defaultValue.get(Headers.SPECIAL_REQUEST))
 
     const handleSpecialNotesChange = (event : any) => {

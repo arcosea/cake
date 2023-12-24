@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Box, Tabs, Tab} from "@mui/material";
 import CustomTabPage from "../components/CustomTabPage";
-import CheckoutPage from "../categories/CheckoutPage";
-import { CardHomePage } from "../categories/CardHomePage";
-import ProductsPage from "../categories/ProductsPage";
+import CheckoutPage from "../pages/CheckoutPage";
+import { CardHomePage } from "../pages/CardHomePage";
+import ProductsPage from "../pages/ProductsPage";
 import { TabLabels } from "../../utils/data"; 
 import { FaHouse } from "react-icons/fa6";
 import { BsCake2Fill } from "react-icons/bs";

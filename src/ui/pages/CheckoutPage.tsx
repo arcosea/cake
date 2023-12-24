@@ -4,10 +4,10 @@ import { DataManager } from "../../utils/DataManager";
 import { Headers, NoYesOptions, ProductAddOns } from "../../utils/data";
 import DisplayDetails from "../components/DisplayDetails";
 import SwitchController from "../components/SwitchController";
-import AddOns from "../components/AddOns";
-import CakeCustomizationForm from "../components/CakeCustomizationForm";
-import SpecialNotesForm from "../components/SpecialNotesForm";
-import ContactForm from "../components/ContactForm";
+import AddItemsForm from "../categories/AddItemsForm";
+import CakeCustomizationForm from "../categories/CakeCustomizationForm";
+import CakeSpecialNotesForm from "../categories/CakeSpecialNotesForm";
+import ContactForm from "../categories/ContactForm";
 
 
 const steps: string[] = ["Order a Cake", "Additional Add-Ons", "Contact Information", "Order Summary"];
@@ -77,7 +77,7 @@ export default function CheckoutPage(){
                     <CakeCustomizationForm onChange={handleOrderCriteriaChanges} defaultValues={manager.orderCriteria}/>
                     <Divider sx={{border: 1, margin: 2}}/>
                     <Typography sx={{backgroundColor: "#1976d2", marginBottom: 3, color: "whitesmoke"}}> Special Requests</Typography>
-                    <SpecialNotesForm onChange={handleOrderSpecialNotesChanges} defaultValue={manager.additionalRequests}/>
+                    <CakeSpecialNotesForm onChange={handleOrderSpecialNotesChanges} defaultValue={manager.additionalRequests}/>
                 </Paper>
             )
         } else{
@@ -132,7 +132,7 @@ export default function CheckoutPage(){
         } else if (activeStep === 1){
             return (
                 <>
-                    <AddOns values={manager.additionalAddOns} onChange={handleProductAddOnChanges} />
+                    <AddItemsForm values={manager.additionalAddOns} onChange={handleProductAddOnChanges} />
                     {addNextBackButtons()}
                 </>
             )
