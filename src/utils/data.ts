@@ -1,12 +1,13 @@
-import { Item } from "./Item";
+import { IProduct } from "./IProduct";
 import c1 from "../assets/c1.jpg"
 import c2 from "../assets/c2.jpg"
 import c3 from "../assets/c3.jpg"
 import c4 from "../assets/c4.jpg"
+import { IProductAddOn } from "./IProductAddOn";
 
 
 
-export const Cakes: Item[] = [{
+export const Cakes: IProduct[] = [{
     name: "White Frosting Cake", cost: 29.99, url: c1,
     description: " a sweet baked food made from a dough or thick batter usually containing"
         + "flour and sugar and often shortening, eggs, and a raising agent (such as baking powder) : a flattened usually round mass of food that is baked or fried"
@@ -23,6 +24,15 @@ export const Cakes: Item[] = [{
     description: " a sweet baked food made from a dough or thick batter usually containing"
         + "flour and sugar and often shortening, eggs, and a raising agent (such as baking powder) : a flattened usually round mass of food that is baked or fried"
 },
+]
+
+
+export const ProductAddOns: IProductAddOn[] = [
+    { itemName: "Cheesecake Pie", minValue: 0, maxValue: 10, defaultValue: 0, imgURL: c1 },
+    { itemName: "Chocoflan Pie", minValue: 0, maxValue: 10, defaultValue: 0, imgURL: c2 },
+    { itemName: "Cheesecake Cupcake", minValue: 0, maxValue: 100, defaultValue: 0, imgURL: c3 },
+    { itemName: "Vanilla Cupcake", minValue: 0, maxValue: 100, defaultValue: 0, imgURL: c3 },
+    { itemName: "Chocolate Cupcake", minValue: 0, maxValue: 100, defaultValue: 0, imgURL: c4 },
 ]
 
 export const CakePeopleSize: string[] = ["0-10 people", "10-20 people", "20-40 people", "40-60 people", "60-100 people", "100+ people"];

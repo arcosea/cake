@@ -1,4 +1,4 @@
-import { Item } from "./Item";
+import { IProduct } from "./IProduct";
 import dayjs from 'dayjs';
 import { Cakes } from "./data";
 

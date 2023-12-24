@@ -5,13 +5,17 @@ import OrderSpecialNotes from "../components/OrderSpecialNotes";
 import OrderList from "../components/OrderList";
 import OrderCategories from "../components/OrderCategories";
 import { DataManager } from "../../utils/DataManager";
-import { Headers, NoYesOptions } from "../../utils/data";
+import { Headers, NoYesOptions, ProductAddOns } from "../../utils/data";
 import DisplayDetails from "../components/DisplayDetails";
 import SwitchController from "../components/SwitchController";
 
+import c3 from "../../assets/c3.jpg";
+import ItemCounter from "../components/ItemCounter";
+import AddOns from "../components/AddOns";
 
 
-const steps: string[] = ["Order a Cake", "Additional Orders", "Contact Information", "Order Summary"];
+
+const steps: string[] = ["Order a Cake", "Additional Add-Ons", "Contact Information", "Order Summary"];
 let manager: DataManager = new DataManager();
 
 export default function CheckoutStepper(){
@@ -64,6 +68,10 @@ export default function CheckoutStepper(){
     const handleOrderingCakeChanges = (isOrdering: any) => {
         setIsOrderingCake(isOrdering);
         manager.updateOrderingCake(isOrdering);
+    }
+
+    const handleProductAddOnChanges = (itemName: string, quantity: number) => {
+        manager.updateAdditionalAddOns(itemName, quantity);
     }
 
     function displayCakeOrderingForm(){
@@ -129,7 +137,7 @@ export default function CheckoutStepper(){
         } else if (activeStep === 1){
             return (
                 <>
-                    
+                    <AddOns onChange={handleProductAddOnChanges} />
                     {addNextBackButtons()}
                 </>
             )

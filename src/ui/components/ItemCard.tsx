@@ -1,5 +1,5 @@
 import { Avatar, Box, Button, Card, CardActions, CardContent, CardHeader, CardMedia, Collapse, Grid, IconButton, IconButtonProps, ImageListItem, Stack, Typography, styled } from "@mui/material";
-import { Item } from "../../utils/Item";
+import { IProduct } from "../../utils/IProduct";
 import { useState } from "react";
 import { MdExpandMore } from "react-icons/md";
 import { FaCartPlus } from "react-icons/fa";

@@ -1,5 +1,5 @@
 import { Box, Grid } from "@mui/material";
-import { Item } from "../../utils/Item";
+import { IProduct } from "../../utils/IProduct";
 import { Cakes } from "../../utils/data";
 import { CardItem } from "../components/CardItem";
 import { useEffect } from "react";
@@ -17,7 +17,7 @@ export default function ProductsPage(){
         <>
             <Box sx={{ marginTop: 0 }}>
                 <Grid container spacing={2}>
-                    {Cakes.map((param: Item) => (
+                    {Cakes.map((param: IProduct) => (
                         <Grid item key={param.name} xs={12} sm={6} md={6} lg={6} xl={6}>
                             <CardItem
                             name={param.name}

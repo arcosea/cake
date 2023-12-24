@@ -9,9 +9,7 @@ interface ISwitchControllerProp{
     onChange: Function
 }
 export default function SwitchController({label, options, defaultValue, onChange}: ISwitchControllerProp){
-    console.log(defaultValue)
     let [value, setValue] = useState(defaultValue);
-
     const handleSwitchChange = (event: any) =>{
         setValue(Boolean(event.target.checked));
         onChange(Boolean(event.target.checked));
@@ -34,7 +32,6 @@ export default function SwitchController({label, options, defaultValue, onChange
                 </FormGroup>
             </FormControl>
             
-        
         </>
     )
 }

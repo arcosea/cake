@@ -1,4 +1,4 @@
-export interface Item {
+export interface IProduct {
 
     /**
      * Name of the item

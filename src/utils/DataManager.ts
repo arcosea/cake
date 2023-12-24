@@ -5,6 +5,7 @@ import { Helper } from "./Helper";
 export class DataManager {
     private _orderCriteria: Map<string, any>;
     private _additionalRequests: Map<string, any>;
+    private _additionalAddOns: Map<string, number>;
     private _contactInfo: Map<string, any>;
     private _earliestPickupDate: any;
     private readonly _minDaysBeforePickup: number = 7;
@@ -21,6 +22,7 @@ export class DataManager {
         this._earliestPickupDate = this._currentDate.add(this._minDaysBeforePickup, 'day');
         this._orderCriteria = new Map();
         this._additionalRequests = new Map();
+        this._additionalAddOns = new Map();
         this._contactInfo = new Map();
         this._isOrderingCake = false;
 
@@ -77,6 +79,10 @@ export class DataManager {
 
     public updateFileUpload(file: File, dataURL: any) {
         this.additionalRequests.set(Headers.FILE_UPLOAD, [file, dataURL]);
+    }
+
+    public updateAdditionalAddOns(itemName: string, quantity: number) {
+        this._additionalAddOns.set(itemName, quantity);
     }
 
     public updateContactInfo(criteriaType: string, value: string | any) {

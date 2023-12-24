@@ -1,5 +1,5 @@
 import { Box, SwipeableDrawer, Typography, Accordion, AccordionSummary, AccordionDetails, Card, CardContent,  } from "@mui/material"
-import { Item } from "../../utils/Item"
+import { IProduct } from "../../utils/IProduct"
 import { Cakes } from "../../utils/data"
 import { ItemCard } from "../components/ItemCard"
 import { useState } from "react";
@@ -67,7 +67,7 @@ export default function Mobile (){
             
             {/** Content */}
             <Box sx={{marginTop: 0}}>
-                {Cakes.map((param: Item) => (
+                {Cakes.map((param: IProduct) => (
                     <ItemCard
                         key={param.name}
                         name={param.name}
