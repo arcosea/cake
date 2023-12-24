@@ -38,7 +38,8 @@ export default function Responsive({onMobile}: IResponsiveProp) {
             position: "sticky", 
             top: 0,
             backgroundColor: "#f5e1e8",
-            minHeight: '4rem'
+            minHeight: '4rem',
+            zIndex: 10
             
             }}>
           <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
@@ -58,7 +59,6 @@ export default function Responsive({onMobile}: IResponsiveProp) {
             <CheckoutPage/>
           </CustomTabPage>
         </Box>
-        
       </Box>
     );
   }
