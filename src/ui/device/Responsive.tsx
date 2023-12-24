@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Box, Tabs, Tab} from "@mui/material";
 import CustomTabPage from "../components/CustomTabPage";
-import CheckoutStepper from "../categories/CheckoutStepper";
+import CheckoutPage from "../categories/CheckoutPage";
 import { CardHomePage } from "../categories/CardHomePage";
 import ProductsPage from "../categories/ProductsPage";
 import { TabLabels } from "../../utils/data"; 
@@ -55,7 +55,7 @@ export default function Responsive({onMobile}: IResponsiveProp) {
             <ProductsPage/>
           </CustomTabPage>
           <CustomTabPage value={value} index={2}>
-            <CheckoutStepper/>
+            <CheckoutPage/>
           </CustomTabPage>
         </Box>
         

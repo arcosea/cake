@@ -13,7 +13,7 @@ import ContactForm from "../components/ContactForm";
 const steps: string[] = ["Order a Cake", "Additional Add-Ons", "Contact Information", "Order Summary"];
 let manager: DataManager = new DataManager();
 
-export default function CheckoutStepper(){
+export default function CheckoutPage(){
     /**
      * Handle movements between different steps
      */
