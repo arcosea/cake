@@ -135,6 +135,56 @@ export class DataManager {
         return details;
     }
 
+    public getCakeOrderTitle() {
+        if (this._isOrderingCake) {
+            let title: string = this._orderCriteria.get(Headers.CAKE_OCCASION) + " " + Headers.CAKE;
+            return title;
+        }
+    }
+    public getCakeOrderSummary() {
+        if (this._isOrderingCake) {
+            let description: string[] = [];
+            description.push(this._orderCriteria.get(Headers.CAKE_SIZE));
+            description.push(this._orderCriteria.get(Headers.CAKE_BASE_STYLE));
+            description.push(this._orderCriteria.get(Headers.CAKE_BASE_FLAVOR));
+
+            let fruit: string[] = [];
+            let selectedFruit = this._orderCriteria.get(Headers.ADD_FRUIT);
+            for (const option in selectedFruit) {
+                if (selectedFruit[option]) {
+                    fruit.push(option)
+                }
+            };
+
+            if (fruit.length > 0) {
+                description.push(fruit.toString());
+            }
+            description.push(this._additionalRequests.get(Headers.SPECIAL_REQUEST));
+
+            let desc = ""
+            for (const d of description) {
+                if (d.trim() != "") {
+                    desc += d + " | "
+                }
+
+            }
+            return desc
+        }
+    }
+
+    public getAdditionalItemOrderSummary() {
+        let details: Map<string, number> = new Map();
+        ProductAddOns.forEach((product: IProductAddOn) => {
+            let quantity: number = this.additionalAddOns.get(product.itemName)!;
+
+            if (quantity > 0) {
+                details.set(product.itemName, quantity);
+            }
+        });
+
+        return details;
+    }
+
     public get orderCriteria() {
         return this._orderCriteria;
     }

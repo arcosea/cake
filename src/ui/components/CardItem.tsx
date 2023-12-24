@@ -42,12 +42,12 @@ export function CardItem({name, cost, url, description}: ICardItemProp){
                     subheader={cost}
                     sx={{backgroundColor: "#F5EDE673"}}
                 />
-                {/* <CardMedia
+                <CardMedia
                     component="img"
                     height="194"
                     image={url}
                     alt={description}
-                /> */}
+                />
                 <CardContent>
                     <Typography variant="body2" color="text.secondary">
                     {description}

@@ -75,6 +75,7 @@ export default function ContactForm({defaultValues, disableDatesBefore, onChange
                 component="form"
                 sx={{
                     '& .MuiTextField-root': { m: 1, width: '25ch' },
+                    border: 1
                 }}
                 noValidate={true}
                 autoComplete="off"

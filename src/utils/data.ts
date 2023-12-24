@@ -50,6 +50,7 @@ export const NoYesOptions: string[] = ["No", "Yes"];
 export const CakeOccasions: string[] = ["Birthday (Male)", "Birthday (Female)", "Anniversary", "Graduation", "Wedding", "Bachelors Party", "Engagement", "Valentine's Day", "Mother's Day", "Father's Day", "Christmas", "New Years", "Baby Shower (Boy)", "Baby Shower (Girl)", "Family Get Together", "House-Warming Party", "Gender Reveal", "Holiday", "Other"]
 
 export enum Headers {
+    CAKE = "Cake",
     ORDERING_A_CAKE = "Are You Ordering a Cake?",
     CAKE_SIZE = "Cake Size",
     CAKE_OCCASION = "Occassion of Cake",
@@ -63,7 +64,8 @@ export enum Headers {
     FIRST_NAME = "First Name",
     LAST_NAME = "Last Name",
     EMAIL = "Email",
-    PHONE_NUMBER = "Phone Number"
+    PHONE_NUMBER = "Phone Number",
+    ADDITIONAL_ITEMS = "Additional Items"
 }
 
 

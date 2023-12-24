@@ -8,6 +8,7 @@ import AddItemsForm from "../categories/AddItemsForm";
 import CakeCustomizationForm from "../categories/CakeCustomizationForm";
 import CakeSpecialNotesForm from "../categories/CakeSpecialNotesForm";
 import ContactForm from "../categories/ContactForm";
+import OrderSummaryCard from "../categories/OrderSummaryCard";
 
 
 const steps: string[] = ["Order a Cake", "Additional Add-Ons", "Contact Information", "Order Summary"];
@@ -67,6 +68,14 @@ export default function CheckoutPage(){
 
     const handleProductAddOnChanges = (itemName: string, quantity: number) => {
         manager.updateAdditionalAddOns(itemName, quantity);
+    }
+
+    const handleSummaryEditClick = (type: string) => {
+        if(type === Headers.CAKE){
+            setActiveStep(0)
+        } else{
+            setActiveStep(1);
+        }
     }
 
     function displayCakeOrderingForm(){
@@ -139,7 +148,12 @@ export default function CheckoutPage(){
         } else if (activeStep === 2){
             return (
                 <>
-                    <ContactForm onChange={handleContactOrderFormChanges} defaultValues={manager.contactInfo} disableDatesBefore={manager.earliestPickupDate} onFormFilledChange={handleFormFilledChange}/>
+                    <Paper
+                       elevation={5}
+                    >
+                        <ContactForm onChange={handleContactOrderFormChanges} defaultValues={manager.contactInfo} disableDatesBefore={manager.earliestPickupDate} onFormFilledChange={handleFormFilledChange}/>
+                    </Paper>
+                    
                     {addNextBackButtons()}
                 </>
             )
@@ -147,7 +161,12 @@ export default function CheckoutPage(){
         } else if (activeStep === 3){
             return (
                 <>
-                    <DisplayDetails details={manager.orderDetails()} />
+                    {/* <DisplayDetails details={manager.orderDetails()} /> */}
+                    <OrderSummaryCard cakeTitle={manager.isOrderingCake? manager.getCakeOrderTitle(): "Not Ordering Cake"} 
+                        cakeDescription={manager.isOrderingCake? manager.getCakeOrderSummary(): ""}
+                        addItems={manager.getAdditionalItemOrderSummary()} 
+                        onClick={handleSummaryEditClick}
+                    />
                     {addNextBackButtons()}
                 </>
             )
