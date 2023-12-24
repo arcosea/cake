@@ -11,17 +11,18 @@ export class DataManager {
     private _currentDate: any;
     private _helper: Helper;
     private _confirmationNumber: string = "";
+    private _orderingCake: boolean;
 
 
 
     constructor() {
         this._helper = new Helper();
-
         this._currentDate = dayjs();
         this._earliestPickupDate = this._currentDate.add(this._minDaysBeforePickup, 'day');
         this._orderCriteria = new Map();
         this._additionalRequests = new Map();
         this._contactInfo = new Map();
+        this._orderingCake = false;
 
         this.initOrderCriteria();
         this.initAdditionalRequest();
@@ -81,6 +82,10 @@ export class DataManager {
         this._contactInfo.set(criteriaType, value);
     }
 
+    public updateOrderingCake(isOrdering: boolean) {
+        this._orderingCake = isOrdering;
+    }
+
     public resetData() {
         this.initOrderCriteria();
         this.initAdditionalRequest();
@@ -126,6 +131,10 @@ export class DataManager {
 
     public get confirmationNumber() {
         return this._confirmationNumber;
+    }
+
+    public get isOrderingCake() {
+        return this._orderingCake;
     }
 
 

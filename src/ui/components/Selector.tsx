@@ -27,18 +27,18 @@ export default function Selector({label, options, defaultValue, onChange}: ISele
 
     return (
         <Box sx={{ minWidth: 120 }}>
-        <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">{label}</InputLabel>
-            <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={value}
-            label={label}
-            onChange={handleSelectorChange}
-            >
-            {displayOptions()}
-            </Select>
-        </FormControl>
+            <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">{label}</InputLabel>
+                <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={value}
+                label={label}
+                onChange={handleSelectorChange}
+                >
+                {displayOptions()}
+                </Select>
+            </FormControl>
         </Box>
     );
 }

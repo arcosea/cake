@@ -35,7 +35,10 @@ export const CakeFruit: string[] = ["Banana", "Peach", "Kiwi", "Strawberry", "Pi
 
 export const Genders: string[] = ["Male", "Female"];
 
+export const YesNoOptions: string[] = ["No", "Yes"];
+
 export enum Headers {
+    ORDERING_A_CAKE = "Are You Ordering a Cake?",
     CAKE_SIZE = "Cake Size",
     CAKE_BASE_STYLE = "Cake Base Style",
     CAKE_BASE_FLAVOR = "Cake Base Flavor",
@@ -49,6 +52,7 @@ export enum Headers {
     EMAIL = "Email",
     PHONE_NUMBER = "Phone Number"
 }
+
 
 export enum Bakery {
     NAME = "Teresita's Mexican Bakery",

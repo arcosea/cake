@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react"
-import { Box, Stepper, Step, StepLabel, Typography, Button} from "@mui/material"
+import { Box, Stepper, Step, StepLabel, FormControl, FormLabel, FormGroup, Stack, Switch, Typography, Button, Divider} from "@mui/material"
 import OrderForm from "../components/OrderForm";
 import OrderSpecialNotes from "../components/OrderSpecialNotes";
 import OrderList from "../components/OrderList";
 import OrderCategories from "../components/OrderCategories";
 import { DataManager } from "../../utils/DataManager";
-import { Headers } from "../../utils/data";
+import { Headers, YesNoOptions } from "../../utils/data";
 import DisplayDetails from "../components/DisplayDetails";
+import SwitchController from "../components/SwitchController";
 
 
-const steps: string[] = ["Customize Order", "Special Requests", "Contact Information", "Order Summary"];
+
+const steps: string[] = ["Order a Cake", "Additional Orders", "Contact Information", "Order Summary"];
 let manager: DataManager = new DataManager();
 
 export default function CheckoutStepper(){
@@ -39,8 +41,6 @@ export default function CheckoutStepper(){
         setIsFormFilled(isFilled);
     };
 
-   
-
     /**
      * Updates to data manager
      */
@@ -60,6 +60,27 @@ export default function CheckoutStepper(){
         manager.updateContactInfo(criteriaType, value);
     }
 
+    const [isOrderingCake, setIsOrderingCake] = useState(manager.isOrderingCake);
+    const handleOrderingCakeChanges = (isOrdering: any) => {
+        setIsOrderingCake(isOrdering);
+        manager.updateOrderingCake(isOrdering);
+    }
+
+    function displayCakeOrderingForm(){
+        if(isOrderingCake){
+            return (
+                <Box sx={{marginBottom: 2, border: 1, padding: 2}}>
+                    <Typography sx={{backgroundColor: "#1976d2", marginBottom: 3, color: "whitesmoke"}}> Customize Your Cake</Typography>
+                    <OrderCategories onChange={handleOrderCriteriaChanges} defaultValues={manager.orderCriteria}/>
+                    <Divider sx={{border: 1, margin: 2}}/>
+                    <Typography sx={{backgroundColor: "#1976d2", marginBottom: 3, color: "whitesmoke"}}> Special Requests</Typography>
+                    <OrderSpecialNotes onChange={handleOrderSpecialNotesChanges} defaultValue={manager.additionalRequests}/>
+                </Box>
+            )
+        } else{
+            return <></>
+        }
+    }
     
     /** 
      * Next and Previous buttons
@@ -100,14 +121,15 @@ export default function CheckoutStepper(){
         } else if (activeStep === 0){
             return (
                 <>
-                    <OrderCategories onChange={handleOrderCriteriaChanges} defaultValues={manager.orderCriteria}/>
+                    <SwitchController label={Headers.ORDERING_A_CAKE} options={YesNoOptions} defaultValue={manager.isOrderingCake} onChange={handleOrderingCakeChanges} />                 
+                    {displayCakeOrderingForm()}
                     {addNextBackButtons()}
                 </>
             )
         } else if (activeStep === 1){
             return (
                 <>
-                    <OrderSpecialNotes onChange={handleOrderSpecialNotesChanges} defaultValue={manager.additionalRequests}/>
+                    
                     {addNextBackButtons()}
                 </>
             )

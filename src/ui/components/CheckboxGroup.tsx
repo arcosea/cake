@@ -28,19 +28,22 @@ export default function CheckboxGroup({label, options, defaultValue, onChange}: 
 
             <FormGroup>
                 <FormLabel id="demo-radio-buttons-group-label" >{label}</FormLabel>
-                {options.map((option) => (
-                <FormControlLabel
-                    key={option}
-                    control={
-                    <Checkbox
-                        checked={checkedItems[option]}
-                        onChange={handleCheckboxChange}
-                        name={option}
-                    />
-                    }
-                    label={option}
-                />
-                ))}
+                <Box display="flex" flexDirection="row" flexWrap="wrap">
+                    {options.map((option) => (
+                        <FormControlLabel
+                            key={option}
+                            control={
+                            <Checkbox
+                                checked={checkedItems[option]}
+                                onChange={handleCheckboxChange}
+                                name={option}
+                            />
+                            }
+                            label={option}
+                        />
+                    ))}
+                </Box>
+                
             </FormGroup>
             
         </>
