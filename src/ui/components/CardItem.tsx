@@ -1,10 +1,6 @@
 import { Avatar, Box, Button, Card, CardActions, CardContent, CardHeader, CardMedia, Collapse, Grid, IconButton, IconButtonProps, ImageListItem, Stack, Typography, styled } from "@mui/material";
-import { IProduct } from "../../utils/IProduct";
 import { useState } from "react";
 import { MdExpandMore } from "react-icons/md";
-import { FaCartPlus } from "react-icons/fa";
-import AddToCart from "./AddToCart";
-import ItemSpinBox from "./ItemSpinBox";
 
 
 interface ExpandMoreProps extends IconButtonProps {

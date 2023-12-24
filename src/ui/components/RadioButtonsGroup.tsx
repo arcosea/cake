@@ -1,6 +1,7 @@
 import { Box, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup} from '@mui/material';
 import { useState } from "react";
 
+
 interface IRadioButtonsGroupProp{
     label: string,
     options: string[],
@@ -9,7 +10,6 @@ interface IRadioButtonsGroupProp{
 }
 export default function RadioButtonsGroup({label, options, defaultValue, onChange}: IRadioButtonsGroupProp){
     const [value, setValue] = useState(defaultValue);
-
     const handleRadioButtonChange = (event: any) => {
         setValue(event.target.value as string);
         onChange(event.target.value)

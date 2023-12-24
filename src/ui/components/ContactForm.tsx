@@ -8,14 +8,13 @@ import dayjs from 'dayjs';
 import { Headers } from "../../utils/data";
 
 
-
-interface IOrderFormProp{
+interface IContactFormProp{
     defaultValues: Map<string, any>,
     disableDatesBefore: Date,
     onChange: Function
     onFormFilledChange: Function
 }
-export default function OrderForm({defaultValues, disableDatesBefore, onChange, onFormFilledChange}: IOrderFormProp){
+export default function ContactForm({defaultValues, disableDatesBefore, onChange, onFormFilledChange}: IContactFormProp){
     const [date, setDate] = useState(defaultValues.get(Headers.PICKUP_DATE));
     const handleDateChange = (newDate: any) => {
         setDate(newDate);

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Box, Tabs, Tab} from "@mui/material";
 import CustomTabPage from "../components/CustomTabPage";
-import OrderForm from "../components/OrderForm";
 import CheckoutStepper from "../categories/CheckoutStepper";
 import { CardHomePage } from "../categories/CardHomePage";
 import ProductsPage from "../categories/ProductsPage";

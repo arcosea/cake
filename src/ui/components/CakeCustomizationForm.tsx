@@ -6,12 +6,11 @@ import RadioButtonsGroup from "./RadioButtonsGroup";
 import CheckboxGroup from "./CheckboxGroup";
 
 
-
-interface IOrderCategoriesProp{
+interface ICakeCustomizationFormProp{
     defaultValues: Map<string, any>
     onChange: Function
 }
-export default function OrderCategories({defaultValues, onChange}: IOrderCategoriesProp){
+export default function CakeCustomizationForm({defaultValues, onChange}: ICakeCustomizationFormProp){
     const [cakeSize, setCakeSize] = useState(defaultValues.get(Headers.CAKE_SIZE))
     const handleCakePeopleSizeChange = (value: string) => {
         setCakeSize(value);

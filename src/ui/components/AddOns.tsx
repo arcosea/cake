@@ -1,7 +1,8 @@
 import { Box, Paper, Typography } from "@mui/material"
 import { ProductAddOns } from "../../utils/data"
-import ItemCounter from "./ItemCounter"
 import { IProductAddOn } from "../../utils/IProductAddOn"
+import ItemCounter from "./ItemCounter"
+
 
 interface IAddOnsProp{
     values: Map<string, number>
@@ -21,10 +22,10 @@ export default function AddOns({values, onChange}: IAddOnsProp){
                         <ItemCounter key={param.itemName} itemName={param.itemName} minValue={param.minValue} maxValue={param.maxValue} defaultValue={values.get(param.itemName)!} imgURL={param.imgURL} onChange={handleItemCounterChange} />
                     )
                 })}
-            </Box>
-            
+            </Box>      
         )
     }
+
     return (
         <>
             <Paper sx={{marginBottom: 2, border: 1, padding: 2}}>

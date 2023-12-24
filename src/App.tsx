@@ -7,10 +7,7 @@ import { Home } from './pages/Home';
 import { About } from './pages/About';
 import { Sprints } from './pages/Sprints';
 import { Desktop } from './ui/device/Desktop';
-import { OrderManager } from './utils/OrderManager';
-import Mobile from './ui/device/Mobile';
 import Responsive from './ui/device/Responsive';
-import DrawerAppBar from './ui/device/Mob';
 
 const WindowBreakpoint: number = 960;
 

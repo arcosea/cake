@@ -4,10 +4,6 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import { useState } from "react";
 
 
-
-
-
-
 interface IItemCounterProp{
     itemName: string,
     minValue: number, 

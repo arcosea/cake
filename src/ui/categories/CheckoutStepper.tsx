@@ -1,18 +1,13 @@
 import { useEffect, useState } from "react"
 import { Box, Stepper, Step, StepLabel, FormControl, FormLabel, FormGroup, Stack, Switch, Typography, Button, Divider, Paper} from "@mui/material"
-import OrderForm from "../components/OrderForm";
-import OrderSpecialNotes from "../components/OrderSpecialNotes";
-import OrderList from "../components/OrderList";
-import OrderCategories from "../components/OrderCategories";
 import { DataManager } from "../../utils/DataManager";
 import { Headers, NoYesOptions, ProductAddOns } from "../../utils/data";
 import DisplayDetails from "../components/DisplayDetails";
 import SwitchController from "../components/SwitchController";
-
-import c3 from "../../assets/c3.jpg";
-import ItemCounter from "../components/ItemCounter";
 import AddOns from "../components/AddOns";
-
+import CakeCustomizationForm from "../components/CakeCustomizationForm";
+import SpecialNotesForm from "../components/SpecialNotesForm";
+import ContactForm from "../components/ContactForm";
 
 
 const steps: string[] = ["Order a Cake", "Additional Add-Ons", "Contact Information", "Order Summary"];
@@ -79,10 +74,10 @@ export default function CheckoutStepper(){
             return (
                 <Paper elevation={5} sx={{marginBottom: 2, border: 1, padding: 2}}>
                     <Typography sx={{backgroundColor: "#1976d2", marginBottom: 3, color: "whitesmoke"}}> Customize Your Cake</Typography>
-                    <OrderCategories onChange={handleOrderCriteriaChanges} defaultValues={manager.orderCriteria}/>
+                    <CakeCustomizationForm onChange={handleOrderCriteriaChanges} defaultValues={manager.orderCriteria}/>
                     <Divider sx={{border: 1, margin: 2}}/>
                     <Typography sx={{backgroundColor: "#1976d2", marginBottom: 3, color: "whitesmoke"}}> Special Requests</Typography>
-                    <OrderSpecialNotes onChange={handleOrderSpecialNotesChanges} defaultValue={manager.additionalRequests}/>
+                    <SpecialNotesForm onChange={handleOrderSpecialNotesChanges} defaultValue={manager.additionalRequests}/>
                 </Paper>
             )
         } else{
@@ -144,7 +139,7 @@ export default function CheckoutStepper(){
         } else if (activeStep === 2){
             return (
                 <>
-                    <OrderForm onChange={handleContactOrderFormChanges} defaultValues={manager.contactInfo} disableDatesBefore={manager.earliestPickupDate} onFormFilledChange={handleFormFilledChange}/>
+                    <ContactForm onChange={handleContactOrderFormChanges} defaultValues={manager.contactInfo} disableDatesBefore={manager.earliestPickupDate} onFormFilledChange={handleFormFilledChange}/>
                     {addNextBackButtons()}
                 </>
             )

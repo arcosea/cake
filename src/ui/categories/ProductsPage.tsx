@@ -5,7 +5,6 @@ import { CardItem } from "../components/CardItem";
 import { useEffect } from "react";
 
 
-
 export default function ProductsPage(){
 
     // Auto scrolls to the top after rendering
@@ -20,10 +19,10 @@ export default function ProductsPage(){
                     {Cakes.map((param: IProduct) => (
                         <Grid item key={param.name} xs={12} sm={6} md={6} lg={6} xl={6}>
                             <CardItem
-                            name={param.name}
-                            description={param.description}
-                            url={param.url}
-                            cost={param.cost}
+                                name={param.name}
+                                description={param.description}
+                                url={param.url}
+                                cost={param.cost}
                             />
                         </Grid>
                     ))}

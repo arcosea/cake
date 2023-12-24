@@ -8,6 +8,7 @@ import { MdOutlineMail } from "react-icons/md";
 import { FaMapLocationDot } from "react-icons/fa6";
 import { TbClockHour4 } from "react-icons/tb";
 
+
 interface ExpandMoreProps extends IconButtonProps {
     expand: boolean;
 }
@@ -21,8 +22,6 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
       duration: theme.transitions.duration.shortest,
     }),
 }));
-
-
 export function CardHomePage(){
     const [expanded, setExpanded] = useState(false);
     const handleExpandClick = () => {

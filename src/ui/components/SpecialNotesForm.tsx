@@ -4,12 +4,12 @@ import InputFileUpload from "./InputFileUpload"
 import { Headers } from "../../utils/data"
 
 
-interface IOrderSpecialNotesProp{
+interface ISpecialNotesFormProp{
     defaultValue: Map<string, any>,
     onChange: Function
 
 }
-export default function OrderSpecialNotes({defaultValue, onChange}: IOrderSpecialNotesProp){
+export default function SpecialNotesForm({defaultValue, onChange}: ISpecialNotesFormProp){
     const [specialNotes, setSpecialNotes] = useState(defaultValue.get(Headers.SPECIAL_REQUEST))
 
     const handleSpecialNotesChange = (event : any) => {

@@ -11,7 +11,6 @@ interface ISelectorProp{
 }
 export default function Selector({label, options, defaultValue, onChange}: ISelectorProp) {
     const [value, setValue] = useState(defaultValue);
-
     const handleSelectorChange = (event: SelectChangeEvent) => {
         setValue(event.target.value as string);
         onChange(event.target.value)
