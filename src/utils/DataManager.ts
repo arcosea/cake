@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
-import { CakePeopleSize, CakeBaseStyles, CakeBaseFlavors, CakeFruit, Headers, Genders, NoYesOptions, CakeOccasions } from "./data";
+import { CakePeopleSize, CakeBaseStyles, CakeBaseFlavors, CakeFruit, Headers, Genders, NoYesOptions, CakeOccasions, ProductAddOns } from "./data";
 import { Helper } from "./Helper";
+import { IProductAddOn } from "./IProductAddOn";
 
 export class DataManager {
     private _orderCriteria: Map<string, any>;
@@ -28,6 +29,7 @@ export class DataManager {
 
         this.initOrderCriteria();
         this.initAdditionalRequest();
+        this.initAdditionalAddOns();
         this.initContactInfo();
         this.initConfirmationNumber();
     }
@@ -51,6 +53,12 @@ export class DataManager {
     private initAdditionalRequest() {
         this._additionalRequests.set(Headers.SPECIAL_REQUEST, "");
         this._additionalRequests.set(Headers.FILE_UPLOAD, [null, ""])
+    }
+
+    private initAdditionalAddOns() {
+        ProductAddOns.forEach((product: IProductAddOn) => {
+            this.additionalAddOns.set(product.itemName, product.defaultValue);
+        })
     }
 
     private initContactInfo() {
@@ -133,6 +141,10 @@ export class DataManager {
 
     public get additionalRequests() {
         return this._additionalRequests;
+    }
+
+    public get additionalAddOns() {
+        return this._additionalAddOns;
     }
 
     public get contactInfo() {

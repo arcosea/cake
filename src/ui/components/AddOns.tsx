@@ -4,9 +4,10 @@ import ItemCounter from "./ItemCounter"
 import { IProductAddOn } from "../../utils/IProductAddOn"
 
 interface IAddOnsProp{
+    values: Map<string, number>
     onChange: Function
 }
-export default function AddOns({onChange}: IAddOnsProp){
+export default function AddOns({values, onChange}: IAddOnsProp){
 
     const handleItemCounterChange = (itemName: string, quantity: number) => {
         onChange(itemName, quantity);
@@ -14,10 +15,10 @@ export default function AddOns({onChange}: IAddOnsProp){
 
     function displayContent(){
         return (
-            <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center' }}>   
+            <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: "center"}}>   
                 {ProductAddOns.map((param: IProductAddOn) => {
                     return (
-                        <ItemCounter key={param.itemName} itemName={param.itemName} minValue={param.minValue} maxValue={param.maxValue} defaultValue={param.defaultValue} imgURL={param.imgURL} onChange={handleItemCounterChange} />
+                        <ItemCounter key={param.itemName} itemName={param.itemName} minValue={param.minValue} maxValue={param.maxValue} defaultValue={values.get(param.itemName)!} imgURL={param.imgURL} onChange={handleItemCounterChange} />
                     )
                 })}
             </Box>

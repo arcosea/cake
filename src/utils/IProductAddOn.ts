@@ -1,4 +1,4 @@
-export interface IProductAddOn{
+export interface IProductAddOn {
     /**
      * Name of the item or product
      */
@@ -17,9 +17,9 @@ export interface IProductAddOn{
     maxValue: number;
 
     /**
-     * Default quantity of this product that can be purchased. Default is 0
+     * Default quantity of this product that can be purchased. Default should be 0
      */
-    defaultValue: number | 0;
+    defaultValue: number;
 
     /**
      * URL to given image

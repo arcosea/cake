@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Box, Stepper, Step, StepLabel, FormControl, FormLabel, FormGroup, Stack, Switch, Typography, Button, Divider} from "@mui/material"
+import { Box, Stepper, Step, StepLabel, FormControl, FormLabel, FormGroup, Stack, Switch, Typography, Button, Divider, Paper} from "@mui/material"
 import OrderForm from "../components/OrderForm";
 import OrderSpecialNotes from "../components/OrderSpecialNotes";
 import OrderList from "../components/OrderList";
@@ -77,13 +77,13 @@ export default function CheckoutStepper(){
     function displayCakeOrderingForm(){
         if(isOrderingCake){
             return (
-                <Box sx={{marginBottom: 2, border: 1, padding: 2}}>
+                <Paper elevation={5} sx={{marginBottom: 2, border: 1, padding: 2}}>
                     <Typography sx={{backgroundColor: "#1976d2", marginBottom: 3, color: "whitesmoke"}}> Customize Your Cake</Typography>
                     <OrderCategories onChange={handleOrderCriteriaChanges} defaultValues={manager.orderCriteria}/>
                     <Divider sx={{border: 1, margin: 2}}/>
                     <Typography sx={{backgroundColor: "#1976d2", marginBottom: 3, color: "whitesmoke"}}> Special Requests</Typography>
                     <OrderSpecialNotes onChange={handleOrderSpecialNotesChanges} defaultValue={manager.additionalRequests}/>
-                </Box>
+                </Paper>
             )
         } else{
             return <></>
@@ -137,7 +137,7 @@ export default function CheckoutStepper(){
         } else if (activeStep === 1){
             return (
                 <>
-                    <AddOns onChange={handleProductAddOnChanges} />
+                    <AddOns values={manager.additionalAddOns} onChange={handleProductAddOnChanges} />
                     {addNextBackButtons()}
                 </>
             )

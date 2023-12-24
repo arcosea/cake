@@ -37,10 +37,10 @@ export default function ItemCounter({itemName, minValue, maxValue, defaultValue,
 
     return (
         <>
-            <Paper elevation={3} sx={{padding: 2, width: "90%", marginBottom: 2}}>
-                <Stack direction="row" spacing={2}>
-                    <Avatar alt="Remy Sharp" src={imgURL} sx={{width: "10%", height: "10%"}} />
-                    <Typography sx={{width: "20%"}}> {itemName} </Typography>
+            <Paper elevation={3} sx={{padding: 2, width: "100%", margin: 2}}>
+                <Stack direction="row" spacing={2} sx={{justifyContent: "center"}}>
+                    <Avatar alt={itemName} src={imgURL} sx={{width: "10%", height: "10%"}} />
+                    <Typography sx={{width: "15%"}} fontSize={15}> {itemName} </Typography>
                     <Button
                         aria-label="reduce"
                         onClick={() => handleButtonCountChange(count - 1)}
@@ -55,7 +55,7 @@ export default function ItemCounter({itemName, minValue, maxValue, defaultValue,
                             shrink: true,
                         }}
                         onChange={handleInputCountChange}
-                        sx={{width: "40%"}}
+                        sx={{width: "45%"}}
                     />
                     <Button
                         aria-label="increase"
@@ -66,9 +66,7 @@ export default function ItemCounter({itemName, minValue, maxValue, defaultValue,
                     </Button>
                 </Stack>
 
-            </Paper>
-        
-        
+            </Paper>        
         </>
     )
 }
