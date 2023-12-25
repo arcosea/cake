@@ -94,23 +94,6 @@ export default function CheckoutPage(){
             return <></>
         }
     }
-    function nextButtonBackgroundColor(){
-        if(activeStep === 2 && !isFormFilled){
-            return "#d3d3d3"
-        } else if (activeStep === 3 && isFormFilled){
-            return "green"
-        } else{
-            return "green"
-        }
-    }
-
-    function nextButtonTextColor(){
-        if(activeStep == 2 && !isFormFilled){
-            return "black"
-        } else{
-            return "whitesmoke"
-        }
-    }
     /** 
      * Next and Previous buttons
      */
@@ -127,9 +110,10 @@ export default function CheckoutPage(){
                         Back
                         </Button>
                     <Button 
-                            onClick={handleNext} 
-                            disabled={activeStep === 2? !isFormFilled : false} 
-                            sx={{border: 1, backgroundColor: nextButtonBackgroundColor(), color: nextButtonTextColor()}}
+                        id="nextButton"
+                        onClick={handleNext} 
+                        disabled={activeStep === 2? !isFormFilled : false} 
+                        sx={{border: 1}}
                     >
                         {activeStep === steps.length - 1 ? 'Submit' : 'Next'}
                     </Button>
@@ -148,7 +132,7 @@ export default function CheckoutPage(){
                     </Typography>
                     <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                         <Box sx={{ flex: '1 1 auto' }} />
-                        <Button onClick={handleReset}>Reset</Button>
+                        <Button onClick={handleReset} sx={{border: 1}}>Reset</Button>
                     </Box>
                 </>
             )
