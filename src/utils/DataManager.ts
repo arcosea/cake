@@ -105,6 +105,7 @@ export class DataManager {
         this.initOrderCriteria();
         this.initAdditionalRequest();
         this.initContactInfo();
+        this.initAdditionalAddOns();
     }
 
     public orderDetails() {

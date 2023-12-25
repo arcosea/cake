@@ -28,6 +28,7 @@ export default function CheckoutPage(){
     const handleReset = () => {
         setActiveStep(0);
         manager.resetData();
+        handleOrderingCakeChanges(false);
     };
 
     // Auto scrolls to the top after rendering
@@ -61,7 +62,7 @@ export default function CheckoutPage(){
     }
 
     const [isOrderingCake, setIsOrderingCake] = useState(manager.isOrderingCake);
-    const handleOrderingCakeChanges = (isOrdering: any) => {
+    const handleOrderingCakeChanges = (isOrdering: boolean) => {
         setIsOrderingCake(isOrdering);
         manager.updateOrderingCake(isOrdering);
     }
@@ -73,7 +74,7 @@ export default function CheckoutPage(){
     const handleSummaryEditClick = (type: string) => {
         if(type === Headers.CAKE){
             setActiveStep(0)
-        } else{
+        } else if(type === Headers.ADDITIONAL_ITEMS){
             setActiveStep(1);
         }
     }
