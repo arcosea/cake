@@ -34,7 +34,7 @@ export default function CheckoutPage(){
     // Auto scrolls to the top after rendering
     useEffect(() => {
         window.scrollTo(0, 0)
-    }, []);
+    }, [activeStep]);
 
     // Determine if form is filled properly
     const [isFormFilled, setIsFormFilled] = useState(false);
