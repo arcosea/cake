@@ -14,11 +14,16 @@ import OrderSummaryCard from "../categories/OrderSummaryCard";
 const steps: string[] = ["Order a Cake", "Additional Add-Ons", "Contact Information", "Order Summary"];
 let manager: DataManager = new DataManager();
 
-export default function CheckoutPage(){
+
+interface ICheckoutPageProp{
+    defaultValue: number,
+    onChange: Function
+}
+export default function CheckoutPage({defaultValue, onChange}: ICheckoutPageProp){
     /**
      * Handle movements between different steps
      */
-    const [activeStep, setActiveStep] = useState(0)
+    const [activeStep, setActiveStep] = useState(defaultValue)
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
     };
@@ -33,7 +38,8 @@ export default function CheckoutPage(){
 
     // Auto scrolls to the top after rendering
     useEffect(() => {
-        window.scrollTo(0, 0)
+        window.scrollTo(0, 0);
+        onChange(activeStep);
     }, [activeStep]);
 
     // Determine if form is filled properly

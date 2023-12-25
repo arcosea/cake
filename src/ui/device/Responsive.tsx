@@ -27,6 +27,11 @@ export default function Responsive({onMobile}: IResponsiveProp) {
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
       setValue(newValue);
     };
+
+    const [step, setStep] = useState(0);
+    const handleStepChange = (step: number) => {
+      setStep(step);
+    } 
   
     return (
       <Box sx={{ width: '100%'}}>
@@ -56,7 +61,7 @@ export default function Responsive({onMobile}: IResponsiveProp) {
             <ProductsPage/>
           </CustomTabPage>
           <CustomTabPage value={value} index={2}>
-            <CheckoutPage/>
+            <CheckoutPage defaultValue={step} onChange={handleStepChange} />
           </CustomTabPage>
         </Box>
       </Box>
