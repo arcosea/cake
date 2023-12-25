@@ -80,7 +80,8 @@ export default function ContactForm({defaultValues, disableDatesBefore, onChange
                 noValidate={true}
                 autoComplete="off"
             >       
-                <Stack spacing={2}>
+                <Typography sx={{backgroundColor: "#1976d2", margin: 3, paddingLeft: 1, color: "whitesmoke"}}> Enter Contact Information </Typography>
+                <Stack spacing={2} sx={{alignItems: "center", justifyContent: "center", display: "flex"}}>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DemoContainer components={['DatePicker']}>
                             <DatePicker value={date} label="Pickup Date" defaultValue={dayjs()} onChange={(newValue: any) => handleDateChange(newValue)}
