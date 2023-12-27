@@ -61,7 +61,7 @@ export default function ContactForm({defaultValues, disableDatesBefore, onChange
 
     useEffect(() => {
         // Check if all fields are filled and notify the parent
-        const formFilled = !!(date && firstName && lastName && email.includes('@') && phoneNumber);
+        const formFilled = !!(date && firstName && lastName && email.includes('@') && phoneNumber.length >= 10);
         onFormFilledChange(formFilled);
       }, [date, firstName, lastName, email, phoneNumber, onFormFilledChange]);
 
@@ -84,7 +84,7 @@ export default function ContactForm({defaultValues, disableDatesBefore, onChange
                 <Stack spacing={2} sx={{alignItems: "center", justifyContent: "center", display: "flex"}}>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DemoContainer components={['DatePicker']}>
-                            <DatePicker value={date} label="Pickup Date" defaultValue={dayjs()} onChange={(newValue: any) => handleDateChange(newValue)}
+                            <DatePicker value={date} label={Headers.PICKUP_DATE} defaultValue={dayjs()} onChange={(newValue: any) => handleDateChange(newValue)}
                                shouldDisableDate={(date: Date) => isDateDisabled(date as Date)}
                             
                             />
@@ -93,27 +93,28 @@ export default function ContactForm({defaultValues, disableDatesBefore, onChange
 
                     <TextField
                             required
-                            label="First Name"
+                            label={Headers.FIRST_NAME}
                             value={firstName}
                             onChange={handleFirstNameChange}
                         />
 
                     <TextField
                         required
-                        label="Last Name"
+                        label={Headers.LAST_NAME}
                         value={lastName}
                         onChange={handleLastNameChange}
                     />
                     <TextField
                         required
-                        label="Email"
+                        label={Headers.EMAIL}
                         value={email}
                         onChange={handleEmailChange}
+                        placeholder="example@example.com"
                     />
                     
                     <TextField
                         required
-                        label="Phone Number"
+                        label={Headers.PHONE_NUMBER}
                         value={phoneNumber}
                         onChange={handlePhoneNumberChange}
                         placeholder="(253) 474-5110"
