@@ -66,6 +66,7 @@ export enum Headers {
     SPECIAL_INSTRUCTIONS = "Special Instructions",
     FILE_UPLOAD = "File Upload",
     PICKUP_DATE = "Pickup Date",
+    PICKUP_TIME = "Pickup Time",
     FIRST_NAME = "First Name",
     LAST_NAME = "Last Name",
     EMAIL = "Email",

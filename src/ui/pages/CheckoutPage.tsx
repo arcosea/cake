@@ -164,7 +164,7 @@ export default function CheckoutPage({defaultValue, onChange}: ICheckoutPageProp
                     <Paper
                        elevation={5}
                     >
-                        <ContactForm onChange={handleContactOrderFormChanges} defaultValues={manager.contactInfo} disableDatesBefore={manager.earliestPickupDate} onFormFilledChange={handleFormFilledChange}/>
+                        <ContactForm onChange={handleContactOrderFormChanges} defaultValues={manager.contactInfo} disableDatesBefore={manager.earliestPickupDate} disabledHours={manager.unavailableHours} onFormFilledChange={handleFormFilledChange}/>
                     </Paper>
                     
                     {addNextBackButtons()}

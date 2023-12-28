@@ -2,7 +2,7 @@ import { Box, TextField, Stack, Button, Typography } from "@mui/material"
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { DatePicker, TimePicker } from '@mui/x-date-pickers';
 import { useEffect, useState } from "react"
 import dayjs from 'dayjs';
 import { Headers } from "../../utils/data";
@@ -11,21 +11,16 @@ import { Headers } from "../../utils/data";
 interface IContactFormProp{
     defaultValues: Map<string, any>,
     disableDatesBefore: Date,
+    disabledHours: number[],
     onChange: Function
     onFormFilledChange: Function
 }
-export default function ContactForm({defaultValues, disableDatesBefore, onChange, onFormFilledChange}: IContactFormProp){
+export default function ContactForm({defaultValues, disableDatesBefore, disabledHours, onChange, onFormFilledChange}: IContactFormProp){
     const [date, setDate] = useState(defaultValues.get(Headers.PICKUP_DATE));
     const handleDateChange = (newDate: any) => {
         setDate(newDate);
         onChange(Headers.PICKUP_DATE, newDate);
-
     }
-
-    // Auto scrolls to the top after rendering
-    useEffect(() => {
-        window.scrollTo(0, 0)
-    }, []);
 
     const isDateDisabled = (date: Date) => {
         // Define your logic to disable specific days here
@@ -35,6 +30,23 @@ export default function ContactForm({defaultValues, disableDatesBefore, onChange
         return daysBefore || dayOfWeek === 2; 
     };
 
+    const [time, setTime] = useState(defaultValues.get(Headers.PICKUP_TIME));
+    const handleTimeChange = (newTime: any) => {
+        setTime(newTime);
+        onChange(Headers.PICKUP_TIME, newTime);
+    }
+
+    const isTimeDisabled = (time: any): boolean => {
+        const hours = time.$H;
+        return disabledHours.includes(hours);
+    };
+
+    // Auto scrolls to the top after rendering
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, []);
+
+    
     const [firstName, setFirstName] = useState(defaultValues.get(Headers.FIRST_NAME));
     const handleFirstNameChange = (event: any) => {
         setFirstName(event.target.value);
@@ -59,15 +71,21 @@ export default function ContactForm({defaultValues, disableDatesBefore, onChange
         onChange(Headers.PHONE_NUMBER, event.target.value);
     }
 
+    function isValidTime(time: any) {
+        if(time){
+            return !disabledHours.includes(time.$H)
+        }
+        return false
+        
+    }
+
     useEffect(() => {
         // Check if all fields are filled and notify the parent
-        const formFilled = !!(date && firstName && lastName && email.includes('@') && phoneNumber.length >= 10);
+        const formFilled = !!(date && isValidTime(time) && firstName && lastName && email.includes('@') && phoneNumber.length >= 10);
         onFormFilledChange(formFilled);
-      }, [date, firstName, lastName, email, phoneNumber, onFormFilledChange]);
+    }, [date, time, firstName, lastName, email, phoneNumber, onFormFilledChange]);
 
-    const handleSubmit = () => {
-        console.log(date, firstName, lastName, email, phoneNumber)
-    }
+
 
     return (
         <>
@@ -81,12 +99,28 @@ export default function ContactForm({defaultValues, disableDatesBefore, onChange
                 autoComplete="off"
             >       
                 <Typography sx={{backgroundColor: "#1976d2", margin: 3, paddingLeft: 1, color: "whitesmoke"}}> Enter Contact Information </Typography>
-                <Stack spacing={2} sx={{alignItems: "center", justifyContent: "center", display: "flex"}}>
+                <Stack spacing={2} sx={{alignItems: "center", justifyContent: "center", display: "flex", margin: 3}}>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DemoContainer components={['DatePicker']}>
-                            <DatePicker value={date} label={Headers.PICKUP_DATE} defaultValue={dayjs()} onChange={(newValue: any) => handleDateChange(newValue)}
-                               shouldDisableDate={(date: Date) => isDateDisabled(date as Date)}
+                            <DatePicker 
+                                label={Headers.PICKUP_DATE} 
+                                // defaultValue={this.} 
+                                value={date} 
+                                onChange={(newValue: any) => handleDateChange(newValue)}
+                                shouldDisableDate={(date: Date) => isDateDisabled(date as Date)}
                             
+                            />
+                        </DemoContainer>
+                    </LocalizationProvider>
+
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DemoContainer components={['TimePicker']}>
+                            <TimePicker 
+                                label={Headers.PICKUP_TIME} 
+                                value={time}
+                                onChange={handleTimeChange}
+                                shouldDisableTime={(date: Date) => isTimeDisabled(date as Date)}
+                                
                             />
                         </DemoContainer>
                     </LocalizationProvider>
