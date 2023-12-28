@@ -37,9 +37,11 @@ export const ProductAddOns: IProductAddOn[] = [
 
 export const CakePeopleSize: string[] = ["0-10 people", "10-20 people", "20-40 people", "40-60 people", "60-100 people", "100+ people"];
 
-export const CakeBaseStyles: string[] = ["Tres (3) Leches", "Layers"];
+export const CakeFillings: string[] = ["Tres (3) Leches", "Lemon Mousse", "Raspberry Mousse", "Strawberry Mousse", "Orange Mousse", "Chocolate Mousse", "Mocha Mousse", "White Chocolate Mousse", "Banana Mousse"];
 
-export const CakeBaseFlavors: string[] = ["Vanilla", "Chocolate"];
+export const CakeFlavors: string[] = ["None", "Vanilla White", "Deep Chocolate", "Swirled Marble", "Lemon", "Pink Champagne", "Spiced Carrot", "Pumpkin Spice", "Red Velvet", "Orange"];
+
+export const CakeIcing: string[] = ["None", "Vanilla Butter Cream", "Chocolate Butter Cream", "Raspbery Butter Cream", "Orange Butter Cream", "White Chocolate Fondant"];
 
 export const CakeFruit: string[] = ["Banana", "Peach", "Kiwi", "Strawberry", "Pineapple"];
 
@@ -54,8 +56,9 @@ export enum Headers {
     ORDERING_A_CAKE = "Are You Ordering a Cake?",
     CAKE_SIZE = "Cake Size",
     CAKE_OCCASION = "Occassion of Cake",
-    CAKE_BASE_STYLE = "Cake Base Style",
-    CAKE_BASE_FLAVOR = "Cake Base Flavor",
+    CAKE_FILLING = "Cake Filling",
+    CAKE_FLAVOR = "Cake Flavor",
+    CAKE_ICING = "Cake Icing",
     ADD_FRUIT = "Add Fruit",
     GENDER = "Cake Intended For",
     SPECIAL_REQUEST = "Special Request",

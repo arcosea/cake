@@ -1,7 +1,7 @@
 import { useState, useEffect} from "react";
 import { Box, TextField, Stack, Stepper, Step, StepLabel, Typography, Button} from "@mui/material"
 import Selector from "../components/Selector";
-import { CakeBaseFlavors, CakeBaseStyles, CakeFruit, CakeOccasions, CakePeopleSize, Genders, Headers} from "../../utils/data";
+import { CakeFlavors, CakeFillings, CakeFruit, CakeOccasions, CakePeopleSize, Genders, Headers, CakeIcing} from "../../utils/data";
 import RadioButtonsGroup from "../components/RadioButtonsGroup";
 import CheckboxGroup from "../components/CheckboxGroup";
 
@@ -23,16 +23,22 @@ export default function CakeCustomizationForm({defaultValues, onChange}: ICakeCu
         onChange(Headers.CAKE_OCCASION, value);
     }
 
-    const [cakeBaseStyle, setCakeBaseStyle] = useState(defaultValues.get(Headers.CAKE_BASE_STYLE))
-    const handleCakeBaseStyleChange = (value: string) => {
-        setCakeBaseStyle(value);
-        onChange(Headers.CAKE_BASE_STYLE, value);
+    const [cakeFilling, setCakeFilling] = useState(defaultValues.get(Headers.CAKE_FILLING))
+    const handleCakeFillingChange = (value: string) => {
+        setCakeFilling(value);
+        onChange(Headers.CAKE_FILLING, value);
     }
 
-    const [cakeBaseFlavor, setCakeBaseFlavor] = useState(defaultValues.get(Headers.CAKE_BASE_FLAVOR))
-    const handleCakeBaseFlavorChange = (value: string) => {
-        setCakeBaseFlavor(value);
-        onChange(Headers.CAKE_BASE_FLAVOR, value);
+    const [cakeFlavor, setCakeFlavor] = useState(defaultValues.get(Headers.CAKE_FLAVOR))
+    const handleCakeFlavorChange = (value: string) => {
+        setCakeFlavor(value);
+        onChange(Headers.CAKE_FLAVOR, value);
+    }
+
+    const [cakeIcing, setCakeIcing] = useState(defaultValues.get(Headers.CAKE_ICING))
+    const handleCakeIcingChange = (value: string) => {
+        setCakeIcing(value);
+        onChange(Headers.CAKE_ICING, value);
     }
 
     const [cakeFruit, setCakeFruit] = useState()
@@ -62,14 +68,16 @@ export default function CakeCustomizationForm({defaultValues, onChange}: ICakeCu
                 noValidate={true}
                 autoComplete="off"
             >       
-                <Stack spacing={2}>
+                <Stack spacing={2} sx={{paddingBottom: 1}}>
                     <Selector label={Headers.CAKE_SIZE} options={CakePeopleSize} defaultValue={defaultValues.get(Headers.CAKE_SIZE)} onChange={handleCakePeopleSizeChange} />
                     
                     <Selector label={Headers.CAKE_OCCASION} options={CakeOccasions} defaultValue={defaultValues.get(Headers.CAKE_OCCASION)} onChange={handleCakeOccasionChange} />
 
-                    <RadioButtonsGroup label={Headers.CAKE_BASE_STYLE} options={CakeBaseStyles} defaultValue={defaultValues.get(Headers.CAKE_BASE_STYLE)} onChange={handleCakeBaseStyleChange} />
+                    <Selector label={Headers.CAKE_FILLING} options={CakeFillings} defaultValue={defaultValues.get(Headers.CAKE_FILLING)} onChange={handleCakeFillingChange} />
 
-                    <RadioButtonsGroup label={Headers.CAKE_BASE_FLAVOR} options={CakeBaseFlavors} defaultValue={defaultValues.get(Headers.CAKE_BASE_FLAVOR)} onChange={handleCakeBaseFlavorChange} />
+                    <Selector label={Headers.CAKE_FLAVOR} options={CakeFlavors} defaultValue={defaultValues.get(Headers.CAKE_FLAVOR)} onChange={handleCakeFlavorChange} />
+
+                    <Selector label={Headers.CAKE_ICING} options={CakeIcing} defaultValue={defaultValues.get(Headers.CAKE_ICING)} onChange={handleCakeIcingChange} />
 
                     <CheckboxGroup label={Headers.ADD_FRUIT} options={CakeFruit} defaultValue={defaultValues.get(Headers.ADD_FRUIT)} onChange={handleCakeFruitChange} />
 

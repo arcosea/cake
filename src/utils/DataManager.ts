@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { CakePeopleSize, CakeBaseStyles, CakeBaseFlavors, CakeFruit, Headers, Genders, NoYesOptions, CakeOccasions, ProductAddOns } from "./data";
+import { CakePeopleSize, CakeFillings, CakeFlavors, CakeFruit, Headers, Genders, NoYesOptions, CakeOccasions, ProductAddOns, CakeIcing } from "./data";
 import { Helper } from "./Helper";
 import { IProductAddOn } from "./IProductAddOn";
 
@@ -38,8 +38,9 @@ export class DataManager {
     private initOrderCriteria() {
         this._orderCriteria.set(Headers.CAKE_SIZE, CakePeopleSize[0]);
         this._orderCriteria.set(Headers.CAKE_OCCASION, CakeOccasions[0]);
-        this._orderCriteria.set(Headers.CAKE_BASE_STYLE, CakeBaseStyles[0]);
-        this._orderCriteria.set(Headers.CAKE_BASE_FLAVOR, CakeBaseFlavors[0]);
+        this._orderCriteria.set(Headers.CAKE_FILLING, CakeFillings[0]);
+        this._orderCriteria.set(Headers.CAKE_FLAVOR, CakeFlavors[0]);
+        this._orderCriteria.set(Headers.CAKE_ICING, CakeIcing[0]);
 
         const initialFruitChecked: { [key: string]: boolean } = {};
         CakeFruit.forEach((option) => {
@@ -114,8 +115,8 @@ export class DataManager {
             details.set(Headers.ORDERING_A_CAKE, NoYesOptions[1]);
             details.set(Headers.CAKE_SIZE, this._orderCriteria.get(Headers.CAKE_SIZE));
             details.set(Headers.CAKE_OCCASION, this._orderCriteria.get(Headers.CAKE_OCCASION))
-            details.set(Headers.CAKE_BASE_STYLE, this._orderCriteria.get(Headers.CAKE_BASE_STYLE));
-            details.set(Headers.CAKE_BASE_FLAVOR, this._orderCriteria.get(Headers.CAKE_BASE_FLAVOR));
+            details.set(Headers.CAKE_FILLING, this._orderCriteria.get(Headers.CAKE_FILLING));
+            details.set(Headers.CAKE_FLAVOR, this._orderCriteria.get(Headers.CAKE_FLAVOR));
 
             let fruit: string[] = [];
             let selectedFruit = this._orderCriteria.get(Headers.ADD_FRUIT);
@@ -146,8 +147,8 @@ export class DataManager {
         if (this._isOrderingCake) {
             let description: string[] = [];
             description.push(this._orderCriteria.get(Headers.CAKE_SIZE));
-            description.push(this._orderCriteria.get(Headers.CAKE_BASE_STYLE));
-            description.push(this._orderCriteria.get(Headers.CAKE_BASE_FLAVOR));
+            description.push(this._orderCriteria.get(Headers.CAKE_FILLING));
+            description.push(this._orderCriteria.get(Headers.CAKE_FLAVOR));
 
             let fruit: string[] = [];
             let selectedFruit = this._orderCriteria.get(Headers.ADD_FRUIT);
