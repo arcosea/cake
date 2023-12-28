@@ -56,11 +56,11 @@ export default function CheckoutPage({defaultValue, onChange}: ICheckoutPageProp
     }
 
     const handleOrderSpecialNotesChanges = (criteriaType: string, value: any) => {
-        if(criteriaType ===  Headers.SPECIAL_REQUEST){
-            manager.updateSpecialNotes(value);
-        } else if(criteriaType === Headers.FILE_UPLOAD){
+        if(criteriaType === Headers.FILE_UPLOAD){
             manager.updateFileUpload(value[0], value[1]);
-        }        
+        } else{
+            manager.updateSpecialNotes(criteriaType, value);
+        }     
     }
 
     const handleContactOrderFormChanges = (criteriaType: string, value: any) => {

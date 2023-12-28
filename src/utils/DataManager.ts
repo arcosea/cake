@@ -52,7 +52,9 @@ export class DataManager {
     }
 
     private initAdditionalRequest() {
-        this._additionalRequests.set(Headers.SPECIAL_REQUEST, "");
+        this._additionalRequests.set(Headers.COLOR, "");
+        this._additionalRequests.set(Headers.CAKE_MESSAGE, "");
+        this._additionalRequests.set(Headers.SPECIAL_INSTRUCTIONS, "");
         this._additionalRequests.set(Headers.FILE_UPLOAD, [null, ""])
     }
 
@@ -82,8 +84,8 @@ export class DataManager {
         this._orderCriteria.set(criteriaType, value);
     }
 
-    public updateSpecialNotes(value: string) {
-        this._additionalRequests.set(Headers.SPECIAL_REQUEST, value);
+    public updateSpecialNotes(criteriaType: string, value: string) {
+        this._additionalRequests.set(criteriaType, value);
     }
 
     public updateFileUpload(file: File, dataURL: any) {
@@ -128,7 +130,7 @@ export class DataManager {
             details.set(Headers.ADD_FRUIT, fruit.toString());
 
             // details.set(Headers.GENDER, this._orderCriteria.get(Headers.GENDER));
-            details.set(Headers.SPECIAL_REQUEST, this._additionalRequests.get(Headers.SPECIAL_REQUEST));
+            details.set(Headers.SPECIAL_INSTRUCTIONS, this._additionalRequests.get(Headers.SPECIAL_INSTRUCTIONS));
         } else {
             details.set(Headers.ORDERING_A_CAKE, NoYesOptions[0]);
         }
@@ -145,32 +147,35 @@ export class DataManager {
     }
     public getCakeOrderSummary() {
         if (this._isOrderingCake) {
-            let description: string[] = [];
-            description.push(this._orderCriteria.get(Headers.CAKE_SIZE));
-            description.push(this._orderCriteria.get(Headers.CAKE_FILLING));
-            description.push(this._orderCriteria.get(Headers.CAKE_FLAVOR));
+            let description: string = "";
 
-            let fruit: string[] = [];
-            let selectedFruit = this._orderCriteria.get(Headers.ADD_FRUIT);
-            for (const option in selectedFruit) {
-                if (selectedFruit[option]) {
-                    fruit.push(option)
+            let criteriaKeys = Array.from(this._orderCriteria.keys());
+            for (const key of criteriaKeys) {
+                if (key === Headers.ADD_FRUIT) {
+                    let fruit: string[] = [];
+                    let selectedFruit = this._orderCriteria.get(Headers.ADD_FRUIT);
+                    for (const option in selectedFruit) {
+                        if (selectedFruit[option]) {
+                            fruit.push(option)
+                        }
+                    };
+
+                    if (fruit.length > 0) {
+                        description += Headers.ADD_FRUIT + ": " + fruit.toString() + " | ";
+                    }
+                } else {
+                    description += key + ": " + this._orderCriteria.get(key) + " | ";
                 }
-            };
-
-            if (fruit.length > 0) {
-                description.push(fruit.toString());
             }
-            description.push(this._additionalRequests.get(Headers.SPECIAL_REQUEST));
 
-            let desc = ""
-            for (const d of description) {
-                if (d.trim() != "") {
-                    desc += d + " | "
+            let additionalRequestKeys = Array.from(this._additionalRequests.keys());
+            for (const key of additionalRequestKeys) {
+                if (key != Headers.FILE_UPLOAD) {
+                    description += key + ": " + this._additionalRequests.get(key) + " | ";
                 }
-
             }
-            return desc
+
+            return description;
         }
     }
 

@@ -10,11 +10,23 @@ interface ICakeSpecialNotesFormProp{
 
 }
 export default function CakeSpecialNotesForm({defaultValue, onChange}: ICakeSpecialNotesFormProp){
-    const [specialNotes, setSpecialNotes] = useState(defaultValue.get(Headers.SPECIAL_REQUEST))
+    
+    const [colors, setColors] = useState(defaultValue.get(Headers.COLOR));
+    const handleColorsChange = (event: any) => {
+        setColors(event.target.value);
+        onChange(Headers.COLOR, event.target.value)
+    }
 
-    const handleSpecialNotesChange = (event : any) => {
-        setSpecialNotes(event.target.value)
-        onChange(Headers.SPECIAL_REQUEST, event.target.value);
+    const [cakeMessage, setCakeMessage] = useState(defaultValue.get(Headers.CAKE_MESSAGE));
+    const handleCakeMessageChange = (event: any) => {
+        setCakeMessage(event.target.value);
+        onChange(Headers.CAKE_MESSAGE, event.target.value)
+    }
+
+    const [specialInstructions, setSpecialInstructions] = useState(defaultValue.get(Headers.SPECIAL_INSTRUCTIONS))
+    const handleSpecialInstructionsChange = (event : any) => {
+        setSpecialInstructions(event.target.value)
+        onChange(Headers.SPECIAL_INSTRUCTIONS, event.target.value);
     }
 
     const handleInputFileUpload = (file: any, dataURL: string) => {
@@ -31,17 +43,30 @@ export default function CakeSpecialNotesForm({defaultValue, onChange}: ICakeSpec
     return (
         <>
             <Stack spacing={2}> 
-                <Typography >
-                    Enter any special requests (e.g. Name of Birthday, Age, specific figurines)
-                </Typography>
+                <TextField
+                    label={Headers.COLOR}
+                    value={colors}
+                    onChange={handleColorsChange}
+                />
+
                 <TextField
                     id="outlined-textarea"
-                    label="Additional Notes"
-                    placeholder="'Happy Birthday Juan' on Spiderman themed cake with figurines "
+                    label={Headers.CAKE_MESSAGE}
+                    placeholder= "Happy Birthday"
+                    multiline
+                    rows={3}
+                    value={cakeMessage}
+                    onChange={handleCakeMessageChange}
+                />
+                
+                <TextField
+                    id="outlined-textarea"
+                    label={Headers.SPECIAL_INSTRUCTIONS}
+                    placeholder="Add Spiderman figurines "
                     multiline
                     rows={5}
-                    value={specialNotes}
-                    onChange={handleSpecialNotesChange}
+                    value={specialInstructions}
+                    onChange={handleSpecialInstructionsChange}
                 />
                 <Box sx={{width: "20%"}}>
                     <InputFileUpload onChange={(file: any, dataURL: string) => handleInputFileUpload(file, dataURL)} defaultValue={defaultValue.get(Headers.FILE_UPLOAD)}/>
