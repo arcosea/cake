@@ -39,7 +39,7 @@ export function CardItem({name, cost, url, description}: ICardItemProp){
             <Card sx={{ maxWidth: "80%"}}>
                 <CardHeader   
                     title={name}
-                    subheader={cost}
+                    subheader={'$ ' + cost}
                     sx={{backgroundColor: "#F5EDE673"}}
                 />
                 <CardMedia

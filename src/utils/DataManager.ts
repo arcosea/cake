@@ -173,7 +173,7 @@ export class DataManager {
 
             let additionalRequestKeys = Array.from(this._additionalRequests.keys());
             for (const key of additionalRequestKeys) {
-                if (key != Headers.FILE_UPLOAD) {
+                if (key !== Headers.FILE_UPLOAD) {
                     description += key + ": " + this._additionalRequests.get(key) + " | ";
                 }
             }
