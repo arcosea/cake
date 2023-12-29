@@ -9,11 +9,14 @@ import CakeCustomizationForm from "../categories/CakeCustomizationForm";
 import CakeSpecialNotesForm from "../categories/CakeSpecialNotesForm";
 import ContactForm from "../categories/ContactForm";
 import OrderSummaryCard from "../categories/OrderSummaryCard";
+import emailjs from '@emailjs/browser';
 
 
 const steps: string[] = ["Order a Cake", "Additional Add-Ons", "Contact Information", "Order Summary"];
 let manager: DataManager = new DataManager();
-
+const SERVICE_ID: string = process.env.REACT_APP_EJS_SERVICE_ID!;
+const TEMPLATE_ID: string = process.env.REACT_APP_EJS_TEMPLATE_ID!;
+const USER_ID: string = process.env.REACT_APP_EJS_USER_ID!;
 
 interface ICheckoutPageProp{
     defaultValue: number,
@@ -35,6 +38,50 @@ export default function CheckoutPage({defaultValue, onChange}: ICheckoutPageProp
         manager.resetData();
         handleOrderingCakeChanges(false);
     };
+
+    const handleSubmit = (e: any) => {
+        e.preventDefault();
+        let fileUp: any = manager.getFileUpload()!;
+        console.log(fileUp)
+        var canvas = document.createElement("canvas");
+        
+        let ctx: CanvasRenderingContext2D= canvas.getContext("2d")!;
+        ctx.drawImage(fileUp, 10, 10)!;
+        var encodedBase = canvas.toDataURL();
+
+        const details = {
+            order_number: manager.confirmationNumber,
+            user_first_name: manager.getContactInfo(Headers.FIRST_NAME),
+            user_last_name: manager.getContactInfo(Headers.LAST_NAME),
+            user_email: manager.getContactInfo(Headers.EMAIL),
+            user_phone_number: manager.getContactInfo(Headers.PHONE_NUMBER),
+            pick_up_date: manager.getContactInfo(Headers.PICKUP_DATE),
+            cake_order: manager.getCakeOrderSummary(),
+            other_items: manager.getItemSummary(),
+            file: encodedBase
+        }
+
+        
+
+        emailjs.send(SERVICE_ID, TEMPLATE_ID, details, USER_ID)
+            .then((response) => {
+              console.log('Email sent!', response);
+              handleNext();
+            })
+            .catch((error) => {
+              console.error('Error sending email:', error);
+        });
+
+    }
+
+    function handleNextClick(e: any){
+        if(activeStep === steps.length - 1){
+            handleSubmit(e);
+            handleNext();
+        } else{
+            handleNext();
+        }
+    }
 
     // Auto scrolls to the top after rendering
     useEffect(() => {
@@ -117,7 +164,7 @@ export default function CheckoutPage({defaultValue, onChange}: ICheckoutPageProp
                         </Button>
                     <Button 
                         id="nextButton"
-                        onClick={handleNext} 
+                        onClick={(e) => handleNextClick(e)} 
                         disabled={activeStep === 2? !isFormFilled : false} 
                         sx={{border: 1}}
                     >

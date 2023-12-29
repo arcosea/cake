@@ -35,7 +35,6 @@ export class DataManager {
         this.initAdditionalAddOns();
         this.initContactInfo();
         this.initConfirmationNumber();
-
     }
 
 
@@ -81,7 +80,7 @@ export class DataManager {
         let codeLength: number = 5;
         let randomCode: string = this._helper.makeRandomID(codeLength);
 
-        // this._confirmationNumber = String(this._currentDate.$M + indexDiff) + String(this._currentDate.$D) + randomCode;
+        this._confirmationNumber = String(this._currentDate.getMonth() + indexDiff) + String(this._currentDate.getDate()) + randomCode;
     }
 
     public updateOrderCriteria(criteriaType: string, value: string | any) {
@@ -212,6 +211,25 @@ export class DataManager {
         return details;
     }
 
+    public getContactInfo(key: string) {
+        if (key === Headers.PICKUP_DATE) {
+            let date = this._contactInfo.get(key)
+            return date.toString();
+        } else {
+            return this._contactInfo.get(key);
+        }
+    }
+
+    public getFileUpload() {
+        let dataImage = null;
+        let fileUpload = this._additionalRequests.get(Headers.FILE_UPLOAD);
+        if (fileUpload[0]) {
+            dataImage = fileUpload[1]
+        }
+        return dataImage;
+
+    }
+
     public get orderCriteria() {
         return this._orderCriteria;
     }
@@ -243,6 +261,8 @@ export class DataManager {
     public get isOrderingCake() {
         return this._isOrderingCake;
     }
+
+
 
 
 

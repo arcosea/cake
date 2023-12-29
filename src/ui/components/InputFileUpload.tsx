@@ -32,7 +32,7 @@ export default function InputFileUpload({defaultValue, onChange}: IInputFileUplo
         reader.onload = (e) => {
           // 'result' contains the Data URL
           const dataURL = e.target?.result as string;
-          console.log('Data URL:', dataURL);
+          // console.log('Data URL:', dataURL);
           setDataURL(dataURL);
           onChange(file, dataURL)
           // You can use the Data URL as needed, for instance, setting it to state or using it directly.
