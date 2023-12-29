@@ -1,7 +1,7 @@
-
 import { CakePeopleSize, CakeFillings, CakeFlavors, CakeFruit, Headers, Genders, NoYesOptions, CakeOccasions, ProductAddOns, CakeIcing } from "./data";
 import { Helper } from "./Helper";
 import { IProductAddOn } from "./IProductAddOn";
+
 
 export class DataManager {
     private _orderCriteria: Map<string, any>;
@@ -35,6 +35,7 @@ export class DataManager {
         this.initAdditionalAddOns();
         this.initContactInfo();
         this.initConfirmationNumber();
+
     }
 
 
@@ -180,6 +181,22 @@ export class DataManager {
 
             return description;
         }
+    }
+
+    public getItemSummary() {
+        let description: string = "";
+        let itemNameKeys = Array.from(this._additionalAddOns.keys());
+        for (const item of itemNameKeys) {
+            let quantity: number = this._additionalAddOns.get(item)!;
+            if (quantity > 0) {
+                description += item + ": " + quantity + "x | "
+            }
+        }
+
+        if (description === "") {
+            description = "NA"
+        }
+        return description;
     }
 
     public getAdditionalItemOrderSummary() {
