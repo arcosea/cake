@@ -3,9 +3,10 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker, TimePicker } from '@mui/x-date-pickers';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { useEffect, useState } from "react"
-import dayjs from 'dayjs';
 import { Headers } from "../../utils/data";
+import dayjs from "dayjs";
 
 
 interface IContactFormProp{
@@ -16,30 +17,32 @@ interface IContactFormProp{
     onFormFilledChange: Function
 }
 export default function ContactForm({defaultValues, disableDatesBefore, disabledHours, onChange, onFormFilledChange}: IContactFormProp){
-    const [date, setDate] = useState(defaultValues.get(Headers.PICKUP_DATE));
-    const handleDateChange = (newDate: any) => {
-        setDate(newDate);
+    const [dateTime, setDateTime] = useState(defaultValues.get(Headers.PICKUP_DATE));
+    const handleDateTimeChange = (newDate: any) => {
+        setDateTime(newDate);
         onChange(Headers.PICKUP_DATE, newDate);
     }
 
     const isDateDisabled = (date: Date) => {
         // Define your logic to disable specific days here
-        const dayOfWeek = dayjs(date).day();
+        const Tuesday: number = 2;
+        const dayOfWeek = new Date(date).getDay()
         const daysBefore = dayjs(date).isBefore(disableDatesBefore); // Get the day of the week (0 = Sunday, 1 = Monday, ...)
         // Disable Saturdays (dayOfWeek === 6) and Sundays (dayOfWeek === 0)
-        return daysBefore || dayOfWeek === 2; 
+        return daysBefore || dayOfWeek === Tuesday; 
     };
-
-    const [time, setTime] = useState(defaultValues.get(Headers.PICKUP_TIME));
-    const handleTimeChange = (newTime: any) => {
-        setTime(newTime);
-        onChange(Headers.PICKUP_TIME, newTime);
-    }
 
     const isTimeDisabled = (time: any): boolean => {
         const hours = time.$H;
         return disabledHours.includes(hours);
     };
+
+    function isValidTime(time: any) {
+        if(time){
+            return !disabledHours.includes(time.$H)
+        }
+        return false;  
+    }
 
     // Auto scrolls to the top after rendering
     useEffect(() => {
@@ -71,19 +74,13 @@ export default function ContactForm({defaultValues, disableDatesBefore, disabled
         onChange(Headers.PHONE_NUMBER, event.target.value);
     }
 
-    function isValidTime(time: any) {
-        if(time){
-            return !disabledHours.includes(time.$H)
-        }
-        return false
-        
-    }
+    
 
     useEffect(() => {
         // Check if all fields are filled and notify the parent
-        const formFilled = !!(date && isValidTime(time) && firstName && lastName && email.includes('@') && phoneNumber.length >= 10);
+        const formFilled = !!(dateTime && isValidTime(dateTime) && firstName && lastName && email.includes('@') && phoneNumber.length >= 10);
         onFormFilledChange(formFilled);
-    }, [date, time, firstName, lastName, email, phoneNumber, onFormFilledChange]);
+    }, [dateTime, firstName, lastName, email, phoneNumber, onFormFilledChange]);
 
 
 
@@ -101,26 +98,14 @@ export default function ContactForm({defaultValues, disableDatesBefore, disabled
                 <Typography sx={{backgroundColor: "#1976d2", margin: 3, paddingLeft: 1, color: "whitesmoke"}}> Enter Contact Information </Typography>
                 <Stack spacing={2} sx={{alignItems: "center", justifyContent: "center", display: "flex", margin: 3}}>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DemoContainer components={['DatePicker']}>
-                            <DatePicker 
+                        <DemoContainer components={['DateTimePicker']}>
+                            <DateTimePicker 
                                 label={Headers.PICKUP_DATE} 
-                                // defaultValue={this.} 
-                                value={date} 
-                                onChange={(newValue: any) => handleDateChange(newValue)}
-                                shouldDisableDate={(date: Date) => isDateDisabled(date as Date)}
-                            
-                            />
-                        </DemoContainer>
-                    </LocalizationProvider>
-
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DemoContainer components={['TimePicker']}>
-                            <TimePicker 
-                                label={Headers.PICKUP_TIME} 
-                                value={time}
-                                onChange={handleTimeChange}
-                                shouldDisableTime={(date: Date) => isTimeDisabled(date as Date)}
-                                
+                                value={dateTime} 
+                                onChange={handleDateTimeChange} 
+                                shouldDisableDate={isDateDisabled}
+                                shouldDisableTime={isTimeDisabled}
+                                // sx={{ width: "50px" }}
                             />
                         </DemoContainer>
                     </LocalizationProvider>

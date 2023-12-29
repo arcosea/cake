@@ -1,4 +1,4 @@
-import dayjs from "dayjs";
+
 import { CakePeopleSize, CakeFillings, CakeFlavors, CakeFruit, Headers, Genders, NoYesOptions, CakeOccasions, ProductAddOns, CakeIcing } from "./data";
 import { Helper } from "./Helper";
 import { IProductAddOn } from "./IProductAddOn";
@@ -8,10 +8,10 @@ export class DataManager {
     private _additionalRequests: Map<string, any>;
     private _additionalAddOns: Map<string, number>;
     private _contactInfo: Map<string, any>;
-    private _earliestPickupDate: any;
+    private _earliestPickupDate: Date;
     private _unavailableHours: number[];
     private readonly _minDaysBeforePickup: number = 7;
-    private _currentDate: any;
+    private _currentDate: Date;
     private _helper: Helper;
     private _confirmationNumber: string = "";
     private _isOrderingCake: boolean;
@@ -20,8 +20,9 @@ export class DataManager {
 
     constructor() {
         this._helper = new Helper();
-        this._currentDate = dayjs();
-        this._earliestPickupDate = this._currentDate.add(this._minDaysBeforePickup, 'day');
+        this._currentDate = new Date();
+        this._earliestPickupDate = new Date(this._currentDate);
+        this._earliestPickupDate.setDate(this._currentDate.getDate() + this._minDaysBeforePickup);
         this._unavailableHours = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 18, 19, 20, 21, 22, 23];
         this._orderCriteria = new Map();
         this._additionalRequests = new Map();
@@ -68,7 +69,6 @@ export class DataManager {
 
     private initContactInfo() {
         this._contactInfo.set(Headers.PICKUP_DATE, null);
-        this._contactInfo.set(Headers.PICKUP_TIME, null);
         this._contactInfo.set(Headers.FIRST_NAME, "");
         this._contactInfo.set(Headers.LAST_NAME, "");
         this._contactInfo.set(Headers.EMAIL, "");
@@ -80,7 +80,7 @@ export class DataManager {
         let codeLength: number = 5;
         let randomCode: string = this._helper.makeRandomID(codeLength);
 
-        this._confirmationNumber = String(this._currentDate.$M + indexDiff) + String(this._currentDate.$D) + randomCode;
+        // this._confirmationNumber = String(this._currentDate.$M + indexDiff) + String(this._currentDate.$D) + randomCode;
     }
 
     public updateOrderCriteria(criteriaType: string, value: string | any) {
