@@ -55,12 +55,15 @@ export default function CheckoutPage({defaultValue, onChange}: ICheckoutPageProp
         emailjs.send(SERVICE_ID, TEMPLATE_ID, manager.getDetails() as Record<string, unknown>, USER_ID)
             .then((response) => {
                 setActiveStep(steps.length);
-                setSnackbarSuccessMessage([true, "Success: Your order was submitted!"])
-                setOpenSnackbar(true);
+                setSnackbarSeverity('success');
+                setSnackbarMessage('Success: Your order was submitted! Check your email for confirmation.');
+                setSnackbarOpen(true);
+                
             })
             .catch((error) => {
-                setSnackbarSuccessMessage([false, "Error: " + error.text])
-                setOpenSnackbar(true);
+                setSnackbarSeverity('error');
+                setSnackbarMessage('Error: Failed to submit your order. Please try again.');
+                setSnackbarOpen(true);
             });
     }
 
@@ -121,37 +124,15 @@ export default function CheckoutPage({defaultValue, onChange}: ICheckoutPageProp
         }
     }
 
-    const [openSnackbar, setOpenSnackbar] = useState(false);
-    const [snackbarSuccessMessage, setSnackbarSuccessMessage] = useState([false, ""]);
-    const handleSnackbarClose = (event: any, reason: any) => {
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
+    const handleSnackbarClose = (event?: React.SyntheticEvent, reason?: string) => {
         if (reason === 'clickaway') {
             return;
-          }
-        setOpenSnackbar(false);
-    }
-
-    function snackbarAlert(){
-        if(openSnackbar){
-            return (
-                <Snackbar 
-                    anchorOrigin={{vertical: "top", horizontal: "right"}}
-                    open={openSnackbar} 
-                    autoHideDuration={6000} 
-                    onClose={handleSnackbarClose}
-                    
-                >
-                    <Alert onClose={(e: any) => handleSnackbarClose} severity={snackbarSuccessMessage[0]? "success" : "error"} sx={{ width: '100%' }}>
-                        {snackbarSuccessMessage[1]}
-                    </Alert>
-                </Snackbar>
-            )
-        } else{
-            return (
-                <></>
-            )
         }
-        
-    }
+        setSnackbarOpen(false);
+    };
 
     function displayCakeOrderingForm(){
         if(isOrderingCake){
@@ -196,7 +177,7 @@ export default function CheckoutPage({defaultValue, onChange}: ICheckoutPageProp
             </Box>
         )
     }
-
+    
     function addContent(step: any ){
         if(activeStep === steps.length){
             return (
@@ -209,7 +190,7 @@ export default function CheckoutPage({defaultValue, onChange}: ICheckoutPageProp
                         <Box sx={{ flex: '1 1 auto' }} />
                         <Button onClick={handleReset} sx={{border: 1}}>Reset</Button>
                     </Box>
-                    {snackbarAlert()}
+                    
                 </>
             )
             
@@ -251,7 +232,7 @@ export default function CheckoutPage({defaultValue, onChange}: ICheckoutPageProp
                         onClick={handleSummaryEditClick}
                     />
                     {addNextBackButtons()}
-                    {snackbarAlert()}
+                    
                 </>
             )
             
@@ -287,7 +268,16 @@ export default function CheckoutPage({defaultValue, onChange}: ICheckoutPageProp
                 <Box sx={{marginTop: 2}}>
                     {addContent(activeStep)}
                 </Box>
-                
+                <Snackbar
+                    open={snackbarOpen}
+                    autoHideDuration={6000}
+                    onClose={(e) => handleSnackbarClose}
+                    anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                >
+                    <Alert onClose={handleSnackbarClose} severity={snackbarSeverity}>
+                        {snackbarMessage}
+                    </Alert>
+                </Snackbar>
                 
              
             </Box>         
