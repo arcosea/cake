@@ -1,4 +1,4 @@
-import { CakePeopleSize, CakeFillings, CakeFlavors, CakeFruit, Headers, Genders, NoYesOptions, CakeOccasions, ProductAddOns, CakeIcing } from "./data";
+import { CakePeopleSize, CakeFillings, CakeFlavors, CakeFruit, Headers, Genders, NoYesOptions, CakeOccasions, ProductAddOns, CakeIcing, OrderDetails } from "./data";
 import { Helper } from "./Helper";
 import { IProductAddOn } from "./IProductAddOn";
 
@@ -185,7 +185,7 @@ export class DataManager {
 
 
     public getDetails() {
-        let details = {
+        let details: OrderDetails = {
             first_name: this._contactInfo.get(Headers.FIRST_NAME),
             last_name: this._contactInfo.get(Headers.LAST_NAME),
             phone_number: this._contactInfo.get(Headers.PHONE_NUMBER),
@@ -194,17 +194,22 @@ export class DataManager {
             order_date: this._currentDate.toDateString(),
             pickup_date: this.getPickupDate(),
             total_amount: "TBD",
-            cake_size: this._orderCriteria.get(Headers.CAKE_SIZE),
-            cake_occasion: this._orderCriteria.get(Headers.CAKE_OCCASION),
-            cake_filling: this._orderCriteria.get(Headers.CAKE_FILLING),
-            cake_flavor: this._orderCriteria.get(Headers.CAKE_FLAVOR),
-            cake_icing: this._orderCriteria.get(Headers.CAKE_ICING),
-            fruit: this.getFruitList(),
-            colors: this._additionalRequests.get(Headers.COLOR),
-            message: this._additionalRequests.get(Headers.CAKE_MESSAGE),
-            instructions: this._additionalRequests.get(Headers.SPECIAL_INSTRUCTIONS),
-            image: "",
-            other_items: this.getItemSummary(),
+            is_ordering_cake: this._isOrderingCake ? NoYesOptions[1] : NoYesOptions[0],
+            other_items: this.getItemSummary()
+
+        }
+
+        if (this.isOrderingCake) {
+            details.cake_size = this._orderCriteria.get(Headers.CAKE_SIZE);
+            details.cake_occasion = this._orderCriteria.get(Headers.CAKE_OCCASION);
+            details.cake_filling = this._orderCriteria.get(Headers.CAKE_FILLING);
+            details.cake_flavor = this._orderCriteria.get(Headers.CAKE_FLAVOR);
+            details.cake_icing = this._orderCriteria.get(Headers.CAKE_ICING);
+            details.fruit = this.getFruitList();
+            details.colors = this._additionalRequests.get(Headers.COLOR);
+            details.message = this._additionalRequests.get(Headers.CAKE_MESSAGE);
+            details.instructions = this._additionalRequests.get(Headers.SPECIAL_INSTRUCTIONS);
+            details.image = "";
         }
         return details;
     }

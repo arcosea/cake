@@ -12,6 +12,7 @@ import OrderSummaryCard from "../categories/OrderSummaryCard";
 import emailjs from '@emailjs/browser';
 import React from "react";
 import MuiAlert from '@mui/material/Alert';
+import { open } from "fs/promises";
 
 
 const steps: string[] = ["Order a Cake", "Additional Add-Ons", "Contact Information", "Order Summary"];
@@ -51,15 +52,13 @@ export default function CheckoutPage({defaultValue, onChange}: ICheckoutPageProp
     const handleSubmit = (e: any) => {
         e.preventDefault();
         
-        emailjs.send(SERVICE_ID, TEMPLATE_ID, manager.getDetails(), USER_ID)
+        emailjs.send(SERVICE_ID, TEMPLATE_ID, manager.getDetails() as Record<string, unknown>, USER_ID)
             .then((response) => {
-                console.log('Email sent!', response);
                 setActiveStep(steps.length);
                 setSnackbarSuccessMessage([true, "Success: Your order was submitted!"])
                 setOpenSnackbar(true);
             })
             .catch((error) => {
-                console.error('Error sending email:', error);
                 setSnackbarSuccessMessage([false, "Error: " + error.text])
                 setOpenSnackbar(true);
             });
@@ -132,19 +131,26 @@ export default function CheckoutPage({defaultValue, onChange}: ICheckoutPageProp
     }
 
     function snackbarAlert(){
-        return (
-            <Snackbar 
-                anchorOrigin={{vertical: "top", horizontal: "right"}}
-                open={openSnackbar} 
-                autoHideDuration={6000} 
-                onClose={handleSnackbarClose}
-                
-            >
-                <Alert onClose={(e: any) => handleSnackbarClose} severity={snackbarSuccessMessage[0]? "success" : "error"} sx={{ width: '100%' }}>
-                    {snackbarSuccessMessage[1]}
-                </Alert>
-            </Snackbar>
-        )
+        if(openSnackbar){
+            return (
+                <Snackbar 
+                    anchorOrigin={{vertical: "top", horizontal: "right"}}
+                    open={openSnackbar} 
+                    autoHideDuration={6000} 
+                    onClose={handleSnackbarClose}
+                    
+                >
+                    <Alert onClose={(e: any) => handleSnackbarClose} severity={snackbarSuccessMessage[0]? "success" : "error"} sx={{ width: '100%' }}>
+                        {snackbarSuccessMessage[1]}
+                    </Alert>
+                </Snackbar>
+            )
+        } else{
+            return (
+                <></>
+            )
+        }
+        
     }
 
     function displayCakeOrderingForm(){

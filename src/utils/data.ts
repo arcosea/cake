@@ -91,3 +91,27 @@ export enum TabLabels {
     PRODUCTS = "Products",
     ORDER = "Order"
 }
+
+
+export interface OrderDetails{
+    first_name?: string;
+    last_name?: string;
+    phone_number?: string;
+    email?: string;
+    order_number?: string;
+    order_date?: string;
+    pickup_date?: string;
+    total_amount?: string;
+    is_ordering_cake?: string;
+    cake_size?: string;
+    cake_occasion?: string;
+    cake_filling?: string; 
+    cake_flavor?: string;
+    cake_icing?: string;
+    fruit?: string;
+    colors?: string;
+    message?: string;
+    instructions?: string;
+    image?: string;
+    other_items?: string;
+}
