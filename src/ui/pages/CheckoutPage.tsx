@@ -41,29 +41,8 @@ export default function CheckoutPage({defaultValue, onChange}: ICheckoutPageProp
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
-        let fileUp: any = manager.getFileUpload()!;
-        console.log(fileUp)
-        var canvas = document.createElement("canvas");
-        
-        let ctx: CanvasRenderingContext2D= canvas.getContext("2d")!;
-        ctx.drawImage(fileUp, 10, 10)!;
-        var encodedBase = canvas.toDataURL();
 
-        const details = {
-            order_number: manager.confirmationNumber,
-            user_first_name: manager.getContactInfo(Headers.FIRST_NAME),
-            user_last_name: manager.getContactInfo(Headers.LAST_NAME),
-            user_email: manager.getContactInfo(Headers.EMAIL),
-            user_phone_number: manager.getContactInfo(Headers.PHONE_NUMBER),
-            pick_up_date: manager.getContactInfo(Headers.PICKUP_DATE),
-            cake_order: manager.getCakeOrderSummary(),
-            other_items: manager.getItemSummary(),
-            file: encodedBase
-        }
-
-        
-
-        emailjs.send(SERVICE_ID, TEMPLATE_ID, details, USER_ID)
+        emailjs.send(SERVICE_ID, TEMPLATE_ID, manager.getDetails(), USER_ID)
             .then((response) => {
               console.log('Email sent!', response);
               handleNext();
@@ -222,9 +201,9 @@ export default function CheckoutPage({defaultValue, onChange}: ICheckoutPageProp
             return (
                 <>
                     {/* <DisplayDetails details={manager.orderDetails()} /> */}
-                    <OrderSummaryCard cakeTitle={manager.isOrderingCake? manager.getCakeOrderTitle(): "Not Ordering Cake"} 
+                    <OrderSummaryCard  
                         cakeDescription={manager.isOrderingCake? manager.getCakeOrderSummary(): ""}
-                        addItems={manager.getAdditionalItemOrderSummary()} 
+                        addItems={manager.getItemSummary()} 
                         onClick={handleSummaryEditClick}
                     />
                     {addNextBackButtons()}
