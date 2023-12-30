@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Box, Stepper, Step, StepLabel, FormControl, FormLabel, FormGroup, Stack, Switch, Typography, Button, Divider, Paper} from "@mui/material"
+import { Box, Stepper, Step, StepLabel, Stack, Typography, Button, Divider, Paper, Snackbar, AlertProps} from "@mui/material"
 import { DataManager } from "../../utils/DataManager";
 import { Headers, NoYesOptions, ProductAddOns } from "../../utils/data";
 import DisplayDetails from "../components/DisplayDetails";
@@ -10,6 +10,8 @@ import CakeSpecialNotesForm from "../categories/CakeSpecialNotesForm";
 import ContactForm from "../categories/ContactForm";
 import OrderSummaryCard from "../categories/OrderSummaryCard";
 import emailjs from '@emailjs/browser';
+import React from "react";
+import MuiAlert from '@mui/material/Alert';
 
 
 const steps: string[] = ["Order a Cake", "Additional Add-Ons", "Contact Information", "Order Summary"];
@@ -17,6 +19,13 @@ let manager: DataManager = new DataManager();
 const SERVICE_ID: string = process.env.REACT_APP_EJS_SERVICE_ID!;
 const TEMPLATE_ID: string = process.env.REACT_APP_EJS_TEMPLATE_ID!;
 const USER_ID: string = process.env.REACT_APP_EJS_USER_ID!;
+
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+    props,
+    ref,
+  ) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 interface ICheckoutPageProp{
     defaultValue: number,
@@ -41,22 +50,24 @@ export default function CheckoutPage({defaultValue, onChange}: ICheckoutPageProp
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
-
+        
         emailjs.send(SERVICE_ID, TEMPLATE_ID, manager.getDetails(), USER_ID)
             .then((response) => {
-              console.log('Email sent!', response);
-              handleNext();
+                console.log('Email sent!', response);
+                setActiveStep(steps.length);
+                setSnackbarSuccessMessage([true, "Success: Your order was submitted!"])
+                setOpenSnackbar(true);
             })
             .catch((error) => {
-              console.error('Error sending email:', error);
-        });
-
+                console.error('Error sending email:', error);
+                setSnackbarSuccessMessage([false, "Error: " + error.text])
+                setOpenSnackbar(true);
+            });
     }
 
     function handleNextClick(e: any){
         if(activeStep === steps.length - 1){
             handleSubmit(e);
-            handleNext();
         } else{
             handleNext();
         }
@@ -111,6 +122,31 @@ export default function CheckoutPage({defaultValue, onChange}: ICheckoutPageProp
         }
     }
 
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [snackbarSuccessMessage, setSnackbarSuccessMessage] = useState([false, ""]);
+    const handleSnackbarClose = (event: any, reason: any) => {
+        if (reason === 'clickaway') {
+            return;
+          }
+        setOpenSnackbar(false);
+    }
+
+    function snackbarAlert(){
+        return (
+            <Snackbar 
+                anchorOrigin={{vertical: "top", horizontal: "right"}}
+                open={openSnackbar} 
+                autoHideDuration={6000} 
+                onClose={handleSnackbarClose}
+                
+            >
+                <Alert onClose={(e: any) => handleSnackbarClose} severity={snackbarSuccessMessage[0]? "success" : "error"} sx={{ width: '100%' }}>
+                    {snackbarSuccessMessage[1]}
+                </Alert>
+            </Snackbar>
+        )
+    }
+
     function displayCakeOrderingForm(){
         if(isOrderingCake){
             return (
@@ -160,12 +196,14 @@ export default function CheckoutPage({defaultValue, onChange}: ICheckoutPageProp
             return (
                 <>
                     <Typography sx={{ mt: 2, mb: 1 }}>
-                        All steps completed - you&apos;re finished
+                        Your order was submitted! 
+                        Check your email for confirmation.
                     </Typography>
                     <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                         <Box sx={{ flex: '1 1 auto' }} />
                         <Button onClick={handleReset} sx={{border: 1}}>Reset</Button>
                     </Box>
+                    {snackbarAlert()}
                 </>
             )
             
@@ -207,6 +245,7 @@ export default function CheckoutPage({defaultValue, onChange}: ICheckoutPageProp
                         onClick={handleSummaryEditClick}
                     />
                     {addNextBackButtons()}
+                    {snackbarAlert()}
                 </>
             )
             
