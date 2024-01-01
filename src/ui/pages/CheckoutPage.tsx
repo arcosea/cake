@@ -149,6 +149,16 @@ export default function CheckoutPage({defaultValue, onChange}: ICheckoutPageProp
             return <></>
         }
     }
+
+    function disableNextButton(){
+        if(activeStep === 2){
+            return !isFormFilled
+        } else if(activeStep === 3){
+            return manager.noOrder;
+        } else {
+            return false;
+        }
+    }
     /** 
      * Next and Previous buttons
      */
@@ -167,7 +177,7 @@ export default function CheckoutPage({defaultValue, onChange}: ICheckoutPageProp
                     <Button 
                         id="nextButton"
                         onClick={(e) => handleNextClick(e)} 
-                        disabled={activeStep === 2? !isFormFilled : false} 
+                        disabled={disableNextButton()} 
                         sx={{border: 1}}
                     >
                         {activeStep === steps.length - 1 ? 'Submit' : 'Next'}

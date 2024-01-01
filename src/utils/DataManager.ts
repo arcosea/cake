@@ -171,7 +171,7 @@ export class DataManager {
         }
     }
 
-    public getItemSummary() {
+    public getItemSummary(): string {
         let description: string = "";
         let itemNameKeys = Array.from(this._additionalAddOns.keys());
         for (const item of itemNameKeys) {
@@ -183,8 +183,19 @@ export class DataManager {
         return description;
     }
 
+    private isOrderingItems(): boolean {
+        let itemNameKeys = Array.from(this._additionalAddOns.keys());
+        for (const item of itemNameKeys) {
+            let quantity: number = this._additionalAddOns.get(item)!;
+            if (quantity > 0) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-    public getDetails() {
+
+    public getDetails(): OrderDetails {
         let details: OrderDetails = {
             first_name: this._contactInfo.get(Headers.FIRST_NAME),
             last_name: this._contactInfo.get(Headers.LAST_NAME),
@@ -244,6 +255,10 @@ export class DataManager {
 
     public get isOrderingCake() {
         return this._isOrderingCake;
+    }
+
+    public get noOrder(): boolean {
+        return !this.isOrderingCake && !this.isOrderingItems();
     }
 
 
