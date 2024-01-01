@@ -55,15 +55,10 @@ export default function CheckoutPage({defaultValue, onChange}: ICheckoutPageProp
         emailjs.send(SERVICE_ID, TEMPLATE_ID, manager.getDetails() as Record<string, unknown>, USER_ID)
             .then((response) => {
                 setActiveStep(steps.length);
-                setSnackbarSeverity('success');
-                setSnackbarMessage('Success: Your order was submitted! Check your email for confirmation.');
-                setSnackbarOpen(true);
-                
+                setSnackbarConfig({severity: 'success', message: 'Success: Your order was submitted! Check your email for confirmation.', open: true});            
             })
             .catch((error) => {
-                setSnackbarSeverity('error');
-                setSnackbarMessage('Error: Failed to submit your order. Please try again.');
-                setSnackbarOpen(true);
+                setSnackbarConfig({severity: 'error', message: 'Error: Failed to submit your order. Please try again.', open: true});
             });
     }
 
@@ -124,16 +119,23 @@ export default function CheckoutPage({defaultValue, onChange}: ICheckoutPageProp
         }
     }
 
-    const [snackbarOpen, setSnackbarOpen] = useState(false);
-    const [snackbarMessage, setSnackbarMessage] = useState('');
-    const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
+    /**
+     * Snack bar
+     */
+    const [snackbarConfig, setSnackbarConfig] = useState<{open: boolean, message: string, severity: 'success' | 'error'}>({open: false, message: '', severity: 'success'});
     const handleSnackbarClose = (event?: React.SyntheticEvent, reason?: string) => {
         if (reason === 'clickaway') {
             return;
         }
-        setSnackbarOpen(false);
+        setSnackbarConfig(prevState => ({
+            ...prevState,  
+            open: false   
+        }));
     };
 
+    /**
+     * Function to display orders in summary page
+     */
     function displayCakeOrderingForm(){
         if(isOrderingCake){
             return (
@@ -150,6 +152,9 @@ export default function CheckoutPage({defaultValue, onChange}: ICheckoutPageProp
         }
     }
 
+    /** 
+     * Next and Previous buttons
+     */
     function disableNextButton(){
         if(activeStep === 2){
             return !isFormFilled
@@ -159,9 +164,7 @@ export default function CheckoutPage({defaultValue, onChange}: ICheckoutPageProp
             return false;
         }
     }
-    /** 
-     * Next and Previous buttons
-     */
+    
     function addNextBackButtons(){
         return (
             <Box sx={{marginTop: 5, marginBottom: 5, justifyContent: "center", position: "flex", textAlign: "center", height: "4rem"}}>  
@@ -235,7 +238,6 @@ export default function CheckoutPage({defaultValue, onChange}: ICheckoutPageProp
         } else if (activeStep === 3){
             return (
                 <>
-                    {/* <DisplayDetails details={manager.orderDetails()} /> */}
                     <OrderSummaryCard  
                         cakeDescription={manager.isOrderingCake? manager.getCakeOrderSummary(): ""}
                         addItems={manager.getItemSummary()} 
@@ -279,13 +281,13 @@ export default function CheckoutPage({defaultValue, onChange}: ICheckoutPageProp
                     {addContent(activeStep)}
                 </Box>
                 <Snackbar
-                    open={snackbarOpen}
+                    open={snackbarConfig.open}
                     autoHideDuration={6000}
                     onClose={(e) => handleSnackbarClose}
                     anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
                 >
-                    <Alert onClose={handleSnackbarClose} severity={snackbarSeverity}>
-                        {snackbarMessage}
+                    <Alert onClose={handleSnackbarClose} severity={snackbarConfig.severity}>
+                        {snackbarConfig.message}
                     </Alert>
                 </Snackbar>
                 
