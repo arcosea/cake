@@ -125,7 +125,12 @@ export class DataManager {
 
     private getPickupDate(): string {
         let pickupDate = this._contactInfo.get(Headers.PICKUP_DATE);
-        return pickupDate.toString();
+        let date = new Date(pickupDate);
+
+        let dateString = pickupDate.toString().slice(0, 16);
+        let timeString = date.toLocaleTimeString();
+        let dateTimeString = dateString + " " + timeString;
+        return dateTimeString;
     }
 
     private getFruitList(): string {

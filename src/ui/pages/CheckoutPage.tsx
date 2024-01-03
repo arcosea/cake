@@ -2,7 +2,6 @@ import { useEffect, useState } from "react"
 import { Box, Stepper, Step, StepLabel, Stack, Typography, Button, Divider, Paper, Snackbar, AlertProps} from "@mui/material"
 import { DataManager } from "../../utils/DataManager";
 import { Headers, NoYesOptions, ProductAddOns } from "../../utils/data";
-import DisplayDetails from "../components/DisplayDetails";
 import SwitchController from "../components/SwitchController";
 import AddItemsForm from "../categories/AddItemsForm";
 import CakeCustomizationForm from "../categories/CakeCustomizationForm";
@@ -12,7 +11,6 @@ import OrderSummaryCard from "../categories/OrderSummaryCard";
 import emailjs from '@emailjs/browser';
 import React from "react";
 import MuiAlert from '@mui/material/Alert';
-import { open } from "fs/promises";
 
 
 const steps: string[] = ["Order a Cake", "Additional Add-Ons", "Contact Information", "Order Summary"];
