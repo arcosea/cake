@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Box, Stepper, Step, StepLabel, FormControl, FormLabel, FormGroup, Stack, Switch, Typography, Button, Divider, Paper} from "@mui/material"
+import { Box, Stepper, Step, StepLabel, Stack, Typography, Button, Divider, Paper, Snackbar, AlertProps} from "@mui/material"
 import { DataManager } from "../../utils/DataManager";
 import { Headers, NoYesOptions, ProductAddOns } from "../../utils/data";
 import DisplayDetails from "../components/DisplayDetails";
@@ -9,11 +9,24 @@ import CakeCustomizationForm from "../categories/CakeCustomizationForm";
 import CakeSpecialNotesForm from "../categories/CakeSpecialNotesForm";
 import ContactForm from "../categories/ContactForm";
 import OrderSummaryCard from "../categories/OrderSummaryCard";
+import emailjs from '@emailjs/browser';
+import React from "react";
+import MuiAlert from '@mui/material/Alert';
+import { open } from "fs/promises";
 
 
 const steps: string[] = ["Order a Cake", "Additional Add-Ons", "Contact Information", "Order Summary"];
 let manager: DataManager = new DataManager();
+const SERVICE_ID: string = process.env.REACT_APP_EJS_SERVICE_ID!;
+const TEMPLATE_ID: string = process.env.REACT_APP_EJS_TEMPLATE_ID!;
+const USER_ID: string = process.env.REACT_APP_EJS_USER_ID!;
 
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+    props,
+    ref,
+  ) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 interface ICheckoutPageProp{
     defaultValue: number,
@@ -35,6 +48,27 @@ export default function CheckoutPage({defaultValue, onChange}: ICheckoutPageProp
         manager.resetData();
         handleOrderingCakeChanges(false);
     };
+
+    const handleSubmit = (e: any) => {
+        e.preventDefault();
+        
+        emailjs.send(SERVICE_ID, TEMPLATE_ID, manager.getDetails() as Record<string, unknown>, USER_ID)
+            .then((response) => {
+                setActiveStep(steps.length);
+                setSnackbarConfig({severity: 'success', message: 'Success: Your order was submitted! Check your email for confirmation.', open: true});            
+            })
+            .catch((error) => {
+                setSnackbarConfig({severity: 'error', message: 'Error: Failed to submit your order. Please try again.', open: true});
+            });
+    }
+
+    function handleNextClick(e: any){
+        if(activeStep === steps.length - 1){
+            handleSubmit(e);
+        } else{
+            handleNext();
+        }
+    }
 
     // Auto scrolls to the top after rendering
     useEffect(() => {
@@ -85,6 +119,23 @@ export default function CheckoutPage({defaultValue, onChange}: ICheckoutPageProp
         }
     }
 
+    /**
+     * Snack bar
+     */
+    const [snackbarConfig, setSnackbarConfig] = useState<{open: boolean, message: string, severity: 'success' | 'error'}>({open: false, message: '', severity: 'success'});
+    const handleSnackbarClose = (event?: React.SyntheticEvent, reason?: string) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setSnackbarConfig(prevState => ({
+            ...prevState,  
+            open: false   
+        }));
+    };
+
+    /**
+     * Function to display orders in summary page
+     */
     function displayCakeOrderingForm(){
         if(isOrderingCake){
             return (
@@ -100,9 +151,20 @@ export default function CheckoutPage({defaultValue, onChange}: ICheckoutPageProp
             return <></>
         }
     }
+
     /** 
      * Next and Previous buttons
      */
+    function disableNextButton(){
+        if(activeStep === 2){
+            return !isFormFilled
+        } else if(activeStep === 3){
+            return manager.noOrder;
+        } else {
+            return false;
+        }
+    }
+    
     function addNextBackButtons(){
         return (
             <Box sx={{marginTop: 5, marginBottom: 5, justifyContent: "center", position: "flex", textAlign: "center", height: "4rem"}}>  
@@ -117,8 +179,8 @@ export default function CheckoutPage({defaultValue, onChange}: ICheckoutPageProp
                         </Button>
                     <Button 
                         id="nextButton"
-                        onClick={handleNext} 
-                        disabled={activeStep === 2? !isFormFilled : false} 
+                        onClick={(e) => handleNextClick(e)} 
+                        disabled={disableNextButton()} 
                         sx={{border: 1}}
                     >
                         {activeStep === steps.length - 1 ? 'Submit' : 'Next'}
@@ -128,18 +190,20 @@ export default function CheckoutPage({defaultValue, onChange}: ICheckoutPageProp
             </Box>
         )
     }
-
+    
     function addContent(step: any ){
         if(activeStep === steps.length){
             return (
                 <>
                     <Typography sx={{ mt: 2, mb: 1 }}>
-                        All steps completed - you&apos;re finished
+                        Your order was submitted! 
+                        Check your email for confirmation.
                     </Typography>
                     <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                         <Box sx={{ flex: '1 1 auto' }} />
                         <Button onClick={handleReset} sx={{border: 1}}>Reset</Button>
                     </Box>
+                    
                 </>
             )
             
@@ -174,13 +238,13 @@ export default function CheckoutPage({defaultValue, onChange}: ICheckoutPageProp
         } else if (activeStep === 3){
             return (
                 <>
-                    {/* <DisplayDetails details={manager.orderDetails()} /> */}
-                    <OrderSummaryCard cakeTitle={manager.isOrderingCake? manager.getCakeOrderTitle(): "Not Ordering Cake"} 
+                    <OrderSummaryCard  
                         cakeDescription={manager.isOrderingCake? manager.getCakeOrderSummary(): ""}
-                        addItems={manager.getAdditionalItemOrderSummary()} 
+                        addItems={manager.getItemSummary()} 
                         onClick={handleSummaryEditClick}
                     />
                     {addNextBackButtons()}
+                    
                 </>
             )
             
@@ -216,7 +280,16 @@ export default function CheckoutPage({defaultValue, onChange}: ICheckoutPageProp
                 <Box sx={{marginTop: 2}}>
                     {addContent(activeStep)}
                 </Box>
-                
+                <Snackbar
+                    open={snackbarConfig.open}
+                    autoHideDuration={6000}
+                    onClose={(e) => handleSnackbarClose}
+                    anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                >
+                    <Alert onClose={handleSnackbarClose} severity={snackbarConfig.severity}>
+                        {snackbarConfig.message}
+                    </Alert>
+                </Snackbar>
                 
              
             </Box>         

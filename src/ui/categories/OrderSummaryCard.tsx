@@ -2,13 +2,12 @@ import { Box, Stack, Card, CardHeader, CardContent, Typography, CardActions, Ico
 import EditIcon from '@mui/icons-material/Edit';
 import { Headers } from "../../utils/data";
 interface IOrderSummaryCardProp{
-    cakeTitle?: string,
     cakeDescription?: string[] | string;
-    addItems: Map<string, number>;
+    addItems: string;
     onClick: Function
 }
 
-export default function OrderSummaryCard({cakeTitle, cakeDescription, addItems, onClick}: IOrderSummaryCardProp){
+export default function OrderSummaryCard({cakeDescription, addItems, onClick}: IOrderSummaryCardProp){
 
     const handleCakeEditClick = () => {
         onClick(Headers.CAKE)
@@ -23,7 +22,7 @@ export default function OrderSummaryCard({cakeTitle, cakeDescription, addItems, 
             <>
                 <Card sx={{ maxWidth: "100%", marginBottom: 2}}>
                     <CardHeader   
-                        title={cakeTitle}
+                        title={Headers.CAKE}
                         sx={{backgroundColor: "#52a869"}}
                     />
                     
@@ -47,29 +46,25 @@ export default function OrderSummaryCard({cakeTitle, cakeDescription, addItems, 
     }
 
     function displayOtherItems(){
-        if(addItems.size > 0){
-            return (
-                <>
-                    <Card sx={{ maxWidth: "100%", }}>
-                        <CardHeader   
-                            title={Headers.ADDITIONAL_ITEMS}
-                            sx={{backgroundColor: "#52a869"}}
-                        />
-                        
-                        <CardContent>
-                            {Array.from(addItems)?.map(([itemName, quantity]) => (
-                                <Typography key={itemName + quantity}> {itemName}: {quantity}x </Typography>
-                            ))}
-                        </CardContent>
-                        <CardActions disableSpacing>
-                            <IconButton aria-label="Edit" onClick={handleAddItemsEditClick}>
-                                <EditIcon />
-                            </IconButton>
-                        </CardActions>
-                    </Card> 
-                </>
-            )
-        }
+        return (
+            <>
+                <Card sx={{ maxWidth: "100%", marginBottom: 2}}>
+                    <CardHeader   
+                        title={Headers.ADDITIONAL_ITEMS}
+                        sx={{backgroundColor: "#52a869"}}
+                    />
+                    
+                    <CardContent>
+                        <Typography> {addItems}</Typography>
+                    </CardContent>
+                    <CardActions disableSpacing>
+                        <IconButton aria-label="Edit" onClick={handleAddItemsEditClick}>
+                            <EditIcon />
+                        </IconButton>
+                    </CardActions>
+                </Card> 
+            </>
+        )
         
     }
 

@@ -1,4 +1,4 @@
-import { CakePeopleSize, CakeFillings, CakeFlavors, CakeFruit, Headers, Genders, NoYesOptions, CakeOccasions, ProductAddOns, CakeIcing } from "./data";
+import { CakePeopleSize, CakeFillings, CakeFlavors, CakeFruit, Headers, Genders, NoYesOptions, CakeOccasions, ProductAddOns, CakeIcing, OrderDetails } from "./data";
 import { Helper } from "./Helper";
 import { IProductAddOn } from "./IProductAddOn";
 
@@ -35,7 +35,6 @@ export class DataManager {
         this.initAdditionalAddOns();
         this.initContactInfo();
         this.initConfirmationNumber();
-
     }
 
 
@@ -81,7 +80,7 @@ export class DataManager {
         let codeLength: number = 5;
         let randomCode: string = this._helper.makeRandomID(codeLength);
 
-        // this._confirmationNumber = String(this._currentDate.$M + indexDiff) + String(this._currentDate.$D) + randomCode;
+        this._confirmationNumber = String(this._currentDate.getMonth() + indexDiff) + String(this._currentDate.getDate()) + randomCode;
     }
 
     public updateOrderCriteria(criteriaType: string, value: string | any) {
@@ -115,40 +114,32 @@ export class DataManager {
         this.initAdditionalAddOns();
     }
 
-    public orderDetails() {
-        let details: Map<string, any> = new Map();
-        if (this._isOrderingCake) {
-            details.set(Headers.ORDERING_A_CAKE, NoYesOptions[1]);
-            details.set(Headers.CAKE_SIZE, this._orderCriteria.get(Headers.CAKE_SIZE));
-            details.set(Headers.CAKE_OCCASION, this._orderCriteria.get(Headers.CAKE_OCCASION))
-            details.set(Headers.CAKE_FILLING, this._orderCriteria.get(Headers.CAKE_FILLING));
-            details.set(Headers.CAKE_FLAVOR, this._orderCriteria.get(Headers.CAKE_FLAVOR));
-
-            let fruit: string[] = [];
-            let selectedFruit = this._orderCriteria.get(Headers.ADD_FRUIT);
-            for (const option in selectedFruit) {
-                if (selectedFruit[option]) {
-                    fruit.push(option)
-                }
-            };
-            details.set(Headers.ADD_FRUIT, fruit.toString());
-
-            // details.set(Headers.GENDER, this._orderCriteria.get(Headers.GENDER));
-            details.set(Headers.SPECIAL_INSTRUCTIONS, this._additionalRequests.get(Headers.SPECIAL_INSTRUCTIONS));
-        } else {
-            details.set(Headers.ORDERING_A_CAKE, NoYesOptions[0]);
+    private getFileUpload() {
+        let dataImage = null;
+        let fileUpload = this._additionalRequests.get(Headers.FILE_UPLOAD);
+        if (fileUpload[0]) {
+            dataImage = fileUpload[1]
         }
-
-
-        return details;
+        return dataImage;
     }
 
-    public getCakeOrderTitle() {
-        if (this._isOrderingCake) {
-            let title: string = this._orderCriteria.get(Headers.CAKE_OCCASION) + " " + Headers.CAKE;
-            return title;
-        }
+    private getPickupDate(): string {
+        let pickupDate = this._contactInfo.get(Headers.PICKUP_DATE);
+        return pickupDate.toString();
     }
+
+    private getFruitList(): string {
+        let fruit: string[] = [];
+        let selectedFruit = this._orderCriteria.get(Headers.ADD_FRUIT);
+        for (const option in selectedFruit) {
+            if (selectedFruit[option]) {
+                fruit.push(option)
+            }
+        };
+        return fruit.toString();
+    }
+
+
     public getCakeOrderSummary() {
         if (this._isOrderingCake) {
             let description: string = "";
@@ -156,16 +147,10 @@ export class DataManager {
             let criteriaKeys = Array.from(this._orderCriteria.keys());
             for (const key of criteriaKeys) {
                 if (key === Headers.ADD_FRUIT) {
-                    let fruit: string[] = [];
-                    let selectedFruit = this._orderCriteria.get(Headers.ADD_FRUIT);
-                    for (const option in selectedFruit) {
-                        if (selectedFruit[option]) {
-                            fruit.push(option)
-                        }
-                    };
+                    let fruit: string = this.getFruitList();
 
                     if (fruit.length > 0) {
-                        description += Headers.ADD_FRUIT + ": " + fruit.toString() + " | ";
+                        description += Headers.ADD_FRUIT + ": " + fruit + " | ";
                     }
                 } else {
                     description += key + ": " + this._orderCriteria.get(key) + " | ";
@@ -175,7 +160,10 @@ export class DataManager {
             let additionalRequestKeys = Array.from(this._additionalRequests.keys());
             for (const key of additionalRequestKeys) {
                 if (key !== Headers.FILE_UPLOAD) {
-                    description += key + ": " + this._additionalRequests.get(key) + " | ";
+                    let content: string = this._additionalRequests.get(key);
+                    if (content.trim() !== "") {
+                        description += key + ": " + this._additionalRequests.get(key) + " | ";
+                    }
                 }
             }
 
@@ -183,7 +171,7 @@ export class DataManager {
         }
     }
 
-    public getItemSummary() {
+    public getItemSummary(): string {
         let description: string = "";
         let itemNameKeys = Array.from(this._additionalAddOns.keys());
         for (const item of itemNameKeys) {
@@ -192,23 +180,48 @@ export class DataManager {
                 description += item + ": " + quantity + "x | "
             }
         }
-
-        if (description === "") {
-            description = "NA"
-        }
         return description;
     }
 
-    public getAdditionalItemOrderSummary() {
-        let details: Map<string, number> = new Map();
-        ProductAddOns.forEach((product: IProductAddOn) => {
-            let quantity: number = this.additionalAddOns.get(product.itemName)!;
-
+    private isOrderingItems(): boolean {
+        let itemNameKeys = Array.from(this._additionalAddOns.keys());
+        for (const item of itemNameKeys) {
+            let quantity: number = this._additionalAddOns.get(item)!;
             if (quantity > 0) {
-                details.set(product.itemName, quantity);
+                return true;
             }
-        });
+        }
+        return false;
+    }
 
+
+    public getDetails(): OrderDetails {
+        let details: OrderDetails = {
+            first_name: this._contactInfo.get(Headers.FIRST_NAME),
+            last_name: this._contactInfo.get(Headers.LAST_NAME),
+            phone_number: this._contactInfo.get(Headers.PHONE_NUMBER),
+            email: this._contactInfo.get(Headers.EMAIL),
+            order_number: this._confirmationNumber,
+            order_date: this._currentDate.toDateString(),
+            pickup_date: this.getPickupDate(),
+            total_amount: "TBD",
+            is_ordering_cake: this._isOrderingCake ? NoYesOptions[1] : NoYesOptions[0],
+            other_items: this.getItemSummary()
+
+        }
+
+        if (this.isOrderingCake) {
+            details.cake_size = this._orderCriteria.get(Headers.CAKE_SIZE);
+            details.cake_occasion = this._orderCriteria.get(Headers.CAKE_OCCASION);
+            details.cake_filling = this._orderCriteria.get(Headers.CAKE_FILLING);
+            details.cake_flavor = this._orderCriteria.get(Headers.CAKE_FLAVOR);
+            details.cake_icing = this._orderCriteria.get(Headers.CAKE_ICING);
+            details.fruit = this.getFruitList();
+            details.colors = this._additionalRequests.get(Headers.COLOR);
+            details.message = this._additionalRequests.get(Headers.CAKE_MESSAGE);
+            details.instructions = this._additionalRequests.get(Headers.SPECIAL_INSTRUCTIONS);
+            details.image = "";
+        }
         return details;
     }
 
@@ -243,6 +256,12 @@ export class DataManager {
     public get isOrderingCake() {
         return this._isOrderingCake;
     }
+
+    public get noOrder(): boolean {
+        return !this.isOrderingCake && !this.isOrderingItems();
+    }
+
+
 
 
 
