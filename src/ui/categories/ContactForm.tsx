@@ -100,12 +100,12 @@ export default function ContactForm({defaultValues, disableDatesBefore, disabled
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DemoContainer components={['DateTimePicker']}>
                             <DateTimePicker 
+                                views={['year', 'month', 'day', 'hours']}
                                 label={Headers.PICKUP_DATE} 
                                 value={dateTime} 
                                 onChange={handleDateTimeChange} 
                                 shouldDisableDate={isDateDisabled}
                                 shouldDisableTime={isTimeDisabled}
-                                // sx={{ width: "50px" }}
                             />
                         </DemoContainer>
                     </LocalizationProvider>
