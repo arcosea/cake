@@ -1,4 +1,4 @@
-import { Box, Stack, Card, CardHeader, CardContent, Typography, CardActions, IconButton} from "@mui/material";
+import { Box, Stack, Card, CardHeader, CardContent, Typography, CardActions, IconButton, Tooltip} from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import { Headers } from "../../utils/data";
 interface IOrderSummaryCardProp{
@@ -36,9 +36,12 @@ export default function OrderSummaryCard({cakeDescription, addItems, onClick}: I
                         <Typography> {cakeDescription}</Typography>
                     </CardContent>
                     <CardActions disableSpacing>
-                        <IconButton aria-label="Edit" onClick={handleCakeEditClick}>
-                            <EditIcon />
-                        </IconButton>
+                        <Tooltip title="Edit">
+                            <IconButton aria-label="Edit" onClick={handleCakeEditClick}>
+                                    <EditIcon />
+                                </IconButton>
+                        </Tooltip>
+
                     </CardActions>
                 </Card> 
             </>
@@ -58,9 +61,11 @@ export default function OrderSummaryCard({cakeDescription, addItems, onClick}: I
                         <Typography> {addItems}</Typography>
                     </CardContent>
                     <CardActions disableSpacing>
-                        <IconButton aria-label="Edit" onClick={handleAddItemsEditClick}>
-                            <EditIcon />
-                        </IconButton>
+                        <Tooltip title="Edit">
+                            <IconButton aria-label="Edit" onClick={handleAddItemsEditClick}>
+                                    <EditIcon />
+                                </IconButton>
+                        </Tooltip>
                     </CardActions>
                 </Card> 
             </>
