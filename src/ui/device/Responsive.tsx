@@ -8,6 +8,8 @@ import { TabLabels } from "../../utils/data";
 import { FaHouse } from "react-icons/fa6";
 import { BsCake2Fill } from "react-icons/bs";
 import { MdShoppingCart } from "react-icons/md";
+import Home from "../pages/Home";
+import CustomImageList from "../pages/Home";
 
 
 function a11yProps(index: number) {
@@ -55,7 +57,8 @@ export default function Responsive({onMobile}: IResponsiveProp) {
         </Box>
         <Box>
           <CustomTabPage value={value} index={0}>
-            <CardHomePage/>
+            {/* <CardHomePage/> */}
+            <Home/>
           </CustomTabPage>
           <CustomTabPage value={value} index={1}>
             <ProductsPage/>

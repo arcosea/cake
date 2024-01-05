@@ -1,8 +1,15 @@
 import { IProduct } from "./IProduct";
+import c0 from "../assets/c0.jpg"
 import c1 from "../assets/c1.jpg"
 import c2 from "../assets/c2.jpg"
 import c3 from "../assets/c3.jpg"
 import c4 from "../assets/c4.jpg"
+import c5 from "../assets/c5.jpg"
+import c6 from "../assets/c6.jpg"
+import c7 from "../assets/c7.jpg"
+import c8 from "../assets/c8.jpg"
+import c9 from "../assets/c9.jpg"
+import c10 from "../assets/c10.jpg"
 import { IProductAddOn } from "./IProductAddOn";
 
 
@@ -25,6 +32,27 @@ export const Cakes: IProduct[] = [{
         + "flour and sugar and often shortening, eggs, and a raising agent (such as baking powder) : a flattened usually round mass of food that is baked or fried"
 },
 ]
+
+export interface elem {
+    title: string;
+    url: any;
+}
+
+export const items: any[] = [{
+    title: "Cake", url: c5
+}, {
+    title: "Contact", content: []
+}, {
+    title: "Cake", url: c7
+}, {
+    title: "Cake", content: ["Mon: 10am - 6pm", "Mon: 10am - 6pm", "Mon: 10am - 6pm", "Mon: 10am - 6pm"]
+}, {
+    title: "Cake", url: c9
+}, {
+    title: "Cake", url: c10
+}, {
+    title: "Cake", url: c0
+}]
 
 
 export const ProductAddOns: IProductAddOn[] = [
@@ -77,12 +105,22 @@ export enum Headers {
 
 export enum Bakery {
     NAME = "Teresita's Mexican Bakery",
-    LOCATION = "3731 McKinley Ave, Tacoma, WA, United States, Washington",
+    LOCATION = "3731 McKinley Ave, Tacoma, WA, United States",
     PHONE_NUMBER = "(253) 474-5110",
     SERVICES = "In-Store Pickup",
     PRODUCTS = "Bakery, 3 Leches, Cupcakes with Fillings, Mini Pies, Cheesecake, Chocoflan",
     EMAIL = "teresitasbakery@gmail.com",
     HOURS = "M (10am - 6pm) | T (closed) | W - S (10am - 6pm) | S (10am - 1pm)"
+}
+
+export enum Hours {
+    MONDAY = "Mon: 10am - 6pm",
+    TUESDAY = "Tues: closed",
+    WEDNESDAY = "Wed: 10am - 6pm",
+    THURSDAY = "Thu: 10am - 6pm",
+    FRIDAY = "Fri: 10am - 6pm",
+    SATURDAY = "Sat: 10am - 6pm",
+    SUNDAY = "Sun: 10am - 1pm",
 }
 
 
@@ -93,7 +131,7 @@ export enum TabLabels {
 }
 
 
-export interface OrderDetails{
+export interface IOrderDetails {
     first_name?: string;
     last_name?: string;
     phone_number?: string;
@@ -105,7 +143,7 @@ export interface OrderDetails{
     is_ordering_cake?: string;
     cake_size?: string;
     cake_occasion?: string;
-    cake_filling?: string; 
+    cake_filling?: string;
     cake_flavor?: string;
     cake_icing?: string;
     fruit?: string;

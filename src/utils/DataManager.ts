@@ -1,4 +1,4 @@
-import { CakePeopleSize, CakeFillings, CakeFlavors, CakeFruit, Headers, Genders, NoYesOptions, CakeOccasions, ProductAddOns, CakeIcing, OrderDetails } from "./data";
+import { CakePeopleSize, CakeFillings, CakeFlavors, CakeFruit, Headers, Genders, NoYesOptions, CakeOccasions, ProductAddOns, CakeIcing, IOrderDetails } from "./data";
 import { Helper } from "./Helper";
 import { IProductAddOn } from "./IProductAddOn";
 
@@ -200,8 +200,8 @@ export class DataManager {
     }
 
 
-    public getDetails(): OrderDetails {
-        let details: OrderDetails = {
+    public getDetails(): IOrderDetails {
+        let details: IOrderDetails = {
             first_name: this._contactInfo.get(Headers.FIRST_NAME),
             last_name: this._contactInfo.get(Headers.LAST_NAME),
             phone_number: this._contactInfo.get(Headers.PHONE_NUMBER),
