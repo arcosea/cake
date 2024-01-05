@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, Tabs, Tab} from "@mui/material";
+import { Box, Tabs, Tab, Avatar} from "@mui/material";
 import CustomTabPage from "../components/CustomTabPage";
 import CheckoutPage from "../pages/CheckoutPage";
 import { CardHomePage } from "../pages/CardHomePage";
@@ -8,9 +8,7 @@ import { BakeryHeaders, TabLabels } from "../../utils/data";
 import { FaHouse } from "react-icons/fa6";
 import { BsCake2Fill } from "react-icons/bs";
 import { MdShoppingCart } from "react-icons/md";
-import Home from "../pages/Home";
-import CustomImageList from "../pages/Home";
-
+import HomePage from "../pages/HomePage";
 
 function a11yProps(index: number) {
     return {
@@ -65,8 +63,7 @@ export default function Responsive({onMobile}: IResponsiveProp) {
         </Box>
         <Box>
           <CustomTabPage value={value} index={0}>
-            {/* <CardHomePage/> */}
-            <Home onClick={handleClick}/>
+            <HomePage onClick={handleClick}/>
           </CustomTabPage>
           <CustomTabPage value={value} index={1}>
             <ProductsPage/>

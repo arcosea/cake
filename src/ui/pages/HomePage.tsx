@@ -18,10 +18,10 @@ import { MdOutlineMail } from "react-icons/md";
 import { SiGooglemaps } from "react-icons/si";
 
 
-interface IHome{
+interface IHomePage{
     onClick: Function
 }
-export default function Home({onClick} : IHome){
+export default function HomePage({onClick} : IHomePage){
     const hours = Object.values(Hours);
     
     useEffect(() => {
@@ -68,34 +68,32 @@ export default function Home({onClick} : IHome){
                     />
                 </Card>
             </Box>
-            <Box
-                sx={{width: "100%",
+
+            <Box sx={{width: "100%",
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center"
                 }}
             >
-                <Button onClick={handleOrderClick} 
-                    sx={{border: 1, marginBottom: 2}}
-                > 
+                <Button onClick={handleOrderClick}  sx={{border: 1, marginBottom: 2, color: "green"}} > 
                     { BakeryHeaders.PLACE_ORDER} 
                 </Button>
             </Box>
-            
             <Divider />
 
             <Grid container spacing={2} sx={{marginTop: 2}}>
+                
                 <Grid item xs={12} sm={3} md={3} lg={3} xl={3}>
                     <Box sx={contentStyles} >
                         <Stack>
                             <Typography variant="h4" > {BakeryHeaders.INFO} </Typography>
                             <Divider />
                             <Typography sx={{marginTop: 1}}> 
-                                <SiGooglemaps style={{color: "green"}}/> 
+                                <SiGooglemaps style={{color: "#34A853"}}/> 
                                 <Link href={Links.LOCATION} underline="hover"> {Bakery.LOCATION}</Link> 
                             </Typography>
-                            <Typography sx={{marginTop: 1}}> <MdOutlineMail/> {Bakery.EMAIL} </Typography>
-                            <Typography sx={{marginTop: 1}}> <FaPhoneAlt /> {Bakery.PHONE_NUMBER} </Typography>
+                            <Typography sx={{marginTop: 1}}> <MdOutlineMail style={{color: "#EA4335"}}/> {Bakery.EMAIL} </Typography>
+                            <Typography sx={{marginTop: 1}}> <FaPhoneAlt style={{color: "#4285F4"}}/> {Bakery.PHONE_NUMBER} </Typography>
                             
                         </Stack>
                     </Box>
@@ -145,12 +143,9 @@ export default function Home({onClick} : IHome){
                             <Typography variant="h4" > {BakeryHeaders.PRODUCTS} </Typography>
                             <Divider />
                             <Typography sx={{marginTop: 2}}>{Bakery.PRODUCTS} </Typography>
-                            <Button onClick={handleWorkClick} 
-                                sx={{border: 1, marginTop: 2}}
-                            > 
+                            <Button onClick={handleWorkClick} sx={{border: 1, marginTop: 2}} > 
                                 { BakeryHeaders.VIEW_WORK} 
                             </Button>
-                            
                         </Stack>
                     </Box>
                 </Grid>
