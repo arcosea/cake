@@ -99,13 +99,24 @@ export enum Headers {
     LAST_NAME = "Last Name",
     EMAIL = "Email",
     PHONE_NUMBER = "Phone Number",
-    ADDITIONAL_ITEMS = "Additional Items"
+    ADDITIONAL_ITEMS = "Additional Items",
+}
+
+export enum BakeryHeaders {
+    INFO = "General Info",
+    HOURS = "Hours",
+    SOCIALS = "Social Media",
+    FACEBOOK = "Facebook",
+    INSTAGRAM = "Instagram",
+    PRODUCTS = "Products",
+    PLACE_ORDER = "Place an Order",
+    VIEW_WORK = "View Examples"
 }
 
 
 export enum Bakery {
     NAME = "Teresita's Mexican Bakery",
-    LOCATION = "3731 McKinley Ave, Tacoma, WA, United States",
+    LOCATION = "3731 McKinley Ave, Tacoma, WA",
     PHONE_NUMBER = "(253) 474-5110",
     SERVICES = "In-Store Pickup",
     PRODUCTS = "Bakery, 3 Leches, Cupcakes with Fillings, Mini Pies, Cheesecake, Chocoflan",
@@ -115,12 +126,18 @@ export enum Bakery {
 
 export enum Hours {
     MONDAY = "Mon: 10am - 6pm",
-    TUESDAY = "Tues: closed",
+    TUESDAY = "Tue: --closed--",
     WEDNESDAY = "Wed: 10am - 6pm",
     THURSDAY = "Thu: 10am - 6pm",
     FRIDAY = "Fri: 10am - 6pm",
     SATURDAY = "Sat: 10am - 6pm",
     SUNDAY = "Sun: 10am - 1pm",
+}
+
+export enum Links {
+    LOCATION = "https://maps.app.goo.gl/2NPiYpWFGWRTJwUj9",
+    FACEBOOK = "https://www.facebook.com/teresitasmexicanbakery/",
+    INSTAGRAM = "https://www.instagram.com/teresitasmexicanbakery/"
 }
 
 

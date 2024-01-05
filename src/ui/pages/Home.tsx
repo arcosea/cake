@@ -1,8 +1,9 @@
 import {useEffect, useState} from "react"
-import {Typography, ImageListItem, ImageListItemBar, Card, CardMedia, Box, CardContent, CardHeader, Grid, Stack, Theme, Divider, Link} from "@mui/material";
-import { Bakery, Cakes, Hours } from "../../utils/data";
+import {Typography, ImageListItem, ImageListItemBar, Card, CardMedia, Box, CardContent, CardHeader, Grid, Stack, Theme, Divider, Link, Button} from "@mui/material";
+import { Bakery, BakeryHeaders, Cakes, Hours, Links } from "../../utils/data";
 import { IProduct } from "../../utils/IProduct";
 import { CardItem } from "../components/CardItem";
+import c0 from "../../assets/c0.jpg";
 import c5 from "../../assets/c5.jpg";
 import c6 from "../../assets/c6.jpg"
 import c7 from "../../assets/c7.jpg"
@@ -11,10 +12,18 @@ import c9 from "../../assets/c9.jpg"
 import c10 from "../../assets/c10.jpg"
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
+import { FaPhoneAlt } from "react-icons/fa";
+import { FaMapLocationDot } from "react-icons/fa6";
+import { MdOutlineMail } from "react-icons/md";
+import { SiGooglemaps } from "react-icons/si";
 
 
-export default function Home(){
-    // Auto scrolls to the top after rendering
+interface IHome{
+    onClick: Function
+}
+export default function Home({onClick} : IHome){
+    const hours = Object.values(Hours);
+    
     useEffect(() => {
         window.scrollTo(0, 0)
     }, []);
@@ -33,7 +42,13 @@ export default function Home(){
         height: '300px'
     }
 
-    let hours = Object.values(Hours);
+    const handleOrderClick = () => {
+        onClick(BakeryHeaders.PLACE_ORDER)
+    }
+
+    const handleWorkClick = () => {
+        onClick(BakeryHeaders.VIEW_WORK)
+    }
     
 
     return (
@@ -53,54 +68,88 @@ export default function Home(){
                     />
                 </Card>
             </Box>
+            <Box
+                sx={{width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center"
+                }}
+            >
+                <Button onClick={handleOrderClick} 
+                    sx={{border: 1, marginBottom: 2}}
+                > 
+                    { BakeryHeaders.PLACE_ORDER} 
+                </Button>
+            </Box>
+            
+            <Divider />
 
-            <Grid container spacing={2}>
-                <Grid  item xs={12} sm={6} md={6} lg={6} xl={6}>
-                    <img src={c8}  alt="Sample" style={imageStyles} />
-                </Grid>
-                <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
+            <Grid container spacing={2} sx={{marginTop: 2}}>
+                <Grid item xs={12} sm={3} md={3} lg={3} xl={3}>
                     <Box sx={contentStyles} >
                         <Stack>
-                            <Typography variant="h4" > Contact Information </Typography>
+                            <Typography variant="h4" > {BakeryHeaders.INFO} </Typography>
                             <Divider />
-                            <Typography> {Bakery.LOCATION} </Typography>
-                            <Typography> {Bakery.EMAIL} </Typography>
-                            <Typography> {Bakery.PHONE_NUMBER} </Typography>
+                            <Typography sx={{marginTop: 1}}> 
+                                <SiGooglemaps style={{color: "green"}}/> 
+                                <Link href={Links.LOCATION} underline="hover"> {Bakery.LOCATION}</Link> 
+                            </Typography>
+                            <Typography sx={{marginTop: 1}}> <MdOutlineMail/> {Bakery.EMAIL} </Typography>
+                            <Typography sx={{marginTop: 1}}> <FaPhoneAlt /> {Bakery.PHONE_NUMBER} </Typography>
                             
                         </Stack>
                     </Box>
                 </Grid>
-                <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
+                <Grid  item xs={12} sm={3} md={3} lg={3} xl={3}>
+                    <img src={c7}  alt="Sample" style={imageStyles} />
+                </Grid>
+                <Grid item xs={12} sm={3} md={3} lg={3} xl={3}>
                     <Box sx={contentStyles} >
                         <Stack>
-                            <Typography variant="h4" > Hours</Typography>
+                            <Typography variant="h4" > {BakeryHeaders.HOURS} </Typography>
                             <Divider />
                             {hours.map( (hour: any) => {
-                                return <Typography> {hour} </Typography>
+                                return <Typography sx={{marginTop: 1}}> {hour} </Typography>
                             })}
                         </Stack>
                     </Box>
                 </Grid>
-                <Grid  item xs={12} sm={6} md={6} lg={6} xl={6}>
-                    <img src={c7}  alt="Sample" style={imageStyles} />
+                <Grid  item xs={12} sm={3} md={3} lg={3} xl={3}>
+                    <img src={c10}  alt="Sample" style={imageStyles} />
                 </Grid>
-                <Grid  item xs={12} sm={6} md={6} lg={6} xl={6}>
-                    <img src={c9}  alt="Sample" style={imageStyles} />
+                <Grid  item xs={12} sm={3} md={3} lg={3} xl={3}>
+                    <img src={c6}  alt="Sample" style={imageStyles} />
                 </Grid>
-                <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
+                <Grid item xs={12} sm={3} md={3} lg={3} xl={3}>
                     <Box sx={contentStyles} >
                         <Stack>
-                            <Typography variant="h4" > Follow Us!!</Typography>
+                            <Typography variant="h4" > {BakeryHeaders.SOCIALS}</Typography>
                             <Divider />
-                            <Stack direction="row">
-                                <FacebookIcon />
-                                <Link href="#">Facebook</Link>
+                            <Stack direction="row" sx={{marginTop: 2}}>
+                                <FacebookIcon style={{color: "#385898"}}/>
+                                <Link href={Links.FACEBOOK} underline="hover" > {BakeryHeaders.FACEBOOK} </Link>
                             </Stack>
-                            <Stack direction="row">
-                                <InstagramIcon />
-                                <Link href="#">Instagram</Link>
+                            <Stack direction="row" sx={{marginTop: 2}}>
+                            <InstagramIcon style={{color: "blueviolet"}}/>
+                                <Link href={Links.INSTAGRAM} underline="hover"> {BakeryHeaders.INSTAGRAM} </Link>
                             </Stack>
-                            
+                        </Stack>
+                    </Box>
+                </Grid>
+                <Grid  item xs={12} sm={3} md={3} lg={3} xl={3}>
+                    <img src={c8}  alt="Sample" style={imageStyles} />
+                </Grid>
+                <Grid item xs={12} sm={3} md={3} lg={3} xl={3}>
+                    <Box sx={contentStyles} >
+                        <Stack sx={{padding: 3}}>
+                            <Typography variant="h4" > {BakeryHeaders.PRODUCTS} </Typography>
+                            <Divider />
+                            <Typography sx={{marginTop: 2}}>{Bakery.PRODUCTS} </Typography>
+                            <Button onClick={handleWorkClick} 
+                                sx={{border: 1, marginTop: 2}}
+                            > 
+                                { BakeryHeaders.VIEW_WORK} 
+                            </Button>
                             
                         </Stack>
                     </Box>

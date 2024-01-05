@@ -4,7 +4,7 @@ import CustomTabPage from "../components/CustomTabPage";
 import CheckoutPage from "../pages/CheckoutPage";
 import { CardHomePage } from "../pages/CardHomePage";
 import ProductsPage from "../pages/ProductsPage";
-import { TabLabels } from "../../utils/data"; 
+import { BakeryHeaders, TabLabels } from "../../utils/data"; 
 import { FaHouse } from "react-icons/fa6";
 import { BsCake2Fill } from "react-icons/bs";
 import { MdShoppingCart } from "react-icons/md";
@@ -34,6 +34,14 @@ export default function Responsive({onMobile}: IResponsiveProp) {
     const handleStepChange = (step: number) => {
       setStep(step);
     } 
+
+    const handleClick = (name: string ) => {
+        if(name === BakeryHeaders.PLACE_ORDER){
+          setValue(2)
+        } else if (name === BakeryHeaders.VIEW_WORK){
+          setValue(1)
+        }
+    }
   
     return (
       <Box sx={{ width: '100%'}}>
@@ -58,7 +66,7 @@ export default function Responsive({onMobile}: IResponsiveProp) {
         <Box>
           <CustomTabPage value={value} index={0}>
             {/* <CardHomePage/> */}
-            <Home/>
+            <Home onClick={handleClick}/>
           </CustomTabPage>
           <CustomTabPage value={value} index={1}>
             <ProductsPage/>
