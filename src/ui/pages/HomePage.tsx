@@ -82,8 +82,10 @@ export default function HomePage({onClick} : IHomePage){
             <Divider />
 
             <Grid container spacing={2} sx={{marginTop: 2}}>
-                
-                <Grid item xs={12} sm={3} md={3} lg={3} xl={3}>
+                <Grid  item xs={12} sm={4} md={4} lg={4} xl={4}>
+                    <img src={c7}  alt="Sample" style={imageStyles} />
+                </Grid>
+                <Grid item xs={12} sm={4} md={4} lg={4} xl={4}>
                     <Box sx={contentStyles} >
                         <Stack>
                             <Typography variant="h4" > {BakeryHeaders.INFO} </Typography>
@@ -98,10 +100,10 @@ export default function HomePage({onClick} : IHomePage){
                         </Stack>
                     </Box>
                 </Grid>
-                <Grid  item xs={12} sm={3} md={3} lg={3} xl={3}>
-                    <img src={c7}  alt="Sample" style={imageStyles} />
+                <Grid  item xs={12} sm={4} md={4} lg={4} xl={4}>
+                    <img src={c10}  alt="Sample" style={imageStyles} />
                 </Grid>
-                <Grid item xs={12} sm={3} md={3} lg={3} xl={3}>
+                <Grid item xs={12} sm={4} md={4} lg={4} xl={4}>
                     <Box sx={contentStyles} >
                         <Stack>
                             <Typography variant="h4" > {BakeryHeaders.HOURS} </Typography>
@@ -112,13 +114,10 @@ export default function HomePage({onClick} : IHomePage){
                         </Stack>
                     </Box>
                 </Grid>
-                <Grid  item xs={12} sm={3} md={3} lg={3} xl={3}>
-                    <img src={c10}  alt="Sample" style={imageStyles} />
+                <Grid  item xs={12} sm={4} md={4} lg={4} xl={4}>
+                    <img src={c9}  alt="Sample" style={imageStyles} />
                 </Grid>
-                <Grid  item xs={12} sm={3} md={3} lg={3} xl={3}>
-                    <img src={c6}  alt="Sample" style={imageStyles} />
-                </Grid>
-                <Grid item xs={12} sm={3} md={3} lg={3} xl={3}>
+                <Grid item xs={12} sm={4} md={4} lg={4} xl={4}>
                     <Box sx={contentStyles} >
                         <Stack>
                             <Typography variant="h4" > {BakeryHeaders.SOCIALS}</Typography>
@@ -134,10 +133,10 @@ export default function HomePage({onClick} : IHomePage){
                         </Stack>
                     </Box>
                 </Grid>
-                <Grid  item xs={12} sm={3} md={3} lg={3} xl={3}>
+                <Grid  item xs={12} sm={4} md={4} lg={4} xl={4}>
                     <img src={c8}  alt="Sample" style={imageStyles} />
                 </Grid>
-                <Grid item xs={12} sm={3} md={3} lg={3} xl={3}>
+                <Grid item xs={12} sm={4} md={4} lg={4} xl={4}>
                     <Box sx={contentStyles} >
                         <Stack sx={{padding: 3}}>
                             <Typography variant="h4" > {BakeryHeaders.PRODUCTS} </Typography>
@@ -148,6 +147,9 @@ export default function HomePage({onClick} : IHomePage){
                             </Button>
                         </Stack>
                     </Box>
+                </Grid>
+                <Grid  item xs={12} sm={4} md={4} lg={4} xl={4}>
+                    <img src={c6}  alt="Sample" style={imageStyles} />
                 </Grid>
             </Grid>
             
