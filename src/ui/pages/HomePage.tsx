@@ -109,7 +109,7 @@ export default function HomePage({onClick} : IHomePage){
                             <Typography variant="h4" > {BakeryHeaders.HOURS} </Typography>
                             <Divider />
                             {hours.map( (hour: any) => {
-                                return <Typography sx={{marginTop: 1}}> {hour} </Typography>
+                                return <Typography sx={{marginTop: 1}} key={hour}> {hour} </Typography>
                             })}
                         </Stack>
                     </Box>
