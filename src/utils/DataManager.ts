@@ -1,4 +1,4 @@
-import { CakePeopleSize, CakeFillings, CakeFlavors, CakeFruit, Headers, Genders, NoYesOptions, CakeOccasions, ProductAddOns, CakeIcing, IOrderDetails } from "./data";
+import { CakePeopleSize, CakeFillings, CakeFlavors, CakeFruit, Headers, Genders, NoYesOptions, CakeOccasions, ProductAddOns, CakeIcing, IOrderDetails, IAsanaTask } from "./data";
 import { Helper } from "./Helper";
 import { IProductAddOn } from "./IProductAddOn";
 
@@ -145,9 +145,10 @@ export class DataManager {
     }
 
 
-    public getCakeOrderSummary() {
+    public getCakeOrderSummary(delimeter?: string) {
         if (this._isOrderingCake) {
             let description: string = "";
+            let separator: string = delimeter ? delimeter : "| ";
 
             let criteriaKeys = Array.from(this._orderCriteria.keys());
             for (const key of criteriaKeys) {
@@ -155,10 +156,10 @@ export class DataManager {
                     let fruit: string = this.getFruitList();
 
                     if (fruit.length > 0) {
-                        description += Headers.ADD_FRUIT + ": " + fruit + " | ";
+                        description += Headers.ADD_FRUIT + ": " + fruit + separator;
                     }
                 } else {
-                    description += key + ": " + this._orderCriteria.get(key) + " | ";
+                    description += key + ": " + this._orderCriteria.get(key) + separator;
                 }
             }
 
@@ -167,7 +168,8 @@ export class DataManager {
                 if (key !== Headers.FILE_UPLOAD) {
                     let content: string = this._additionalRequests.get(key);
                     if (content.trim() !== "") {
-                        description += key + ": " + this._additionalRequests.get(key) + " | ";
+
+                        description += key + ": " + this._additionalRequests.get(key) + separator;
                     }
                 }
             }
@@ -176,13 +178,14 @@ export class DataManager {
         }
     }
 
-    public getItemSummary(): string {
+    public getItemSummary(delimeter?: string): string {
         let description: string = "";
         let itemNameKeys = Array.from(this._additionalAddOns.keys());
         for (const item of itemNameKeys) {
             let quantity: number = this._additionalAddOns.get(item)!;
             if (quantity > 0) {
-                description += item + ": " + quantity + "x | "
+                let separator: string = delimeter ? delimeter : "| ";
+                description += item + ": " + quantity + "x " + separator;
             }
         }
         return description;
@@ -228,6 +231,24 @@ export class DataManager {
             details.image = "";
         }
         return details;
+    }
+
+    public getTask(): IAsanaTask {
+        let pickupDate = this._contactInfo.get(Headers.PICKUP_DATE);
+        let date = new Date(pickupDate);
+        let task: IAsanaTask = {
+            name: this.confirmationNumber,
+            notes: this.getCakeOrderSummary("\n")! + "\n" + this.getItemSummary("\n"),
+            due_at: date.toISOString(),
+        }
+
+        if (this._additionalRequests.get(Headers.FILE_UPLOAD)[0]) {
+            let data_url = this.getFileUpload();
+            console.log(data_url)
+            let url = `data:image/png;base64,${data_url.split(',')[1]}`
+            task.notes += `\n![Image](${url})`;
+        }
+        return task;
     }
 
     public get orderCriteria() {

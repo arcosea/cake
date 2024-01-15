@@ -11,7 +11,7 @@ import c8 from "../assets/c8.jpg"
 import c9 from "../assets/c9.jpg"
 import c10 from "../assets/c10.jpg"
 import { IProductAddOn } from "./IProductAddOn";
-
+import axios from 'axios';
 
 
 export const Cakes: IProduct[] = [{
@@ -170,3 +170,81 @@ export interface IOrderDetails {
     image?: string;
     other_items?: string;
 }
+
+
+export interface IAsanaTask {
+    name: string;
+    notes: string;
+    due_at: string;
+}
+
+export async function createAsanaEvent(ASANA_API_URL: string, ASANA_PROJECT_ID: string, ASANA_ACCESS_TOKEN: string, task: IAsanaTask): Promise<void> {
+    try {
+        const response = await axios.post(
+            `${ASANA_API_URL}/tasks`,
+            {
+                data: {
+                    projects: [ASANA_PROJECT_ID],
+                    name: task.name,
+                    due_at: task.due_at,
+                    notes: task.notes
+                },
+            },
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${ASANA_ACCESS_TOKEN}`,
+                },
+            }
+        );
+
+        console.log('Event created successfully:', response.data.data);
+    } catch (error: any) {
+        console.error('Error creating event on Asana:', error.response?.data || error.message);
+    }
+}
+
+
+
+export async function fetchAsanaTasks(ASANA_API_URL: string, ASANA_PROJECT_ID: string, ASANA_ACCESS_TOKEN: string) {
+    try {
+      const today = new Date()
+      const earliestDate = new Date(today);
+      earliestDate.setDate(today.getDate() + 7);
+      const earliestDateString = earliestDate.toISOString().split('T')[0];
+  
+  
+      // Get current date in ISO format
+      const options = {
+        method: 'GET',
+        url: `${ASANA_API_URL}/projects/${ASANA_PROJECT_ID}/tasks`,
+        params: {
+          opt_fields: 'name,notes,due_on,completed'
+        },
+        headers: {
+          accept: 'application/json',
+          authorization: `Bearer ${ASANA_ACCESS_TOKEN}`
+        }
+      };
+      
+      axios
+        .request(options)
+        .then(function (response) {
+          let tasks = response.data.data;
+          let remaining: any[] = []
+  
+          tasks.forEach( (task: any) => {
+            if (task.due_on >= earliestDateString){
+              remaining.push(task)
+            }
+          })
+          console.log(remaining);
+  
+        })
+        .catch(function (error) {
+          // console.error(error);
+        });
+    } catch (error: any) {
+        // console.error('Error fetching tasks from Asana:', error.response?.data || error.message);
+    }
+  }
