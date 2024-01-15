@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { Box, Stepper, Step, StepLabel, Stack, Typography, Button, Divider, Paper, Snackbar, AlertProps} from "@mui/material"
 import { DataManager } from "../../utils/DataManager";
-import { Headers, NoYesOptions, ProductAddOns } from "../../utils/data";
+import { Headers, NoYesOptions, ProductAddOns, createAsanaEvent, fetchAsanaTasks } from "../../utils/data";
 import SwitchController from "../components/SwitchController";
 import AddItemsForm from "../categories/AddItemsForm";
 import CakeCustomizationForm from "../categories/CakeCustomizationForm";
@@ -11,13 +11,16 @@ import OrderSummaryCard from "../categories/OrderSummaryCard";
 import emailjs from '@emailjs/browser';
 import React from "react";
 import MuiAlert from '@mui/material/Alert';
-
+export { createAsanaEvent } from "../../utils/data"
 
 const steps: string[] = ["Order a Cake", "Additional Add-Ons", "Contact Information", "Order Summary"];
 let manager: DataManager = new DataManager();
 const SERVICE_ID: string = process.env.REACT_APP_EJS_SERVICE_ID!;
 const TEMPLATE_ID: string = process.env.REACT_APP_EJS_TEMPLATE_ID!;
 const USER_ID: string = process.env.REACT_APP_EJS_USER_ID!;
+const ASANA_PROJECT_ID: string = process.env.REACT_APP_ASANA_PROJECT_ID!;
+const ASANA_API_URL: string = process.env.REACT_APP_ASANA_API_URL!;
+const ASANA_ACCESS_TOKEN: string = process.env.REACT_APP_ASANA_ACCESS_TOKEN!;
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -47,13 +50,17 @@ export default function CheckoutPage({defaultValue, onChange}: ICheckoutPageProp
         handleOrderingCakeChanges(false);
     };
 
+    // fetchAsanaTasks(ASANA_API_URL, ASANA_PROJECT_ID, ASANA_ACCESS_TOKEN);
+
+    
     const handleSubmit = (e: any) => {
         e.preventDefault();
-        
+        // createAsanaEvent(ASANA_API_URL, ASANA_PROJECT_ID, ASANA_ACCESS_TOKEN, manager.getTask());
         emailjs.send(SERVICE_ID, TEMPLATE_ID, manager.getDetails() as Record<string, unknown>, USER_ID)
             .then((response) => {
                 setActiveStep(steps.length);
-                setSnackbarConfig({severity: 'success', message: 'Success: Your order was submitted! Check your email for confirmation.', open: true});            
+                setSnackbarConfig({severity: 'success', message: 'Success: Your order was submitted! Check your email for confirmation.', open: true});      
+                createAsanaEvent(ASANA_API_URL, ASANA_PROJECT_ID, ASANA_ACCESS_TOKEN, manager.getTask());
             })
             .catch((error) => {
                 setSnackbarConfig({severity: 'error', message: 'Error: Failed to submit your order. Please try again.', open: true});
@@ -262,10 +269,10 @@ export default function CheckoutPage({defaultValue, onChange}: ICheckoutPageProp
             <Box sx={{ width: '100%',  height: "100%"}}>
                 <Stepper activeStep={activeStep} orientation="vertical" sx={{backgroundColor: "#F5EDE673"}}>
                     {steps.map((label, index) => {
-                    const stepProps: { completed?: boolean } = {};
-                    const labelProps: {
-                        optional?: React.ReactNode;
-                    } = {};
+                        const stepProps: { completed?: boolean } = {};
+                        const labelProps: {
+                            optional?: React.ReactNode;
+                        } = {};
             
                     return (
                         <Step key={label} {...stepProps}>

@@ -19,8 +19,8 @@ export default function CustomTabPage(props: TabPanelProps) {
         style={{width: "100%", height: "100%"}}
       >
         {value === index && (
-          <Box sx={{ p: 3, width: "90%", minHeight: "100%"}}>
-            <Box>{children}</Box>
+          <Box sx={{ p: 3, width: "100%", minHeight: "100%"}}>
+            <Box sx={{width: "90%"}}>{children}</Box>
           </Box>
         )}
       </div>

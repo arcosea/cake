@@ -1,10 +1,17 @@
 import { IProduct } from "./IProduct";
+import c0 from "../assets/c0.jpg"
 import c1 from "../assets/c1.jpg"
 import c2 from "../assets/c2.jpg"
 import c3 from "../assets/c3.jpg"
 import c4 from "../assets/c4.jpg"
+import c5 from "../assets/c5.jpg"
+import c6 from "../assets/c6.jpg"
+import c7 from "../assets/c7.jpg"
+import c8 from "../assets/c8.jpg"
+import c9 from "../assets/c9.jpg"
+import c10 from "../assets/c10.jpg"
 import { IProductAddOn } from "./IProductAddOn";
-
+import axios from 'axios';
 
 
 export const Cakes: IProduct[] = [{
@@ -25,6 +32,27 @@ export const Cakes: IProduct[] = [{
         + "flour and sugar and often shortening, eggs, and a raising agent (such as baking powder) : a flattened usually round mass of food that is baked or fried"
 },
 ]
+
+export interface elem {
+    title: string;
+    url: any;
+}
+
+export const items: any[] = [{
+    title: "Cake", url: c5
+}, {
+    title: "Contact", content: []
+}, {
+    title: "Cake", url: c7
+}, {
+    title: "Cake", content: ["Mon: 10am - 6pm", "Mon: 10am - 6pm", "Mon: 10am - 6pm", "Mon: 10am - 6pm"]
+}, {
+    title: "Cake", url: c9
+}, {
+    title: "Cake", url: c10
+}, {
+    title: "Cake", url: c0
+}]
 
 
 export const ProductAddOns: IProductAddOn[] = [
@@ -71,18 +99,45 @@ export enum Headers {
     LAST_NAME = "Last Name",
     EMAIL = "Email",
     PHONE_NUMBER = "Phone Number",
-    ADDITIONAL_ITEMS = "Additional Items"
+    ADDITIONAL_ITEMS = "Additional Items",
+}
+
+export enum BakeryHeaders {
+    INFO = "General Info",
+    HOURS = "Hours",
+    SOCIALS = "Social Media",
+    FACEBOOK = "Facebook",
+    INSTAGRAM = "Instagram",
+    PRODUCTS = "Products",
+    PLACE_ORDER = "Place an Order",
+    VIEW_WORK = "View Examples"
 }
 
 
 export enum Bakery {
     NAME = "Teresita's Mexican Bakery",
-    LOCATION = "3731 McKinley Ave, Tacoma, WA, United States, Washington",
+    LOCATION = "3731 McKinley Ave, Tacoma, WA",
     PHONE_NUMBER = "(253) 474-5110",
     SERVICES = "In-Store Pickup",
     PRODUCTS = "Bakery, 3 Leches, Cupcakes with Fillings, Mini Pies, Cheesecake, Chocoflan",
     EMAIL = "teresitasbakery@gmail.com",
     HOURS = "M (10am - 6pm) | T (closed) | W - S (10am - 6pm) | S (10am - 1pm)"
+}
+
+export enum Hours {
+    MONDAY = "Mon: 10am - 6pm",
+    TUESDAY = "Tue: --closed--",
+    WEDNESDAY = "Wed: 10am - 6pm",
+    THURSDAY = "Thu: 10am - 6pm",
+    FRIDAY = "Fri: 10am - 6pm",
+    SATURDAY = "Sat: 10am - 6pm",
+    SUNDAY = "Sun: 10am - 1pm",
+}
+
+export enum Links {
+    LOCATION = "https://maps.app.goo.gl/2NPiYpWFGWRTJwUj9",
+    FACEBOOK = "https://www.facebook.com/teresitasmexicanbakery/",
+    INSTAGRAM = "https://www.instagram.com/teresitasmexicanbakery/"
 }
 
 
@@ -93,7 +148,7 @@ export enum TabLabels {
 }
 
 
-export interface OrderDetails{
+export interface IOrderDetails {
     first_name?: string;
     last_name?: string;
     phone_number?: string;
@@ -105,7 +160,7 @@ export interface OrderDetails{
     is_ordering_cake?: string;
     cake_size?: string;
     cake_occasion?: string;
-    cake_filling?: string; 
+    cake_filling?: string;
     cake_flavor?: string;
     cake_icing?: string;
     fruit?: string;
@@ -115,3 +170,81 @@ export interface OrderDetails{
     image?: string;
     other_items?: string;
 }
+
+
+export interface IAsanaTask {
+    name: string;
+    notes: string;
+    due_at: string;
+}
+
+export async function createAsanaEvent(ASANA_API_URL: string, ASANA_PROJECT_ID: string, ASANA_ACCESS_TOKEN: string, task: IAsanaTask): Promise<void> {
+    try {
+        const response = await axios.post(
+            `${ASANA_API_URL}/tasks`,
+            {
+                data: {
+                    projects: [ASANA_PROJECT_ID],
+                    name: task.name,
+                    due_at: task.due_at,
+                    notes: task.notes
+                },
+            },
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${ASANA_ACCESS_TOKEN}`,
+                },
+            }
+        );
+
+        console.log('Event created successfully:', response.data.data);
+    } catch (error: any) {
+        console.error('Error creating event on Asana:', error.response?.data || error.message);
+    }
+}
+
+
+
+export async function fetchAsanaTasks(ASANA_API_URL: string, ASANA_PROJECT_ID: string, ASANA_ACCESS_TOKEN: string) {
+    try {
+      const today = new Date()
+      const earliestDate = new Date(today);
+      earliestDate.setDate(today.getDate() + 7);
+      const earliestDateString = earliestDate.toISOString().split('T')[0];
+  
+  
+      // Get current date in ISO format
+      const options = {
+        method: 'GET',
+        url: `${ASANA_API_URL}/projects/${ASANA_PROJECT_ID}/tasks`,
+        params: {
+          opt_fields: 'name,notes,due_on,completed'
+        },
+        headers: {
+          accept: 'application/json',
+          authorization: `Bearer ${ASANA_ACCESS_TOKEN}`
+        }
+      };
+      
+      axios
+        .request(options)
+        .then(function (response) {
+          let tasks = response.data.data;
+          let remaining: any[] = []
+  
+          tasks.forEach( (task: any) => {
+            if (task.due_on >= earliestDateString){
+              remaining.push(task)
+            }
+          })
+          console.log(remaining);
+  
+        })
+        .catch(function (error) {
+          // console.error(error);
+        });
+    } catch (error: any) {
+        // console.error('Error fetching tasks from Asana:', error.response?.data || error.message);
+    }
+  }
