@@ -236,9 +236,10 @@ export class DataManager {
     public getTask(): IAsanaTask {
         let pickupDate = this._contactInfo.get(Headers.PICKUP_DATE);
         let date = new Date(pickupDate);
+        let cakeOrder = this.isOrderingCake ? this.getCakeOrderSummary('\n') : "";
         let task: IAsanaTask = {
-            name: this.confirmationNumber,
-            notes: this.getCakeOrderSummary("\n")! + "\n" + this.getItemSummary("\n"),
+            name: this._contactInfo.get(Headers.FIRST_NAME) + " " + this._contactInfo.get(Headers.LAST_NAME) + ": " + this.confirmationNumber,
+            notes: cakeOrder! + "\n" + this.getItemSummary("\n"),
             due_at: date.toISOString(),
         }
 

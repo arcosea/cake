@@ -208,43 +208,44 @@ export async function createAsanaEvent(ASANA_API_URL: string, ASANA_PROJECT_ID: 
 
 export async function fetchAsanaTasks(ASANA_API_URL: string, ASANA_PROJECT_ID: string, ASANA_ACCESS_TOKEN: string) {
     try {
-      const today = new Date()
-      const earliestDate = new Date(today);
-      earliestDate.setDate(today.getDate() + 7);
-      const earliestDateString = earliestDate.toISOString().split('T')[0];
-  
-  
-      // Get current date in ISO format
-      const options = {
-        method: 'GET',
-        url: `${ASANA_API_URL}/projects/${ASANA_PROJECT_ID}/tasks`,
-        params: {
-          opt_fields: 'name,notes,due_on,completed'
-        },
-        headers: {
-          accept: 'application/json',
-          authorization: `Bearer ${ASANA_ACCESS_TOKEN}`
-        }
-      };
-      
-      axios
-        .request(options)
-        .then(function (response) {
-          let tasks = response.data.data;
-          let remaining: any[] = []
-  
-          tasks.forEach( (task: any) => {
-            if (task.due_on >= earliestDateString){
-              remaining.push(task)
+        const today = new Date()
+        const earliestDate = new Date(today);
+        earliestDate.setDate(today.getDate() + 7);
+        const earliestDateString = earliestDate.toISOString().split('T')[0];
+
+
+        // Get current date in ISO format
+        const options = {
+            method: 'GET',
+            url: `${ASANA_API_URL}/projects/${ASANA_PROJECT_ID}/tasks`,
+            params: {
+                opt_fields: 'name,notes,due_on,completed'
+            },
+            headers: {
+                accept: 'application/json',
+                authorization: `Bearer ${ASANA_ACCESS_TOKEN}`
             }
-          })
-          console.log(remaining);
-  
-        })
-        .catch(function (error) {
-          // console.error(error);
-        });
+        };
+
+        axios
+            .request(options)
+            .then(function (response) {
+                let tasks = response.data.data;
+                let remaining: any[] = []
+
+                tasks.forEach((task: any) => {
+                    if (task.due_on >= earliestDateString) {
+                        remaining.push(task)
+                    }
+                })
+                return remaining;
+                //   console.log(remaining);
+
+            })
+            .catch(function (error) {
+                // console.error(error);
+            });
     } catch (error: any) {
         // console.error('Error fetching tasks from Asana:', error.response?.data || error.message);
     }
-  }
+}

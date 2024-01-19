@@ -11,6 +11,7 @@ import OrderSummaryCard from "../categories/OrderSummaryCard";
 import emailjs from '@emailjs/browser';
 import React from "react";
 import MuiAlert from '@mui/material/Alert';
+import axios from "axios";
 export { createAsanaEvent } from "../../utils/data"
 
 const steps: string[] = ["Order a Cake", "Additional Add-Ons", "Contact Information", "Order Summary"];
@@ -50,21 +51,56 @@ export default function CheckoutPage({defaultValue, onChange}: ICheckoutPageProp
         handleOrderingCakeChanges(false);
     };
 
-    // fetchAsanaTasks(ASANA_API_URL, ASANA_PROJECT_ID, ASANA_ACCESS_TOKEN);
+    const [asanaTasks, setAsanaTasks] = useState<any[]>();
+
+    useEffect( () => {
+        // Get current date in ISO format
+        const options = {
+            method: 'GET',
+            url: `http://localhost:8000/fetchasanatasks`, 
+        };
+        
+        axios
+            .request(options)
+            .then(function (response) {
+                let tasks = response.data;
+                setAsanaTasks(tasks)
+               
+            })
+            .catch(function (error) {
+            // console.error(error);
+            });
+    }, [])
+    
 
     
-    const handleSubmit = (e: any) => {
+    const handleSubmit = async (e: any) => {
         e.preventDefault();
+
+        try {
+            const asanaResponse = await axios.post('http://localhost:8000/postasanatask', manager.getTask());
+            // const emailResponse = await axios.post('http://localhost:8000/email', manager.getDetails());
+            
+            setActiveStep(steps.length);
+            setSnackbarConfig({severity: 'success', message: 'Success: Your order was submitted! Check your email for confirmation.', open: true}); 
+            try{
+                const emailResponse = await axios.post('http://localhost:8000/email', manager.getDetails());
+            } catch(error: any){
+
+            }
+        } catch (error: any) {
+            setSnackbarConfig({severity: 'error', message: 'Error: Failed to submit your order. Please try again.', open: true});
+        }
         // createAsanaEvent(ASANA_API_URL, ASANA_PROJECT_ID, ASANA_ACCESS_TOKEN, manager.getTask());
-        emailjs.send(SERVICE_ID, TEMPLATE_ID, manager.getDetails() as Record<string, unknown>, USER_ID)
-            .then((response) => {
-                setActiveStep(steps.length);
-                setSnackbarConfig({severity: 'success', message: 'Success: Your order was submitted! Check your email for confirmation.', open: true});      
-                createAsanaEvent(ASANA_API_URL, ASANA_PROJECT_ID, ASANA_ACCESS_TOKEN, manager.getTask());
-            })
-            .catch((error) => {
-                setSnackbarConfig({severity: 'error', message: 'Error: Failed to submit your order. Please try again.', open: true});
-            });
+        // emailjs.send(SERVICE_ID, TEMPLATE_ID, manager.getDetails() as Record<string, unknown>, USER_ID)
+        //     .then((response) => {
+        //         setActiveStep(steps.length);
+        //         setSnackbarConfig({severity: 'success', message: 'Success: Your order was submitted! Check your email for confirmation.', open: true});      
+        //         createAsanaEvent(ASANA_API_URL, ASANA_PROJECT_ID, ASANA_ACCESS_TOKEN, manager.getTask());
+        //     })
+        //     .catch((error) => {
+        //         setSnackbarConfig({severity: 'error', message: 'Error: Failed to submit your order. Please try again.', open: true});
+        //     });
     }
 
     function handleNextClick(e: any){
