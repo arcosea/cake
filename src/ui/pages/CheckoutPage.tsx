@@ -58,9 +58,11 @@ export default function CheckoutPage({defaultValue, onChange}: ICheckoutPageProp
         // createAsanaEvent(ASANA_API_URL, ASANA_PROJECT_ID, ASANA_ACCESS_TOKEN, manager.getTask());
         emailjs.send(SERVICE_ID, TEMPLATE_ID, manager.getDetails() as Record<string, unknown>, USER_ID)
             .then((response) => {
-                setActiveStep(steps.length);
-                setSnackbarConfig({severity: 'success', message: 'Success: Your order was submitted! Check your email for confirmation.', open: true});      
-                createAsanaEvent(ASANA_API_URL, ASANA_PROJECT_ID, ASANA_ACCESS_TOKEN, manager.getTask());
+                createAsanaEvent(ASANA_API_URL, ASANA_PROJECT_ID, ASANA_ACCESS_TOKEN, manager.getTask()).then( () => {
+                    setSnackbarConfig({severity: 'success', message: 'Success: Your order was submitted! Check your email for confirmation.', open: true});      
+                    handleReset();
+                });
+                
             })
             .catch((error) => {
                 setSnackbarConfig({severity: 'error', message: 'Error: Failed to submit your order. Please try again.', open: true});

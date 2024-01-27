@@ -112,6 +112,7 @@ export class DataManager {
         this.initAdditionalRequest();
         this.initContactInfo();
         this.initAdditionalAddOns();
+        this.initConfirmationNumber();
     }
 
     private getFileUpload() {
@@ -148,7 +149,7 @@ export class DataManager {
     public getCakeOrderSummary(delimeter?: string) {
         if (this._isOrderingCake) {
             let description: string = "";
-            let separator: string = delimeter ? delimeter : "| ";
+            let separator: string = delimeter ? delimeter : " | ";
 
             let criteriaKeys = Array.from(this._orderCriteria.keys());
             for (const key of criteriaKeys) {
@@ -184,7 +185,7 @@ export class DataManager {
         for (const item of itemNameKeys) {
             let quantity: number = this._additionalAddOns.get(item)!;
             if (quantity > 0) {
-                let separator: string = delimeter ? delimeter : "| ";
+                let separator: string = delimeter ? delimeter : " | ";
                 description += item + ": " + quantity + "x " + separator;
             }
         }
@@ -237,7 +238,7 @@ export class DataManager {
         let pickupDate = this._contactInfo.get(Headers.PICKUP_DATE);
         let date = new Date(pickupDate);
         let task: IAsanaTask = {
-            name: this.confirmationNumber,
+            name: this._contactInfo.get(Headers.FIRST_NAME) + " " + this._contactInfo.get(Headers.LAST_NAME) + ": " + this.confirmationNumber,
             notes: this.getCakeOrderSummary("\n")! + "\n" + this.getItemSummary("\n"),
             due_at: date.toISOString(),
         }
