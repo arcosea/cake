@@ -1,4 +1,4 @@
-import { Box, Paper, Typography } from "@mui/material"
+import { Box, Grid, Paper, Typography } from "@mui/material"
 import { ProductAddOns } from "../../utils/data"
 import { IProductAddOn } from "../../utils/IProductAddOn"
 import ItemCounter from "../components/ItemCounter"
@@ -28,10 +28,13 @@ export default function AddItemsForm({values, onChange}: IAddItemsFormProp){
 
     return (
         <>
-            <Paper sx={{marginBottom: 2, border: 1, padding: 2}}>
-                <Typography sx={{backgroundColor: "#1976d2", marginBottom: 3, color: "whitesmoke"}}> Add Additional Items </Typography>
-                {displayContent()}
-            </Paper>
+            <Box sx={{width: "90%", marginLeft: "5%"}}>
+                <Paper sx={{marginBottom: 2, border: 1, padding: 2}}>
+                    <Typography sx={{backgroundColor: "#1976d2", marginBottom: 3, color: "whitesmoke"}}> Add Additional Items </Typography>
+                    {displayContent()}
+                </Paper>
+            </Box>
+            
         </>
 
 

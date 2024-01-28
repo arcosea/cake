@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Box, Stepper, Step, StepLabel, Stack, Typography, Button, Divider, Paper, Snackbar, AlertProps} from "@mui/material"
+import { Box, Stepper, Step, StepLabel, Stack, Typography, Button, Divider, Paper, Snackbar, AlertProps, createMuiTheme} from "@mui/material"
 import { DataManager } from "../../utils/DataManager";
 import { Headers, NoYesOptions, ProductAddOns, createAsanaEvent, fetchAsanaTasks } from "../../utils/data";
 import SwitchController from "../components/SwitchController";
@@ -13,7 +13,7 @@ import React from "react";
 import MuiAlert from '@mui/material/Alert';
 export { createAsanaEvent } from "../../utils/data"
 
-const steps: string[] = ["Order a Cake", "Additional Add-Ons", "Contact Information", "Order Summary"];
+const steps: string[] = ["Order", "Add-Ons", "Contact Info", "Summary"];
 let manager: DataManager = new DataManager();
 const SERVICE_ID: string = process.env.REACT_APP_EJS_SERVICE_ID!;
 const TEMPLATE_ID: string = process.env.REACT_APP_EJS_TEMPLATE_ID!;
@@ -28,7 +28,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   ) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
-
+  
 interface ICheckoutPageProp{
     defaultValue: number,
     onChange: Function
@@ -269,7 +269,7 @@ export default function CheckoutPage({defaultValue, onChange}: ICheckoutPageProp
     return (
         <>
             <Box sx={{ width: '100%',  height: "100%"}}>
-                <Stepper activeStep={activeStep} orientation="vertical" sx={{backgroundColor: "#F5EDE673"}}>
+                <Stepper activeStep={activeStep} sx={{backgroundColor: "#F5EDE673", height: "4rem", width: "100%"}}>
                     {steps.map((label, index) => {
                         const stepProps: { completed?: boolean } = {};
                         const labelProps: {
@@ -277,16 +277,25 @@ export default function CheckoutPage({defaultValue, onChange}: ICheckoutPageProp
                         } = {};
             
                     return (
-                        <Step key={label} {...stepProps}>
+                        <Step key={label} {...stepProps}
+                            sx={{
+                                '& .MuiStepLabel-root .Mui-completed svg': {
+                                    color: "green"
+                                }
+                            }}>
                             <StepLabel {...labelProps}>{label}</StepLabel>
                         </Step>
                     );
                     })}
                 </Stepper>
-                
+                <Divider sx={{paddingTop: 2}}/>
+            </Box>
+
+            <Box sx={{width: "100%", justifyContent: "center", alignItems: "center", display: "flex"}}>    
                 <Box sx={{marginTop: 2}}>
                     {addContent(activeStep)}
                 </Box>
+            </Box> 
                 <Snackbar
                     open={snackbarConfig.open}
                     autoHideDuration={6000}
@@ -299,7 +308,7 @@ export default function CheckoutPage({defaultValue, onChange}: ICheckoutPageProp
                 </Snackbar>
                 
              
-            </Box>         
+                    
         </>
     )
 }
