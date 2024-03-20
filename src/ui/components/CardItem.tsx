@@ -22,7 +22,7 @@ interface ICardItemProp {
     name: string,
     cost: number,
     url: string,
-    description: string,
+    description?: string,
 }
 export function CardItem({name, cost, url, description}: ICardItemProp){
     const [expanded, setExpanded] = useState(false);
@@ -37,7 +37,7 @@ export function CardItem({name, cost, url, description}: ICardItemProp){
             textAlign: "center", 
             marginBottom: 5,        
             }}>
-            <Card sx={{ maxWidth: "80%"}}>
+            <Card sx={{ maxWidth: "80%", minWidth: "80%"}}>
                 <CardHeader   
                     title={name}
                     subheader={'$ ' + cost}
@@ -49,11 +49,11 @@ export function CardItem({name, cost, url, description}: ICardItemProp){
                     image={url}
                     alt={description}
                 />
-                <CardContent>
+                {/* <CardContent>
                     <Typography variant="body2" color="text.secondary">
                     {description}
                     </Typography>
-                </CardContent>
+                </CardContent> */}
                 <CardActions disableSpacing sx={{backgroundColor: "#F5EDE673"}}>
                     <ExpandMore
                         expand={expanded}

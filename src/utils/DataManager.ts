@@ -210,9 +210,10 @@ export class DataManager {
             last_name: this._contactInfo.get(Headers.LAST_NAME),
             phone_number: this._contactInfo.get(Headers.PHONE_NUMBER),
             email: this._contactInfo.get(Headers.EMAIL),
-            order_number: this._confirmationNumber,
-            order_date: this._currentDate.toDateString(),
-            pickup_date: this.getPickupDate(),
+            // order_number: this._confirmationNumber,
+            order_date: new Date().toISOString(),
+            // pickup_date: this.getPickupDate(),
+            pickup_date: new Date(this._contactInfo.get(Headers.PICKUP_DATE)).toISOString(),
             total_amount: "TBD",
             is_ordering_cake: this._isOrderingCake ? NoYesOptions[1] : NoYesOptions[0],
             other_items: this.getItemSummary()
@@ -229,7 +230,7 @@ export class DataManager {
             details.colors = this._additionalRequests.get(Headers.COLOR);
             details.message = this._additionalRequests.get(Headers.CAKE_MESSAGE);
             details.instructions = this._additionalRequests.get(Headers.SPECIAL_INSTRUCTIONS);
-            details.image = "";
+            details.image = this.getFileUpload();
         }
         return details;
     }

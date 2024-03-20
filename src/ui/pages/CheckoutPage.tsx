@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Box, Stepper, Step, StepLabel, Stack, Typography, Button, Divider, Paper, Snackbar, AlertProps, createMuiTheme} from "@mui/material"
+import { Box, Stepper, Step, StepLabel, Stack, Typography, Button, Divider, Paper, Snackbar, AlertProps, createMuiTheme, CircularProgress} from "@mui/material"
 import { DataManager } from "../../utils/DataManager";
 import { Headers, NoYesOptions, ProductAddOns, createAsanaEvent, fetchAsanaTasks } from "../../utils/data";
 import SwitchController from "../components/SwitchController";
@@ -15,12 +15,7 @@ export { createAsanaEvent } from "../../utils/data"
 
 const steps: string[] = ["Order", "Add-Ons", "Contact Info", "Summary"];
 let manager: DataManager = new DataManager();
-const SERVICE_ID: string = process.env.REACT_APP_EJS_SERVICE_ID!;
-const TEMPLATE_ID: string = process.env.REACT_APP_EJS_TEMPLATE_ID!;
-const USER_ID: string = process.env.REACT_APP_EJS_USER_ID!;
-const ASANA_PROJECT_ID: string = process.env.REACT_APP_ASANA_PROJECT_ID!;
-const ASANA_API_URL: string = process.env.REACT_APP_ASANA_API_URL!;
-const ASANA_ACCESS_TOKEN: string = process.env.REACT_APP_ASANA_ACCESS_TOKEN!;
+const API_URL: string = process.env.REACT_APP_AWS_PROCESSOR!;
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -50,23 +45,41 @@ export default function CheckoutPage({defaultValue, onChange}: ICheckoutPageProp
         handleOrderingCakeChanges(false);
     };
 
+    const [loading, setLoading] = useState(false);
+
+
     // fetchAsanaTasks(ASANA_API_URL, ASANA_PROJECT_ID, ASANA_ACCESS_TOKEN);
 
     
-    const handleSubmit = (e: any) => {
+    const handleSubmit = async (e: any) => {
         e.preventDefault();
-        // createAsanaEvent(ASANA_API_URL, ASANA_PROJECT_ID, ASANA_ACCESS_TOKEN, manager.getTask());
-        emailjs.send(SERVICE_ID, TEMPLATE_ID, manager.getDetails() as Record<string, unknown>, USER_ID)
-            .then((response) => {
-                createAsanaEvent(ASANA_API_URL, ASANA_PROJECT_ID, ASANA_ACCESS_TOKEN, manager.getTask()).then( () => {
-                    setSnackbarConfig({severity: 'success', message: 'Success: Your order was submitted! Check your email for confirmation.', open: true});      
-                    handleReset();
+        console.log(manager.getDetails())
+        setLoading(true)
+        let responseMessage = ""
+        try {
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(manager.getDetails()) // Your data to be sent
+            }).then(response => response.json())
+                .then(data => {
+                    // Handle the data here
+                    const responseObject = JSON.parse(data.body);
+                    responseMessage = responseObject.message;
+                })
+                .catch(error => {
+                    responseMessage = "Error with data: " + error
+    
                 });
-                
-            })
-            .catch((error) => {
-                setSnackbarConfig({severity: 'error', message: 'Error: Failed to submit your order. Please try again.', open: true});
-            });
+        } catch (error) {
+            responseMessage = "Error occurred: " + error
+        } finally {
+            setLoading(false);
+            setActiveStep(steps.length)
+            setSnackbarConfig({severity: 'success', message: responseMessage, open: true});
+        }
     }
 
     function handleNextClick(e: any){
@@ -130,14 +143,8 @@ export default function CheckoutPage({defaultValue, onChange}: ICheckoutPageProp
      * Snack bar
      */
     const [snackbarConfig, setSnackbarConfig] = useState<{open: boolean, message: string, severity: 'success' | 'error'}>({open: false, message: '', severity: 'success'});
-    const handleSnackbarClose = (event?: React.SyntheticEvent, reason?: string) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-        setSnackbarConfig(prevState => ({
-            ...prevState,  
-            open: false   
-        }));
+    const handleSnackbarClose = () => {
+        setSnackbarConfig({ ...snackbarConfig, open: false });
     };
 
     /**
@@ -203,8 +210,7 @@ export default function CheckoutPage({defaultValue, onChange}: ICheckoutPageProp
             return (
                 <>
                     <Typography sx={{ mt: 2, mb: 1 }}>
-                        Your order was submitted! 
-                        Check your email for confirmation.
+                        Your order was submitted! You should receive an email or SNS confirmation shortly.
                     </Typography>
                     <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                         <Box sx={{ flex: '1 1 auto' }} />
@@ -265,6 +271,35 @@ export default function CheckoutPage({defaultValue, onChange}: ICheckoutPageProp
         }
     }
 
+    function displayContent() {
+        if(loading){
+            return (
+                <Box sx={{posiiton: "fixed", 
+                top: "0", 
+                left: "0", 
+                width: "100%",
+                height: "100%", 
+                backgroundColor: "rgba(0, 0, 0, 0)",
+                display: "flex", 
+                justifyContent: "center", 
+                alignItems: "center",
+                zIndex: "9999"}}>
+                    <CircularProgress />
+                    <Typography> Loading ...</Typography>
+                
+            </Box>
+            )
+        } else{
+            return (
+            <Box sx={{width: "100%", justifyContent: "center", alignItems: "center", display: "flex"}}>    
+                <Box sx={{marginTop: 2}}>
+                    {addContent(activeStep)}
+                </Box>
+            </Box> 
+            )
+        }
+    }
+
 
     return (
         <>
@@ -291,23 +326,18 @@ export default function CheckoutPage({defaultValue, onChange}: ICheckoutPageProp
                 <Divider sx={{paddingTop: 2}}/>
             </Box>
 
-            <Box sx={{width: "100%", justifyContent: "center", alignItems: "center", display: "flex"}}>    
-                <Box sx={{marginTop: 2}}>
-                    {addContent(activeStep)}
-                </Box>
-            </Box> 
-                <Snackbar
-                    open={snackbarConfig.open}
-                    autoHideDuration={6000}
-                    onClose={(e) => handleSnackbarClose}
-                    anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                >
-                    <Alert onClose={handleSnackbarClose} severity={snackbarConfig.severity}>
-                        {snackbarConfig.message}
-                    </Alert>
-                </Snackbar>
-                
-             
+            {displayContent()} 
+            <Snackbar
+                open={snackbarConfig.open}
+                autoHideDuration={10000}
+                onClose={handleSnackbarClose}
+                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            >
+                <Alert onClose={handleSnackbarClose} severity={snackbarConfig.severity}>
+                    {snackbarConfig.message}
+                </Alert>
+            </Snackbar>
+               
                     
         </>
     )

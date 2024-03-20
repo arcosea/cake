@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, Tabs, Tab, Avatar} from "@mui/material";
+import { Box, Tabs, Tab, Avatar, Typography} from "@mui/material";
 import CustomTabPage from "../components/CustomTabPage";
 import CheckoutPage from "../pages/CheckoutPage";
 import { CardHomePage } from "../pages/CardHomePage";
@@ -55,6 +55,7 @@ export default function Responsive({onMobile}: IResponsiveProp) {
             zIndex: 10
             
             }}>
+          
           <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
             <Tab label= {onMobile ? <FaHouse/> : TabLabels.HOME} {...a11yProps(0)} sx={{color: "black"}}/>
             <Tab label= {onMobile ? <BsCake2Fill/> : TabLabels.PRODUCTS} {...a11yProps(1)} sx={{color: "black"}}/>
